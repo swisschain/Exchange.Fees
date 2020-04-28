@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <AssemblyName>Swisschain.Exchange.Fees.MessagingContract</AssemblyName>
+    <PackageId>Swisschain.Exchange.Fees.MessagingContract</PackageId>
+    <RootNamespace>Swisschain.Exchange.Fees.MessagingContract</RootNamespace>
+    <Authors>Swisschain</Authors>
+    <Product>Exchange</Product>
+  </PropertyGroup>
+
+</Project>

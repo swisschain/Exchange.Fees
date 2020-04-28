@@ -1,0 +1,5 @@
+{
+  "Db": {
+    "ConnectionString": "${Exchange-Fees-DbConnectionString}"
+  }
+}

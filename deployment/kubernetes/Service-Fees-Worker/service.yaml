@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: fees-worker
+    environment: Development
+  name: fees-worker
+  namespace: exchange
+spec:
+  ports:
+  - name: http
+    port: 8080
+    protocol: TCP
+    targetPort: 5000
+  selector:
+    app: fees-worker
+  sessionAffinity: None
+  type: ClusterIP

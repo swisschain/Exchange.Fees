@@ -1,0 +1,7 @@
+{
+  "RabbitMq": {
+    "HostUrl": "rabbit.exchange.svc.cluster.local",
+    "Username": "${Exchange-RabbitMq-Login}",
+    "Password": "${Exchange-RabbitMq-Password}"
+  }
+}
