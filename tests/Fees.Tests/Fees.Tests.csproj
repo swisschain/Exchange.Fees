@@ -24,7 +24,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\Fees.ApiClient\Fees.ApiClient.csproj" />
     <ProjectReference Include="..\..\src\Fees.ApiContract\Fees.ApiContract.csproj" />
-    <ProjectReference Include="..\..\src\Fees.Common\Fees.Domain.csproj" />
+    <ProjectReference Include="..\..\src\Fees.Domain\Fees.Domain.csproj" />
     <ProjectReference Include="..\..\src\Fees.MessagingContract\Fees.MessagingContract.csproj" />
     <ProjectReference Include="..\..\src\Fees.Worker\Fees.Worker.csproj" />
     <ProjectReference Include="..\..\src\Fees\Fees.csproj" />
