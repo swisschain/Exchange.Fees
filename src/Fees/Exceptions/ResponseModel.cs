@@ -1,6 +1,9 @@
-﻿namespace Fees.Exceptions
+﻿using System.Collections.Generic;
+using Fees.Domain.Exceptions;
+
+namespace Fees.Exceptions
 {
-    internal class ResponseModel<T> : ResponseModel
+    public class ResponseModel<T> : ResponseModel
     {
         public T Payload { get; set; }
 
@@ -10,13 +13,20 @@
         }
     }
 
-    internal class ResponseModel
+    public class ResponseModel
     {
-        public string Error { get; set; }
+        public ErrorModel Error { get; set; }
 
-        public static ResponseModel Fail(string message)
+        public static ResponseModel Fail(ErrorCode code, string message, Dictionary<string, string> fields)
         {
-            return new ResponseModel { Error = message };
+            return new ResponseModel { Error = new ErrorModel { Code = code, Message = message, Fields = fields } };
         }
+    }
+
+    public class ErrorModel
+    {
+        public ErrorCode Code { get; set; }
+        public string Message { get; set; }
+        public Dictionary<string, string> Fields { get; set; } = new Dictionary<string, string>();
     }
 }

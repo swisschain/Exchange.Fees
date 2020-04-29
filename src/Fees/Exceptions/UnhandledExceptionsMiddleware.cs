@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Net;
@@ -34,7 +35,7 @@ namespace Fees.Exceptions
             catch (EntityException ex)
             {
                 sw.Stop();
-                await ErrorResponse(context, (int)HttpStatusCode.OK, ex.Message);
+                await ErrorResponse(context, (int)HttpStatusCode.OK, ex.ErrorCode, ex.Message, ex.Fields);
                 return;
             }
             catch (Exception ex)
@@ -42,7 +43,7 @@ namespace Fees.Exceptions
                 sw.Stop();
                 var logger = context.GetEnrichLogger(body);
                 logger.Error(ex, ex.Message);
-                await ErrorResponse(context, (int)HttpStatusCode.InternalServerError, "Runtime error");
+                await ErrorResponse(context, (int)HttpStatusCode.InternalServerError, ErrorCode.RuntimeError, "Runtime error");
                 return;
             }
 
@@ -50,13 +51,12 @@ namespace Fees.Exceptions
             context.GetEnrichLogger(body).Information(MessageTemplate, context.Request.Method, context.Request.Path, context.Response.StatusCode, sw.Elapsed.TotalMilliseconds);
         }
 
-        private Task ErrorResponse(HttpContext ctx, int statusCode,
-            string message)
+        private Task ErrorResponse(HttpContext ctx, int statusCode, ErrorCode errorCode, string message, Dictionary<string, string> fields = null)
         {
             ctx.Response.ContentType = "application/json";
             ctx.Response.StatusCode = statusCode;
 
-            var response = ResponseModel.Fail(message);
+            var response = ResponseModel.Fail(errorCode, message, fields ?? new Dictionary<string, string>());
             return ctx.Response.WriteAsync(JsonConvert.SerializeObject(response));
         }
     }

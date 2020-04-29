@@ -4,11 +4,11 @@ namespace Fees.Domain.Exceptions
 {
     public class EntityNotFoundException : EntityException
     {
-        public EntityNotFoundException(string message) : base(message)
+        public EntityNotFoundException(ErrorCode code, string message) : base(code, message)
         {
         }
 
-        public EntityNotFoundException(string message, Exception innerException) : base(message, innerException)
+        public EntityNotFoundException(ErrorCode code, string message, Exception innerException) : base(code, message, innerException)
         {
         }
     }

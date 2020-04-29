@@ -4,11 +4,11 @@ namespace Fees.Domain.Exceptions
 {
     public class DuplicatedEntityException : EntityException
     {
-        public DuplicatedEntityException(string message) : base(message)
+        public DuplicatedEntityException(ErrorCode code, string message) : base(code, message)
         {
         }
 
-        public DuplicatedEntityException(string message, Exception innerException) : base(message, innerException)
+        public DuplicatedEntityException(ErrorCode code, string message, Exception innerException) : base(code, message, innerException)
         {
         }
     }

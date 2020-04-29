@@ -136,8 +136,10 @@ namespace Fees.Repositories
             }
             catch (DbUpdateException e)
             {
-                throw new DuplicatedEntityException((e.InnerException as Npgsql.PostgresException)?.Detail
-                    ?? $"Something went wrong while trying to create a new {typeof(CashOperationsFee)}.", e);
+                var message = (e.InnerException as Npgsql.PostgresException)?.Detail
+                              ?? $"Something went wrong while creation of a new {typeof(CashOperationsFee)}.";
+
+                throw new DuplicatedEntityException(ErrorCode.DuplicateItem, message, e);
             }
         }
 
@@ -148,7 +150,7 @@ namespace Fees.Repositories
                 var data = await GetAsync(cashOperationsFee.Id, cashOperationsFee.BrokerId, context);
 
                 if (data == null)
-                    throw new EntityNotFoundException($"{typeof(CashOperationsFee)} with id '{cashOperationsFee.Id}' is not exist.");
+                    throw new EntityNotFoundException(ErrorCode.ItemNotFound, $"{typeof(CashOperationsFee)} with id '{cashOperationsFee.Id}' is not exist.");
 
                 // save fields that has not be updated
                 var asset = data.Asset;
@@ -175,7 +177,7 @@ namespace Fees.Repositories
                 var existed = await GetAsync(id, brokerId, context);
 
                 if (existed == null)
-                    throw new EntityNotFoundException($"{typeof(CashOperationsFee)} with id '{id}' is not exist.");
+                    throw new EntityNotFoundException(ErrorCode.ItemNotFound, $"{typeof(CashOperationsFee)} with id '{id}' is not exist.");
 
                 context.Remove(existed);
 
