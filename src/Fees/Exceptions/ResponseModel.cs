@@ -1,6 +1,6 @@
 ﻿namespace Fees.Exceptions
 {
-    public class ResponseModel<T> : ResponseModel
+    internal class ResponseModel<T> : ResponseModel
     {
         public T Payload { get; set; }
 
@@ -10,7 +10,7 @@
         }
     }
 
-    public class ResponseModel
+    internal class ResponseModel
     {
         public string Error { get; set; }
 

@@ -12,7 +12,7 @@ using Swisschain.Sdk.Server.Authorization;
 
 namespace Fees.Exceptions
 {
-    public class UnhandledExceptionsMiddleware
+    internal class UnhandledExceptionsMiddleware
     {
         private readonly RequestDelegate _next;
         const string MessageTemplate = "HTTP {RequestMethod} {RequestPath} {StatusCode} finished in {Elapsed:0.0000} ms";
@@ -61,7 +61,7 @@ namespace Fees.Exceptions
         }
     }
 
-    public static class HttpExtensions
+    internal static class HttpExtensions
     {
         public static async Task<string> GetBodyAsync(this HttpRequest request)
         {
