@@ -1,5 +1,5 @@
 ﻿using System;
-using Fees.Domain.Configuration;
+using Fees.Worker.Configuration;
 using GreenPipes;
 using MassTransit;
 using Microsoft.Extensions.Configuration;

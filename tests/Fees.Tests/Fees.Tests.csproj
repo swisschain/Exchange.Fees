@@ -22,12 +22,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Fees.ApiClient\Fees.ApiClient.csproj" />
-    <ProjectReference Include="..\..\src\Fees.ApiContract\Fees.ApiContract.csproj" />
+    <ProjectReference Include="..\..\src\Fees.Client\Fees.Client.csproj" />
+    <ProjectReference Include="..\..\src\Fees.Contract\Fees.Contract.csproj" />
     <ProjectReference Include="..\..\src\Fees.Domain\Fees.Domain.csproj" />
-    <ProjectReference Include="..\..\src\Fees.MessagingContract\Fees.MessagingContract.csproj" />
     <ProjectReference Include="..\..\src\Fees.Worker\Fees.Worker.csproj" />
-    <ProjectReference Include="..\..\src\Fees\Fees.csproj" />
   </ItemGroup>
 
 </Project>

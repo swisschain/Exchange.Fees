@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Grpc.Core;
+using Swisschain.Exchange.Fees.Contract;
 using Swisschain.Sdk.Server.Common;
-using Swisschain.Exchange.Fees.ApiContract;
 
 namespace Fees.GrpcServices
 {

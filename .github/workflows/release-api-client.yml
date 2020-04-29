@@ -20,6 +20,6 @@ jobs:
     - name: Test
       run: dotnet test --no-build --configuration Release
     - name: Create the package
-      run: dotnet pack --configuration Release src/Fees.ApiClient /p:Version=${GITHUB_REF#refs/tags/api-client-}
+      run: dotnet pack --configuration Release src/Fees.Client /p:Version=${GITHUB_REF#refs/tags/api-client-}
     - name: Publish the package to GPR
-      run: dotnet nuget push src/Fees.ApiClient/bin/Release/*.nupkg -s "https://api.nuget.org/v3/index.json" -k ${{ secrets.NUGET_TOCKEN }}
+      run: dotnet nuget push src/Fees.Client/bin/Release/*.nupkg -s "https://api.nuget.org/v3/index.json" -k ${{ secrets.NUGET_TOCKEN }}

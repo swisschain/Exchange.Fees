@@ -16,7 +16,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Fees.Domain\Fees.Domain.csproj" />
-    <ProjectReference Include="..\Fees.MessagingContract\Fees.MessagingContract.csproj" />
   </ItemGroup>
 
   <ItemGroup>
