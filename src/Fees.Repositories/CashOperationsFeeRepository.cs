@@ -35,7 +35,7 @@ namespace Fees.Repositories
             }
         }
 
-        public async Task<IReadOnlyList<CashOperationsFee>> GetAllAsync(IEnumerable<Guid> brokerIds)
+        public async Task<IReadOnlyList<CashOperationsFee>> GetAllAsync(IEnumerable<string> brokerIds)
         {
             using (var context = _connectionFactory.CreateDataContext())
             {
@@ -49,7 +49,7 @@ namespace Fees.Repositories
             }
         }
 
-        public async Task<IReadOnlyList<CashOperationsFee>> GetAllAsync(Guid brokerId)
+        public async Task<IReadOnlyList<CashOperationsFee>> GetAllAsync(string brokerId)
         {
             using (var context = _connectionFactory.CreateDataContext())
             {
@@ -64,7 +64,7 @@ namespace Fees.Repositories
         }
 
         public async Task<IReadOnlyList<CashOperationsFee>> GetAllAsync(
-            Guid brokerId,
+            string brokerId,
             string asset,
             ListSortDirection sortOrder = ListSortDirection.Ascending,
             Guid? cursor = null,
@@ -102,7 +102,7 @@ namespace Fees.Repositories
             }
         }
 
-        public async Task<CashOperationsFee> GetAsync(Guid id, Guid brokerId)
+        public async Task<CashOperationsFee> GetAsync(Guid id, string brokerId)
         {
             using (var context = _connectionFactory.CreateDataContext())
             {
@@ -119,27 +119,22 @@ namespace Fees.Repositories
 
         public async Task<CashOperationsFee> InsertAsync(CashOperationsFee cashOperationsFee)
         {
-            try
+            using (var context = _connectionFactory.CreateDataContext())
             {
-                using (var context = _connectionFactory.CreateDataContext())
-                {
-                    var data = _mapper.Map<CashOperationsFeeData>(cashOperationsFee);
+                var existedAsset = await GetAsync(cashOperationsFee.BrokerId, cashOperationsFee.Asset, context);
 
-                    data.Created = DateTime.UtcNow;
+                if (existedAsset != null)
+                    throw new DuplicatedEntityException(ErrorCode.DuplicateItem, ErrorCode.DuplicateItem.ToString());
 
-                    context.CashOperationsFees.Add(data);
+                var data = _mapper.Map<CashOperationsFeeData>(cashOperationsFee);
 
-                    await context.SaveChangesAsync();
+                data.Created = DateTime.UtcNow;
 
-                    return _mapper.Map<CashOperationsFee>(data);
-                }
-            }
-            catch (DbUpdateException e)
-            {
-                var message = (e.InnerException as Npgsql.PostgresException)?.Detail
-                              ?? $"Something went wrong while creation of a new {typeof(CashOperationsFee)}.";
+                context.CashOperationsFees.Add(data);
 
-                throw new DuplicatedEntityException(ErrorCode.DuplicateItem, message, e);
+                await context.SaveChangesAsync();
+
+                return _mapper.Map<CashOperationsFee>(data);
             }
         }
 
@@ -170,7 +165,7 @@ namespace Fees.Repositories
             }
         }
 
-        public async Task DeleteAsync(Guid id, Guid brokerId)
+        public async Task DeleteAsync(Guid id, string brokerId)
         {
             using (var context = _connectionFactory.CreateDataContext())
             {
@@ -185,13 +180,25 @@ namespace Fees.Repositories
             }
         }
 
-        private async Task<CashOperationsFeeData> GetAsync(Guid id, Guid brokerId, DataContext context)
+        private async Task<CashOperationsFeeData> GetAsync(Guid id, string brokerId, DataContext context)
         {
             IQueryable<CashOperationsFeeData> query = context.CashOperationsFees;
 
             var existed = await query
                 .Where(x => x.Id == id)
                 .Where(x => x.BrokerId == brokerId)
+                .SingleOrDefaultAsync();
+
+            return existed;
+        }
+
+        private async Task<CashOperationsFeeData> GetAsync(string brokerId, string asset, DataContext context)
+        {
+            IQueryable<CashOperationsFeeData> query = context.CashOperationsFees;
+
+            var existed = await query
+                .Where(x => x.BrokerId == brokerId)
+                .Where(x => EF.Functions.ILike(x.Asset, $"{asset}"))
                 .SingleOrDefaultAsync();
 
             return existed;

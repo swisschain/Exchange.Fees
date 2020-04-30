@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Threading.Tasks;
+using AutoMapper;
 using Fees.Domain.Entities;
+using Fees.Domain.Entities.Enums;
 using Fees.Domain.Repositories;
 using Fees.Domain.Services;
 using Microsoft.Extensions.Logging;
@@ -12,13 +14,19 @@ namespace Fees.Services
     public class CashOperationsFeeService : ICashOperationsFeeService
     {
         private readonly ICashOperationsFeeRepository _cashOperationsFeeRepository;
+        private readonly ICashOperationsFeeHistoryRepository _cashOperationsFeeHistoryRepository;
         private readonly ILogger<CashOperationsFeeService> _logger;
+        private readonly IMapper _mapper;
 
         public CashOperationsFeeService(ICashOperationsFeeRepository cashOperationsFeeRepository,
-            ILogger<CashOperationsFeeService> logger)
+            ICashOperationsFeeHistoryRepository cashOperationsFeeHistoryRepository,
+            ILogger<CashOperationsFeeService> logger,
+            IMapper mapper)
         {
             _cashOperationsFeeRepository = cashOperationsFeeRepository;
+            _cashOperationsFeeHistoryRepository = cashOperationsFeeHistoryRepository;
             _logger = logger;
+            _mapper = mapper;
         }
 
         public Task<IReadOnlyList<CashOperationsFee>> GetAllAsync()
@@ -26,57 +34,79 @@ namespace Fees.Services
             return _cashOperationsFeeRepository.GetAllAsync();
         }
 
-        public Task<IReadOnlyList<CashOperationsFee>> GetAllAsync(IEnumerable<Guid> brokerIds)
+        public Task<IReadOnlyList<CashOperationsFee>> GetAllAsync(IEnumerable<string> brokerIds)
         {
             return _cashOperationsFeeRepository.GetAllAsync(brokerIds);
         }
 
-        public Task<IReadOnlyList<CashOperationsFee>> GetAllAsync(Guid brokerId)
+        public Task<IReadOnlyList<CashOperationsFee>> GetAllAsync(string brokerId)
         {
             return _cashOperationsFeeRepository.GetAllAsync(brokerId);
         }
 
-        public Task<IReadOnlyList<CashOperationsFee>> GetAllAsync(Guid brokerId,
-            string asset,
-            ListSortDirection sortOrder = ListSortDirection.Ascending,
-            Guid? cursor = null,
-            int limit = 50)
+        public Task<IReadOnlyList<CashOperationsFee>> GetAllAsync(string brokerId, string asset,
+            ListSortDirection sortOrder = ListSortDirection.Ascending, Guid? cursor = null, int limit = 50)
         {
             return _cashOperationsFeeRepository.GetAllAsync(brokerId, asset, sortOrder, cursor, limit);
         }
 
-        public Task<CashOperationsFee> GetAsync(Guid id, Guid brokerId)
+        public Task<IReadOnlyList<CashOperationsFeeHistory>> GetAllHistoriesAsync(Guid? cashOperationFeeId, string brokerId, string userId,
+            string asset, ListSortDirection sortOrder = ListSortDirection.Ascending, Guid? cursor = null, int limit = 50)
+        {
+            return _cashOperationsFeeHistoryRepository.GetAllAsync(cashOperationFeeId, brokerId, userId, asset,
+                sortOrder, cursor, limit);
+        }
+
+        public Task<CashOperationsFee> GetAsync(Guid id, string brokerId)
         {
             return _cashOperationsFeeRepository.GetAsync(id, brokerId);
         }
 
-        public Task<CashOperationsFee> AddAsync(CashOperationsFee cashOperationsFee)
+        public async Task<CashOperationsFee> AddAsync(string userId, CashOperationsFee cashOperationsFee)
         {
             //TODO: validate that asset exists
 
-            var result = _cashOperationsFeeRepository.InsertAsync(cashOperationsFee);
+            var result = await _cashOperationsFeeRepository.InsertAsync(cashOperationsFee);
+
+            var history = _mapper.Map<CashOperationsFeeHistory>(result);
+            history.UserId = userId;
+            history.OperationType = HistoryOperationType.Created;
+
+            await _cashOperationsFeeHistoryRepository.InsertAsync(history);
 
             _logger.LogInformation("CashOperationsFee has been added. {$CashOperationsFee}", result);
 
             return result;
         }
 
-        public Task<CashOperationsFee> UpdateAsync(CashOperationsFee cashOperationsFee)
+        public async Task<CashOperationsFee> UpdateAsync(string userId, CashOperationsFee cashOperationsFee)
         {
-            var result = _cashOperationsFeeRepository.UpdateAsync(cashOperationsFee);
+            var result = await _cashOperationsFeeRepository.UpdateAsync(cashOperationsFee);
+
+            var history = _mapper.Map<CashOperationsFeeHistory>(result);
+            history.UserId = userId;
+            history.OperationType = HistoryOperationType.Modified;
+
+            await _cashOperationsFeeHistoryRepository.InsertAsync(history);
 
             _logger.LogInformation("CashOperationsFee has been updated. {$CashOperationsFee}", result);
 
             return result;
         }
 
-        public Task DeleteAsync(Guid id, Guid brokerId)
+        public async Task DeleteAsync(Guid id, string brokerId, string userId)
         {
-            var result = _cashOperationsFeeRepository.DeleteAsync(id, brokerId);
+            var domain = await _cashOperationsFeeRepository.GetAsync(id, brokerId);
 
-            _logger.LogInformation("CashOperationsFee has been deleted. {$CashOperationsFee}", result);
+            await _cashOperationsFeeRepository.DeleteAsync(id, brokerId);
 
-            return result;
+            var history = _mapper.Map<CashOperationsFeeHistory>(domain);
+            history.UserId = userId;
+            history.OperationType = HistoryOperationType.Deleted;
+
+            await _cashOperationsFeeHistoryRepository.InsertAsync(history);
+
+            _logger.LogInformation("CashOperationsFee has been deleted. {$CashOperationsFee}", domain);
         }
     }
 }

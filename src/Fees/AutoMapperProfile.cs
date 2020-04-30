@@ -11,6 +11,8 @@ namespace Fees
             CreateMap<CashOperationsFee, CashOperationsFeeModel>(MemberList.Destination);
             CreateMap<CashOperationsFeeAddModel, CashOperationsFee>(MemberList.Source);
             CreateMap<CashOperationsFeeEditModel, CashOperationsFee>(MemberList.Source);
+
+            CreateMap<CashOperationsFeeHistory, CashOperationsFeeHistoryModel>(MemberList.Source);
         }
     }
 }

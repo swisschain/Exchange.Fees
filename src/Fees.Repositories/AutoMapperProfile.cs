@@ -10,6 +10,9 @@ namespace Fees.Repositories
         {
             CreateMap<CashOperationsFee, CashOperationsFeeData>(MemberList.Destination);
             CreateMap<CashOperationsFeeData, CashOperationsFee>(MemberList.Destination);
+
+            CreateMap<CashOperationsFeeHistory, CashOperationsFeeHistoryData>(MemberList.Destination);
+            CreateMap<CashOperationsFeeHistoryData, CashOperationsFeeHistory>(MemberList.Destination);
         }
     }
 }

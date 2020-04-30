@@ -3,11 +3,15 @@ using Fees.Domain.Entities.Enums;
 
 namespace Fees.Domain.Entities
 {
-    public class CashOperationsFee
+    public class CashOperationsFeeHistory
     {
         public Guid Id { get; set; }
 
+        public Guid CashOperationsFeeId { get; set; }
+
         public string BrokerId { get; set; }
+
+        public string UserId { get; set; }
 
         public string Asset { get; set; }
 
@@ -23,8 +27,8 @@ namespace Fees.Domain.Entities
 
         public CashOperationsFeeType CashTransferFeeType { get; set; }
 
-        public DateTime Created { get; set; }
+        public HistoryOperationType OperationType { get; set; }
 
-        public DateTime Modified { get; set; }
+        public DateTime Timestamp { get; set; }
     }
 }

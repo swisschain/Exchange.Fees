@@ -10,19 +10,22 @@ namespace Fees.Domain.Services
     {
         Task<IReadOnlyList<CashOperationsFee>> GetAllAsync();
 
-        Task<IReadOnlyList<CashOperationsFee>> GetAllAsync(IEnumerable<Guid> brokerIds);
+        Task<IReadOnlyList<CashOperationsFee>> GetAllAsync(IEnumerable<string> brokerIds);
 
-        Task<IReadOnlyList<CashOperationsFee>> GetAllAsync(Guid brokerId);
+        Task<IReadOnlyList<CashOperationsFee>> GetAllAsync(string brokerId);
 
-        Task<IReadOnlyList<CashOperationsFee>> GetAllAsync(Guid brokerId, string asset,
+        Task<IReadOnlyList<CashOperationsFee>> GetAllAsync(string brokerId, string asset,
             ListSortDirection sortOrder = ListSortDirection.Ascending, Guid? cursor = null, int limit = 50);
 
-        Task<CashOperationsFee> GetAsync(Guid id, Guid brokerId);
+        Task<IReadOnlyList<CashOperationsFeeHistory>> GetAllHistoriesAsync(Guid? cashOperationFeeId, string brokerId, string userId,
+            string asset, ListSortDirection sortOrder = ListSortDirection.Ascending, Guid? cursor = null, int limit = 50);
 
-        Task<CashOperationsFee> AddAsync(CashOperationsFee cashOperationsFee);
+        Task<CashOperationsFee> GetAsync(Guid id, string brokerId);
 
-        Task<CashOperationsFee> UpdateAsync(CashOperationsFee cashOperationsFee);
+        Task<CashOperationsFee> AddAsync(string userId, CashOperationsFee cashOperationsFee);
 
-        Task DeleteAsync(Guid id, Guid brokerId);
+        Task<CashOperationsFee> UpdateAsync(string userId, CashOperationsFee cashOperationsFee);
+
+        Task DeleteAsync(Guid id, string brokerId, string userId);
     }
 }

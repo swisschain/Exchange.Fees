@@ -26,7 +26,7 @@ namespace Fees
         protected override void ConfigureServicesExt(IServiceCollection services)
         {
             services
-                .AddAutoMapper(typeof(AutoMapperProfile), typeof(Repositories.AutoMapperProfile))
+                .AddAutoMapper(typeof(AutoMapperProfile), typeof(Repositories.AutoMapperProfile), typeof(Services.AutoMapperProfile))
                 .AddControllersWithViews();
         }
 

@@ -83,7 +83,8 @@ namespace Fees.Exceptions
 
         public static ILogger GetEnrichLogger(this HttpContext context, string body)
         {
-            var brokerId = context.User.GetTenantId();
+            // TODO: Investigate why we don't have 'tenant-id' at this point
+            var brokerId = "none"; //context.User.GetTenantId();
 
             var logger = Log
                 .ForContext("BrokerId", brokerId);

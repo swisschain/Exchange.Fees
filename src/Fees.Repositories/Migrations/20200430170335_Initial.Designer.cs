@@ -10,7 +10,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Fees.Repositories.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20200429103754_Initial")]
+    [Migration("20200430170335_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -34,9 +34,10 @@ namespace Fees.Repositories.Migrations
                         .HasColumnName("asset")
                         .HasColumnType("varchar(8)");
 
-                    b.Property<Guid>("BrokerId")
+                    b.Property<string>("BrokerId")
+                        .IsRequired()
                         .HasColumnName("broker_id")
-                        .HasColumnType("uuid");
+                        .HasColumnType("varchar(36)");
 
                     b.Property<string>("CashInFeeType")
                         .IsRequired()
@@ -81,6 +82,81 @@ namespace Fees.Repositories.Migrations
                         .IsUnique();
 
                     b.ToTable("cash_operations_fee");
+                });
+
+            modelBuilder.Entity("Fees.Repositories.DTOs.CashOperationsFeeHistoryData", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("id")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Asset")
+                        .IsRequired()
+                        .HasColumnName("asset")
+                        .HasColumnType("varchar(8)");
+
+                    b.Property<string>("BrokerId")
+                        .IsRequired()
+                        .HasColumnName("broker_id")
+                        .HasColumnType("varchar(36)");
+
+                    b.Property<string>("CashInFeeType")
+                        .IsRequired()
+                        .HasColumnName("cash_in_type")
+                        .HasColumnType("varchar(16)");
+
+                    b.Property<decimal>("CashInValue")
+                        .HasColumnName("cash_in_value")
+                        .HasColumnType("decimal(48,16)");
+
+                    b.Property<Guid>("CashOperationsFeeId")
+                        .HasColumnName("cash_operations_fee_id")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("CashOutFeeType")
+                        .IsRequired()
+                        .HasColumnName("cash_out_type")
+                        .HasColumnType("varchar(16)");
+
+                    b.Property<decimal>("CashOutValue")
+                        .HasColumnName("cash_out_value")
+                        .HasColumnType("decimal(48,16)");
+
+                    b.Property<string>("CashTransferFeeType")
+                        .IsRequired()
+                        .HasColumnName("cash_transfer_type")
+                        .HasColumnType("varchar(16)");
+
+                    b.Property<decimal>("CashTransferValue")
+                        .HasColumnName("cash_transfer_value")
+                        .HasColumnType("decimal(48,16)");
+
+                    b.Property<string>("OperationType")
+                        .IsRequired()
+                        .HasColumnName("history_operation_type")
+                        .HasColumnType("varchar(16)");
+
+                    b.Property<DateTime>("Timestamp")
+                        .HasColumnName("timestamp")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnName("user_id")
+                        .HasColumnType("varchar(36)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Asset");
+
+                    b.HasIndex("BrokerId");
+
+                    b.HasIndex("CashOperationsFeeId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("cash_operations_fee_history");
                 });
 #pragma warning restore 612, 618
         }

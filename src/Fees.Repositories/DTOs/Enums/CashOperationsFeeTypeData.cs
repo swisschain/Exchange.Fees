@@ -1,6 +1,6 @@
 ﻿namespace Fees.Repositories.DTOs.Enums
 {
-    public enum CashOperationsFeeDataType
+    public enum CashOperationsFeeTypeData
     {
         None = 0,
 

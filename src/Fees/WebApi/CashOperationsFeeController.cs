@@ -37,15 +37,34 @@ namespace Fees.WebApi
                 ? ListSortDirection.Ascending
                 : ListSortDirection.Descending;
 
-            var brokerId = Guid.Parse(User.GetTenantId());
+            var brokerId = User.GetTenantId();
 
-            var assets = await _cashOperationsFeeService.GetAllAsync(brokerId, request.Asset, sortOrder, request.Cursor, request.Limit);
+            var cashOperationsFees = await _cashOperationsFeeService.GetAllAsync(brokerId, request.Asset, sortOrder, request.Cursor, request.Limit);
 
-            var result = _mapper.Map<List<CashOperationsFeeModel>>(assets);
+            var result = _mapper.Map<List<CashOperationsFeeModel>>(cashOperationsFees);
 
             var payload = result.Paginate(request, Url, x => x.Id);
 
             return Ok(ResponseModel<Paginated<CashOperationsFeeModel, Guid>>.Ok(payload));
+        }
+
+        [HttpGet("audit")]
+        [ProducesResponseType(typeof(ResponseModel<Paginated<CashOperationsFeeHistoryModel, Guid>>), StatusCodes.Status200OK)]
+        public async Task<IActionResult> GetHistoryManyAsync([FromQuery] CashOperationsFeeHistoryRequestManyModel request)
+        {
+            var sortOrder = request.Order == PaginationOrder.Asc
+                ? ListSortDirection.Ascending
+                : ListSortDirection.Descending;
+
+            var brokerId = User.GetTenantId();
+
+            var cashOperationsFeeHistories = await _cashOperationsFeeService.GetAllHistoriesAsync(request.CashOperationFeeId, brokerId, request.UserId, request.Asset, sortOrder, request.Cursor, request.Limit);
+
+            var result = _mapper.Map<List<CashOperationsFeeHistoryModel>>(cashOperationsFeeHistories);
+
+            var payload = result.Paginate(request, Url, x => x.Id);
+
+            return Ok(ResponseModel<Paginated<CashOperationsFeeHistoryModel, Guid>>.Ok(payload));
         }
 
         [HttpGet("{id}")]
@@ -53,7 +72,7 @@ namespace Fees.WebApi
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetAsync(Guid id)
         {
-            var brokerId = Guid.Parse(User.GetTenantId());
+            var brokerId = User.GetTenantId();
 
             var asset = await _cashOperationsFeeService.GetAsync(id, brokerId);
 
@@ -69,12 +88,14 @@ namespace Fees.WebApi
         [ProducesResponseType(typeof(ResponseModel<CashOperationsFeeModel>), StatusCodes.Status200OK)]
         public async Task<IActionResult> AddAsync([FromBody] CashOperationsFeeAddModel model)
         {
-            var brokerId = Guid.Parse(User.GetTenantId());
+            var brokerId = User.GetTenantId();
+
+            var userId = User.GetUserId();
 
             var domain = _mapper.Map<CashOperationsFee>(model);
             domain.BrokerId = brokerId;
 
-            var newDomain = await _cashOperationsFeeService.AddAsync(domain);
+            var newDomain = await _cashOperationsFeeService.AddAsync(userId, domain);
 
             var newModel = _mapper.Map<CashOperationsFeeModel>(newDomain);
 
@@ -86,12 +107,14 @@ namespace Fees.WebApi
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> UpdateAsync([FromBody] CashOperationsFeeEditModel model)
         {
-            var brokerId = Guid.Parse(User.GetTenantId());
+            var brokerId = User.GetTenantId();
+
+            var userId = User.GetUserId();
 
             var domain = _mapper.Map<CashOperationsFee>(model);
             domain.BrokerId = brokerId;
 
-            var newDmain = await _cashOperationsFeeService.UpdateAsync(domain);
+            var newDmain = await _cashOperationsFeeService.UpdateAsync(userId, domain);
 
             var newModel = _mapper.Map<CashOperationsFeeModel>(newDmain);
 
@@ -103,9 +126,11 @@ namespace Fees.WebApi
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> DeleteAsync(Guid id)
         {
-            var brokerId = Guid.Parse(User.GetTenantId());
+            var brokerId = User.GetTenantId();
 
-            await _cashOperationsFeeService.DeleteAsync(id, brokerId);
+            var userId = User.GetUserId();
+
+            await _cashOperationsFeeService.DeleteAsync(id, brokerId, userId);
 
             return Ok();
         }

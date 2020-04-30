@@ -21,6 +21,8 @@ namespace Fees.Repositories.Context
 
         internal DbSet<CashOperationsFeeData> CashOperationsFees { get; set; }
 
+        internal DbSet<CashOperationsFeeHistoryData> CashOperationsFeeHistories { get; set; }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (_connectionString == null)
@@ -41,6 +43,18 @@ namespace Fees.Repositories.Context
                 .HasIndex(p => new { p.BrokerId, p.Asset }).IsUnique();
 
             modelBuilder.Entity<CashOperationsFeeData>()
+                .HasIndex(b => b.Asset);
+
+            modelBuilder.Entity<CashOperationsFeeHistoryData>()
+                .HasIndex(b => b.CashOperationsFeeId);
+
+            modelBuilder.Entity<CashOperationsFeeHistoryData>()
+                .HasIndex(b => b.BrokerId);
+
+            modelBuilder.Entity<CashOperationsFeeHistoryData>()
+                .HasIndex(b => b.UserId);
+
+            modelBuilder.Entity<CashOperationsFeeHistoryData>()
                 .HasIndex(b => b.Asset);
         }
     }
