@@ -6,6 +6,6 @@
 
         Absolute = 1,
 
-        Percents = 2
+        Percentage = 2
     }
 }
