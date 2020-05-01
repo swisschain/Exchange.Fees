@@ -145,7 +145,7 @@ namespace Fees.Repositories
                 var data = await GetAsync(cashOperationsFee.Id, cashOperationsFee.BrokerId, context);
 
                 if (data == null)
-                    throw new EntityNotFoundException(ErrorCode.ItemNotFound, $"{typeof(CashOperationsFee)} with id '{cashOperationsFee.Id}' is not exist.");
+                    throw new EntityNotFoundException(ErrorCode.ItemNotFound, $"{typeof(CashOperationsFee)} with id '{cashOperationsFee.Id}' does not exist.");
 
                 // save fields that has not be updated
                 var asset = data.Asset;
@@ -172,7 +172,7 @@ namespace Fees.Repositories
                 var existed = await GetAsync(id, brokerId, context);
 
                 if (existed == null)
-                    throw new EntityNotFoundException(ErrorCode.ItemNotFound, $"{typeof(CashOperationsFee)} with id '{id}' is not exist.");
+                    throw new EntityNotFoundException(ErrorCode.ItemNotFound, $"CashOperationsFee with id '{id}' does not exist.");
 
                 context.Remove(existed);
 
