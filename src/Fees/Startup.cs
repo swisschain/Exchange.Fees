@@ -42,7 +42,7 @@ namespace Fees
         protected override void ConfigureContainerExt(ContainerBuilder builder)
         {
             builder.RegisterModule(new Repositories.AutofacModule(Config.FeesService.Db.ConnectionString));
-            builder.RegisterModule(new Services.AutofacModule());
+            builder.RegisterModule(new Services.AutofacModule(Config.FeesService.AssetsService.Url));
         }
 
         protected override void RegisterEndpoints(IEndpointRouteBuilder endpoints)

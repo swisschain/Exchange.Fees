@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Threading.Tasks;
+using Assets.Client;
 using AutoMapper;
 using Fees.Domain.Entities;
 using Fees.Domain.Entities.Enums;
+using Fees.Domain.Exceptions;
 using Fees.Domain.Repositories;
 using Fees.Domain.Services;
 using Microsoft.Extensions.Logging;
@@ -15,11 +18,13 @@ namespace Fees.Services
     {
         private readonly ICashOperationsFeeRepository _cashOperationsFeeRepository;
         private readonly ICashOperationsFeeHistoryRepository _cashOperationsFeeHistoryRepository;
+        private readonly IAssetsClient _assetsClient;
         private readonly ILogger<CashOperationsFeeService> _logger;
         private readonly IMapper _mapper;
 
         public CashOperationsFeeService(ICashOperationsFeeRepository cashOperationsFeeRepository,
             ICashOperationsFeeHistoryRepository cashOperationsFeeHistoryRepository,
+            IAssetsClient assetsClient,
             ILogger<CashOperationsFeeService> logger,
             IMapper mapper)
         {
@@ -27,6 +32,7 @@ namespace Fees.Services
             _cashOperationsFeeHistoryRepository = cashOperationsFeeHistoryRepository;
             _logger = logger;
             _mapper = mapper;
+            _assetsClient = assetsClient;
         }
 
         public Task<IReadOnlyList<CashOperationsFee>> GetAllAsync()
@@ -64,7 +70,10 @@ namespace Fees.Services
 
         public async Task<CashOperationsFee> AddAsync(string userId, CashOperationsFee cashOperationsFee)
         {
-            //TODO: validate that asset exists
+            var assets = await _assetsClient.Assets.GetAllByBrokerId(cashOperationsFee.BrokerId);
+
+            if (!assets.Select(x => x.Symbol).Contains(cashOperationsFee.Asset))
+                throw new EntityNotFoundException(ErrorCode.ItemNotFound, "Asset does not exist.");
 
             var result = await _cashOperationsFeeRepository.InsertAsync(cashOperationsFee);
 
