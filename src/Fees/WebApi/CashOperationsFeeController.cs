@@ -17,7 +17,7 @@ namespace Fees.WebApi
 {
     [Authorize]
     [ApiController]
-    [Route("api/cash-operations-fee")]
+    [Route("api/cash-operations")]
     public class CashOperationsFeeController : ControllerBase
     {
         private readonly ICashOperationsFeeService _cashOperationsFeeService;
@@ -31,7 +31,7 @@ namespace Fees.WebApi
 
         [HttpGet]
         [ProducesResponseType(typeof(ResponseModel<Paginated<CashOperationsFeeModel, Guid>>), StatusCodes.Status200OK)]
-        public async Task<IActionResult> GetManyAsync([FromQuery] CashOperationsFeeRequestManyModel request)
+        public async Task<IActionResult> GetManyAsync([FromQuery] TradingFeeRequestManyModel request)
         {
             var sortOrder = request.Order == PaginationOrder.Asc
                 ? ListSortDirection.Ascending
@@ -46,25 +46,6 @@ namespace Fees.WebApi
             var payload = result.Paginate(request, Url, x => x.Id);
 
             return Ok(ResponseModel<Paginated<CashOperationsFeeModel, Guid>>.Ok(payload));
-        }
-
-        [HttpGet("audit")]
-        [ProducesResponseType(typeof(ResponseModel<Paginated<CashOperationsFeeHistoryModel, Guid>>), StatusCodes.Status200OK)]
-        public async Task<IActionResult> GetHistoryManyAsync([FromQuery] CashOperationsFeeHistoryRequestManyModel request)
-        {
-            var sortOrder = request.Order == PaginationOrder.Asc
-                ? ListSortDirection.Ascending
-                : ListSortDirection.Descending;
-
-            var brokerId = User.GetTenantId();
-
-            var cashOperationsFeeHistories = await _cashOperationsFeeService.GetAllHistoriesAsync(request.CashOperationFeeId, brokerId, request.UserId, request.Asset, sortOrder, request.Cursor, request.Limit);
-
-            var result = _mapper.Map<List<CashOperationsFeeHistoryModel>>(cashOperationsFeeHistories);
-
-            var payload = result.Paginate(request, Url, x => x.Id);
-
-            return Ok(ResponseModel<Paginated<CashOperationsFeeHistoryModel, Guid>>.Ok(payload));
         }
 
         [HttpGet("{id}")]

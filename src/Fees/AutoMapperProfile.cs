@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Fees.Domain.Entities;
+using Fees.WebApi.Models.Audit.CashOperationsFee;
 using Fees.WebApi.Models.CashOperationsFee;
 
 namespace Fees

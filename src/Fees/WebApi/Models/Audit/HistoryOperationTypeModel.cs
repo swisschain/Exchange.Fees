@@ -1,4 +1,4 @@
-﻿namespace Fees.WebApi.Models.CashOperationsFee
+﻿namespace Fees.WebApi.Models.Audit
 {
     public enum HistoryOperationTypeModel
     {

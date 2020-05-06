@@ -1,6 +1,7 @@
 ﻿using System;
+using Fees.WebApi.Models.CashOperationsFee;
 
-namespace Fees.WebApi.Models.CashOperationsFee
+namespace Fees.WebApi.Models.Audit.CashOperationsFee
 {
     public class CashOperationsFeeHistoryModel
     {

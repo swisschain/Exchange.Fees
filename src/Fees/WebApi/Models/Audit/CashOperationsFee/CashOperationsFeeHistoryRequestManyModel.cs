@@ -1,7 +1,7 @@
 ﻿using System;
 using Swisschain.Sdk.Server.WebApi.Pagination;
 
-namespace Fees.WebApi.Models.CashOperationsFee
+namespace Fees.WebApi.Models.Audit.CashOperationsFee
 {
     public class CashOperationsFeeHistoryRequestManyModel : PaginationRequest<Guid>
     {
