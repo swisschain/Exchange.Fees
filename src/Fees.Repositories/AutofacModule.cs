@@ -24,6 +24,14 @@ namespace Fees.Repositories
                 .As<ICashOperationsFeeRepository>()
                 .SingleInstance();
 
+            builder.RegisterType<TradingFeeRepository>()
+                .As<ITradingFeeRepository>()
+                .SingleInstance();
+
+            builder.RegisterType<TradingFeeLevelRepository>()
+                .As<ITradingFeeLevelRepository>()
+                .SingleInstance();
+
             builder.RegisterType<CashOperationsFeeHistoryRepository>()
                 .As<ICashOperationsFeeHistoryRepository>()
                 .SingleInstance();

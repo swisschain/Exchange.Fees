@@ -156,6 +156,95 @@ namespace Fees.Repositories.Migrations
 
                     b.ToTable("cash_operations_fee_history");
                 });
+
+            modelBuilder.Entity("Fees.Repositories.DTOs.TradingFeeData", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("id")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Asset")
+                        .IsRequired()
+                        .HasColumnName("asset")
+                        .HasColumnType("varchar(8)");
+
+                    b.Property<string>("AssetPair")
+                        .IsRequired()
+                        .HasColumnName("assetPair")
+                        .HasColumnType("varchar(16)");
+
+                    b.Property<string>("BrokerId")
+                        .IsRequired()
+                        .HasColumnName("broker_id")
+                        .HasColumnType("varchar(36)");
+
+                    b.Property<DateTime>("Created")
+                        .HasColumnName("created")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime>("Modified")
+                        .HasColumnName("modified")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BrokerId");
+
+                    b.HasIndex("BrokerId", "AssetPair")
+                        .IsUnique();
+
+                    b.ToTable("trading_fee");
+                });
+
+            modelBuilder.Entity("Fees.Repositories.DTOs.TradingFeeLevelData", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("id")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("Created")
+                        .HasColumnName("created")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<decimal>("MakerFee")
+                        .HasColumnName("maker_fee")
+                        .HasColumnType("decimal");
+
+                    b.Property<DateTime>("Modified")
+                        .HasColumnName("modified")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<decimal>("TakerFee")
+                        .HasColumnName("taker_fee")
+                        .HasColumnType("decimal");
+
+                    b.Property<Guid>("TradingFeeId")
+                        .HasColumnName("trading_fee_id")
+                        .HasColumnType("uuid");
+
+                    b.Property<decimal>("Volume")
+                        .HasColumnName("volume")
+                        .HasColumnType("decimal");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TradingFeeId");
+
+                    b.HasIndex("Volume");
+
+                    b.ToTable("trading_fee_level");
+                });
+
+            modelBuilder.Entity("Fees.Repositories.DTOs.TradingFeeLevelData", b =>
+                {
+                    b.HasOne("Fees.Repositories.DTOs.TradingFeeData", null)
+                        .WithMany()
+                        .HasForeignKey("TradingFeeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
 #pragma warning restore 612, 618
         }
     }

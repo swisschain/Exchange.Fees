@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using Fees.Domain.Exceptions;
 
 namespace Fees.Exceptions
 {
@@ -17,7 +16,7 @@ namespace Fees.Exceptions
     {
         public ErrorModel Error { get; set; }
 
-        public static ResponseModel Fail(ErrorCode code, string message, Dictionary<string, string> fields)
+        public static ResponseModel Fail(int code, string message, Dictionary<string, string> fields)
         {
             return new ResponseModel { Error = new ErrorModel { Code = code, Message = message, Fields = fields } };
         }
@@ -25,7 +24,7 @@ namespace Fees.Exceptions
 
     public class ErrorModel
     {
-        public ErrorCode Code { get; set; }
+        public int Code { get; set; }
         public string Message { get; set; }
         public Dictionary<string, string> Fields { get; set; } = new Dictionary<string, string>();
     }

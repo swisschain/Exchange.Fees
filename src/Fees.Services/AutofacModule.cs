@@ -20,6 +20,14 @@ namespace Fees.Services
                 .As<ICashOperationsFeeService>()
                 .SingleInstance();
 
+            builder.RegisterType<TradingFeeService>()
+                .As<ITradingFeeService>()
+                .SingleInstance();
+
+            builder.RegisterType<TradingFeeLevelService>()
+                .As<ITradingFeeLevelService>()
+                .SingleInstance();
+
             builder.RegisterAssetsClient(new AssetsClientSettings {ServiceAddress = _assetsServiceAddress });
         }
     }

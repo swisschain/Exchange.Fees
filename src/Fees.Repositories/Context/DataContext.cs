@@ -21,6 +21,10 @@ namespace Fees.Repositories.Context
 
         internal DbSet<CashOperationsFeeData> CashOperationsFees { get; set; }
 
+        internal DbSet<TradingFeeData> TradingFees { get; set; }
+
+        internal DbSet<TradingFeeLevelData> TradingFeeLevels { get; set; }
+
         internal DbSet<CashOperationsFeeHistoryData> CashOperationsFeeHistories { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -44,6 +48,21 @@ namespace Fees.Repositories.Context
 
             modelBuilder.Entity<CashOperationsFeeData>()
                 .HasIndex(b => b.Asset);
+
+            modelBuilder.Entity<TradingFeeData>()
+                .HasIndex(p => new { p.BrokerId, p.AssetPair }).IsUnique();
+
+            modelBuilder.Entity<TradingFeeData>()
+                .HasIndex(p => p.BrokerId);
+
+            modelBuilder.Entity<TradingFeeLevelData>()
+                .HasIndex(p => p.Volume);
+
+            modelBuilder.Entity<TradingFeeLevelData>()
+                .HasOne<TradingFeeData>()
+                .WithMany()
+                .HasForeignKey(o => o.TradingFeeId)
+                .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<CashOperationsFeeHistoryData>()
                 .HasIndex(b => b.CashOperationsFeeId);

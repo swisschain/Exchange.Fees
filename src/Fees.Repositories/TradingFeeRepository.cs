@@ -13,68 +13,39 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Fees.Repositories
 {
-    public class CashOperationsFeeRepository : ICashOperationsFeeRepository
+    public class TradingFeeRepository : ITradingFeeRepository
     {
         private readonly ConnectionFactory _connectionFactory;
         private readonly IMapper _mapper;
 
-        public CashOperationsFeeRepository(ConnectionFactory connectionFactory, IMapper mapper)
+        public TradingFeeRepository(ConnectionFactory connectionFactory, IMapper mapper)
         {
             _connectionFactory = connectionFactory;
             _mapper = mapper;
         }
 
-        public async Task<IReadOnlyList<CashOperationsFee>> GetAllAsync()
+        public async Task<IReadOnlyList<TradingFee>> GetAllAsync(IEnumerable<string> brokerIds)
         {
             using (var context = _connectionFactory.CreateDataContext())
             {
-                var data = await context.CashOperationsFees
-                    .ToListAsync();
-
-                return _mapper.Map<List<CashOperationsFee>>(data);
-            }
-        }
-
-        public async Task<IReadOnlyList<CashOperationsFee>> GetAllAsync(IEnumerable<string> brokerIds)
-        {
-            using (var context = _connectionFactory.CreateDataContext())
-            {
-                IQueryable<CashOperationsFeeData> query = context.CashOperationsFees;
+                IQueryable<TradingFeeData> query = context.TradingFees;
 
                 query = query.Where(x => brokerIds.Contains(x.BrokerId));
 
                 var data = await query.ToListAsync();
 
-                return _mapper.Map<List<CashOperationsFee>>(data);
+                return _mapper.Map<List<TradingFee>>(data);
             }
         }
 
-        public async Task<IReadOnlyList<CashOperationsFee>> GetAllAsync(string brokerId)
-        {
-            using (var context = _connectionFactory.CreateDataContext())
-            {
-                IQueryable<CashOperationsFeeData> query = context.CashOperationsFees;
-
-                query = query.Where(x => x.BrokerId == brokerId);
-
-                var data = await query.ToListAsync();
-
-                return _mapper.Map<List<CashOperationsFee>>(data);
-            }
-        }
-
-        public async Task<IReadOnlyList<CashOperationsFee>> GetAllAsync(
-            string brokerId, string asset,
+        public async Task<IReadOnlyList<TradingFee>> GetAllAsync(string brokerId,
             ListSortDirection sortOrder = ListSortDirection.Ascending, Guid? cursor = null, int limit = 50)
         {
             using (var context = _connectionFactory.CreateDataContext())
             {
-                IQueryable<CashOperationsFeeData> query = context.CashOperationsFees;
+                IQueryable<TradingFeeData> query = context.TradingFees;
 
                 query = query.Where(x => x.BrokerId == brokerId);
-
-                if (!string.IsNullOrEmpty(asset))
-                    query = query.Where(x => EF.Functions.ILike(x.Asset, $"{asset}"));
 
                 if (sortOrder == ListSortDirection.Ascending)
                 {
@@ -95,71 +66,76 @@ namespace Fees.Repositories
 
                 var data = await query.ToListAsync();
 
-                return _mapper.Map<List<CashOperationsFee>>(data);
+                return _mapper.Map<List<TradingFee>>(data);
             }
         }
 
-        public async Task<CashOperationsFee> GetAsync(Guid id, string brokerId)
+        public async Task<TradingFee> GetAsync(Guid id, string brokerId)
         {
             using (var context = _connectionFactory.CreateDataContext())
             {
-                IQueryable<CashOperationsFeeData> query = context.CashOperationsFees;
+                IQueryable<TradingFeeData> query = context.TradingFees;
 
                 var data = await query
                     .Where(x => x.Id == id)
                     .Where(x => x.BrokerId == brokerId)
                     .SingleOrDefaultAsync();
 
-                return _mapper.Map<CashOperationsFee>(data);
+                return _mapper.Map<TradingFee>(data);
             }
         }
 
-        public async Task<CashOperationsFee> InsertAsync(CashOperationsFee cashOperationsFee)
+        public async Task<TradingFee> InsertAsync(TradingFee tradingFee)
         {
             using (var context = _connectionFactory.CreateDataContext())
             {
-                var existedAsset = await GetAsync(cashOperationsFee.BrokerId, cashOperationsFee.Asset, context);
+                var existedTradingFee = await GetAsync(tradingFee.Id, tradingFee.BrokerId, context);
 
-                if (existedAsset != null)
-                    throw new DuplicatedEntityException(ErrorCode.DuplicateItem, $"CashOperationsFee with id '{cashOperationsFee.Id}' already exists.");
+                if (existedTradingFee != null)
+                    throw new DuplicatedEntityException(ErrorCode.DuplicateItem, $"TradingFee with id '{tradingFee.Id}' already exists.");
 
-                var data = _mapper.Map<CashOperationsFeeData>(cashOperationsFee);
+                existedTradingFee = await GetAsync(tradingFee.BrokerId, tradingFee.AssetPair, context);
+
+                if (existedTradingFee != null)
+                    throw new DuplicatedEntityException(ErrorCode.DuplicateItem, $"TradingFee with the asset pair '{tradingFee.AssetPair}' already exists.");
+
+                var data = _mapper.Map<TradingFeeData>(tradingFee);
 
                 data.Created = DateTime.UtcNow;
                 data.Modified = data.Created;
 
-                context.CashOperationsFees.Add(data);
+                context.TradingFees.Add(data);
 
                 await context.SaveChangesAsync();
 
-                return _mapper.Map<CashOperationsFee>(data);
+                return _mapper.Map<TradingFee>(data);
             }
         }
 
-        public async Task<CashOperationsFee> UpdateAsync(CashOperationsFee cashOperationsFee)
+        public async Task<TradingFee> UpdateAsync(TradingFee tradingFee)
         {
             using (var context = _connectionFactory.CreateDataContext())
             {
-                var data = await GetAsync(cashOperationsFee.Id, cashOperationsFee.BrokerId, context);
+                var data = await GetAsync(tradingFee.Id, tradingFee.BrokerId, context);
 
                 if (data == null)
-                    throw new EntityNotFoundException(ErrorCode.ItemNotFound, $"{typeof(CashOperationsFee)} with id '{cashOperationsFee.Id}' does not exist.");
+                    throw new EntityNotFoundException(ErrorCode.ItemNotFound, $"TradingFee with id '{tradingFee.Id}' does not exist.");
 
                 // save fields that has not be updated
-                var asset = data.Asset;
+                var assetPair = data.AssetPair;
                 var created = data.Created;
 
-                _mapper.Map(cashOperationsFee, data);
+                _mapper.Map(tradingFee, data);
 
                 // restore fields that has not be updated
-                data.Asset = asset;
+                data.AssetPair = assetPair;
                 data.Created = created;
                 
                 data.Modified = DateTime.UtcNow;
 
                 await context.SaveChangesAsync();
 
-                return _mapper.Map<CashOperationsFee>(data);
+                return _mapper.Map<TradingFee>(data);
             }
         }
 
@@ -170,7 +146,7 @@ namespace Fees.Repositories
                 var existed = await GetAsync(id, brokerId, context);
 
                 if (existed == null)
-                    throw new EntityNotFoundException(ErrorCode.ItemNotFound, $"CashOperationsFee with id '{id}' does not exist.");
+                    throw new EntityNotFoundException(ErrorCode.ItemNotFound, $"TradingFee with id '{id}' does not exist.");
 
                 context.Remove(existed);
 
@@ -178,9 +154,9 @@ namespace Fees.Repositories
             }
         }
 
-        private async Task<CashOperationsFeeData> GetAsync(Guid id, string brokerId, DataContext context)
+        private async Task<TradingFeeData> GetAsync(Guid id, string brokerId, DataContext context)
         {
-            IQueryable<CashOperationsFeeData> query = context.CashOperationsFees;
+            IQueryable<TradingFeeData> query = context.TradingFees;
 
             var existed = await query
                 .Where(x => x.Id == id)
@@ -190,14 +166,25 @@ namespace Fees.Repositories
             return existed;
         }
 
-        private async Task<CashOperationsFeeData> GetAsync(string brokerId, string asset, DataContext context)
+        private async Task<TradingFeeData> GetAsync(string brokerId, string assetPair, DataContext context)
         {
-            IQueryable<CashOperationsFeeData> query = context.CashOperationsFees;
+            IQueryable<TradingFeeData> query = context.TradingFees;
 
             var existed = await query
                 .Where(x => x.BrokerId == brokerId)
-                .Where(x => EF.Functions.ILike(x.Asset, $"{asset}"))
+                .Where(x => EF.Functions.ILike(x.Asset, $"{assetPair}"))
                 .SingleOrDefaultAsync();
+
+            return existed;
+        }
+
+        private async Task<IReadOnlyList<TradingFeeLevelData>> GetTradingFeeLevelsAsync(Guid tradingFeeId, DataContext context)
+        {
+            IQueryable<TradingFeeLevelData> query = context.TradingFeeLevels;
+
+            var existed = await query
+                .Where(x => x.Id == tradingFeeId)
+                .ToListAsync();
 
             return existed;
         }

@@ -9,7 +9,6 @@ using Fees.Domain.Exceptions;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using Serilog;
-using Swisschain.Sdk.Server.Authorization;
 
 namespace Fees.Exceptions
 {
@@ -56,7 +55,7 @@ namespace Fees.Exceptions
             ctx.Response.ContentType = "application/json";
             ctx.Response.StatusCode = statusCode;
 
-            var response = ResponseModel.Fail(errorCode, message, fields ?? new Dictionary<string, string>());
+            var response = ResponseModel.Fail((int)errorCode, message, fields ?? new Dictionary<string, string>());
             return ctx.Response.WriteAsync(JsonConvert.SerializeObject(response));
         }
     }

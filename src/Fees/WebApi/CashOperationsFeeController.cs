@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -31,7 +30,7 @@ namespace Fees.WebApi
 
         [HttpGet]
         [ProducesResponseType(typeof(ResponseModel<Paginated<CashOperationsFeeModel, Guid>>), StatusCodes.Status200OK)]
-        public async Task<IActionResult> GetManyAsync([FromQuery] TradingFeeRequestManyModel request)
+        public async Task<IActionResult> GetManyAsync([FromQuery] CashOperationsFeeRequestManyModel request)
         {
             var sortOrder = request.Order == PaginationOrder.Asc
                 ? ListSortDirection.Ascending
@@ -41,7 +40,7 @@ namespace Fees.WebApi
 
             var cashOperationsFees = await _cashOperationsFeeService.GetAllAsync(brokerId, request.Asset, sortOrder, request.Cursor, request.Limit);
 
-            var result = _mapper.Map<List<CashOperationsFeeModel>>(cashOperationsFees);
+            var result = _mapper.Map<CashOperationsFeeModel[]>(cashOperationsFees);
 
             var payload = result.Paginate(request, Url, x => x.Id);
 

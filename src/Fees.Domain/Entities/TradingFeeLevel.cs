@@ -1,9 +1,11 @@
 ﻿using System;
 
-namespace Fees.WebApi.Models.TradingFee
+namespace Fees.Domain.Entities
 {
-    public class TradingFeeLevelAddModel
+    public class TradingFeeLevel
     {
+        public Guid Id { get; set; }
+
         public Guid TradingFeeId { get; set; }
 
         public decimal Volume { get; set; }
@@ -11,5 +13,9 @@ namespace Fees.WebApi.Models.TradingFee
         public decimal MakerFee { get; set; }
 
         public decimal TakerFee { get; set; }
+
+        public DateTime Created { get; set; }
+
+        public DateTime Modified { get; set; }
     }
 }
