@@ -38,7 +38,7 @@ namespace Fees.Repositories
             }
         }
 
-        public async Task<IReadOnlyList<TradingFee>> GetAllAsync(string brokerId,
+        public async Task<IReadOnlyList<TradingFee>> GetAllAsync(string brokerId, string assetPair,
             ListSortDirection sortOrder = ListSortDirection.Ascending, Guid? cursor = null, int limit = 50)
         {
             using (var context = _connectionFactory.CreateDataContext())
@@ -46,6 +46,9 @@ namespace Fees.Repositories
                 IQueryable<TradingFeeData> query = context.TradingFees;
 
                 query = query.Where(x => x.BrokerId == brokerId);
+
+                if (!string.IsNullOrWhiteSpace(assetPair))
+                    query = query.Where(x => x.AssetPair == assetPair);
 
                 if (sortOrder == ListSortDirection.Ascending)
                 {

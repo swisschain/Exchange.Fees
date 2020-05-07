@@ -38,7 +38,7 @@ namespace Fees.WebApi
 
             var brokerId = User.GetTenantId();
 
-            var tradingFees = await _tradingFeeService.GetAllAsync(brokerId, sortOrder, request.Cursor, request.Limit);
+            var tradingFees = await _tradingFeeService.GetAllAsync(brokerId, request.AssetPair, sortOrder, request.Cursor, request.Limit);
 
             var result = _mapper.Map<TradingFeeModel[]>(tradingFees);
 

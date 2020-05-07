@@ -37,10 +37,10 @@ namespace Fees.Services
             return _tradingFeeRepository.GetAllAsync(brokerIds);
         }
 
-        public Task<IReadOnlyList<TradingFee>> GetAllAsync(string brokerId,
+        public Task<IReadOnlyList<TradingFee>> GetAllAsync(string brokerId, string assetPair,
             ListSortDirection sortOrder = ListSortDirection.Ascending, Guid? cursor = null, int limit = 50)
         {
-            return _tradingFeeRepository.GetAllAsync(brokerId, sortOrder, cursor, limit);
+            return _tradingFeeRepository.GetAllAsync(brokerId, assetPair, sortOrder, cursor, limit);
         }
 
         public Task<TradingFee> GetAsync(Guid id, string brokerId)
