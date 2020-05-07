@@ -58,15 +58,13 @@ namespace Fees.Services
                 throw new EntityNotFoundException(ErrorCode.ItemNotFound, "Asset does not exist.");
             }
 
-            // TODO: fix asset pairs
+            var assetPairs = await _assetsClient.AssetPairs.GetAllByBrokerId(tradingFee.BrokerId);
 
-            //var assetPairs = await _assetsClient.AssetPairs.GetAllByBrokerId(tradingFee.BrokerId);
-
-            //if (tradingFee.AssetPair != Constants.Default &&
-            //    !assetPairs.Select(x => x.Symbol).Contains(tradingFee.AssetPair))
-            //{
-            //    throw new EntityNotFoundException(ErrorCode.ItemNotFound, "Asset pair does not exist.");
-            //}
+            if (tradingFee.AssetPair != Constants.Default &&
+                !assetPairs.Select(x => x.Symbol).Contains(tradingFee.AssetPair))
+            {
+                throw new EntityNotFoundException(ErrorCode.ItemNotFound, "Asset pair does not exist.");
+            }
 
             var result = await _tradingFeeRepository.InsertAsync(tradingFee);
 
