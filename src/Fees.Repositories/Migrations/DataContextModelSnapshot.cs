@@ -165,12 +165,10 @@ namespace Fees.Repositories.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<string>("Asset")
-                        .IsRequired()
                         .HasColumnName("asset")
                         .HasColumnType("varchar(8)");
 
                     b.Property<string>("AssetPair")
-                        .IsRequired()
                         .HasColumnName("assetPair")
                         .HasColumnType("varchar(16)");
 

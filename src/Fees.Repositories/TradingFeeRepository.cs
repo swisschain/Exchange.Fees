@@ -100,7 +100,7 @@ namespace Fees.Repositories
                 existedTradingFee = await GetAsync(tradingFee.BrokerId, tradingFee.AssetPair, context);
 
                 if (existedTradingFee != null)
-                    throw new DuplicatedEntityException(ErrorCode.DuplicateItem, $"TradingFee with the asset pair '{tradingFee.AssetPair}' already exists.");
+                    throw new DuplicatedEntityException(ErrorCode.DuplicateItem, $"TradingFee with the asset pair '{tradingFee.AssetPair ?? "null"}' already exists.");
 
                 var data = _mapper.Map<TradingFeeData>(tradingFee);
 
@@ -173,21 +173,12 @@ namespace Fees.Repositories
         {
             IQueryable<TradingFeeData> query = context.TradingFees;
 
-            var existed = await query
-                .Where(x => x.BrokerId == brokerId)
-                .Where(x => EF.Functions.ILike(x.Asset, $"{assetPair}"))
-                .SingleOrDefaultAsync();
+            query = query.Where(x => x.BrokerId == brokerId);
 
-            return existed;
-        }
+            if (assetPair == null)
+                query = query.Where(x => x.Asset == null);
 
-        private async Task<IReadOnlyList<TradingFeeLevelData>> GetTradingFeeLevelsAsync(Guid tradingFeeId, DataContext context)
-        {
-            IQueryable<TradingFeeLevelData> query = context.TradingFeeLevels;
-
-            var existed = await query
-                .Where(x => x.Id == tradingFeeId)
-                .ToListAsync();
+            var existed = await query.SingleOrDefaultAsync();
 
             return existed;
         }

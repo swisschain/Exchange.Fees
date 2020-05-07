@@ -15,11 +15,9 @@ namespace Fees.Repositories.DTOs
         [Column("broker_id", TypeName = "varchar(36)")]
         public string BrokerId { get; set; }
 
-        [Required]
         [Column("assetPair", TypeName = "varchar(16)")]
         public string AssetPair { get; set; }
 
-        [Required]
         [Column("asset", TypeName = "varchar(8)")]
         public string Asset { get; set; }
 

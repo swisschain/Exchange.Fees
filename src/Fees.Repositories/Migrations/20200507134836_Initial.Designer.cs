@@ -10,7 +10,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Fees.Repositories.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20200507105317_Initial")]
+    [Migration("20200507134836_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -167,12 +167,10 @@ namespace Fees.Repositories.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<string>("Asset")
-                        .IsRequired()
                         .HasColumnName("asset")
                         .HasColumnType("varchar(8)");
 
                     b.Property<string>("AssetPair")
-                        .IsRequired()
                         .HasColumnName("assetPair")
                         .HasColumnType("varchar(16)");
 

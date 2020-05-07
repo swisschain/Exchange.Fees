@@ -52,7 +52,7 @@ namespace Fees.Services
         {
             var assets = await _assetsClient.Assets.GetAllByBrokerId(tradingFee.BrokerId);
 
-            if (tradingFee.Asset != Constants.Default &&
+            if (tradingFee.Asset != null &&
                 !assets.Select(x => x.Symbol).Contains(tradingFee.Asset))
             {
                 throw new EntityNotFoundException(ErrorCode.ItemNotFound, "Asset does not exist.");
@@ -60,7 +60,7 @@ namespace Fees.Services
 
             var assetPairs = await _assetsClient.AssetPairs.GetAllByBrokerId(tradingFee.BrokerId);
 
-            if (tradingFee.AssetPair != Constants.Default &&
+            if (tradingFee.AssetPair != null &&
                 !assetPairs.Select(x => x.Symbol).Contains(tradingFee.AssetPair))
             {
                 throw new EntityNotFoundException(ErrorCode.ItemNotFound, "Asset pair does not exist.");

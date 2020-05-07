@@ -63,8 +63,8 @@ namespace Fees.Repositories.Migrations
                 {
                     id = table.Column<Guid>(type: "uuid", nullable: false),
                     broker_id = table.Column<string>(type: "varchar(36)", nullable: false),
-                    assetPair = table.Column<string>(type: "varchar(16)", nullable: false),
-                    asset = table.Column<string>(type: "varchar(8)", nullable: false),
+                    assetPair = table.Column<string>(type: "varchar(16)", nullable: true),
+                    asset = table.Column<string>(type: "varchar(8)", nullable: true),
                     created = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     modified = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
