@@ -176,7 +176,9 @@ namespace Fees.Repositories
             query = query.Where(x => x.BrokerId == brokerId);
 
             if (assetPair == null)
-                query = query.Where(x => x.Asset == null);
+                query = query.Where(x => x.AssetPair == assetPair);
+            else
+                query = query.Where(x => EF.Functions.ILike(x.AssetPair, $"{assetPair}"));
 
             var existed = await query.SingleOrDefaultAsync();
 

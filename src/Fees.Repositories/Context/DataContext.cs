@@ -1,6 +1,7 @@
 ﻿using Fees.Repositories.DTOs;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Migrations;
+using Microsoft.Extensions.Logging;
 
 namespace Fees.Repositories.Context
 {
@@ -10,13 +11,17 @@ namespace Fees.Repositories.Context
 
         private string _connectionString;
 
-        public DataContext()
-        {
-        }
+        private readonly ILoggerFactory _loggerFactory;
 
         public DataContext(string connectionString)
         {
             _connectionString = connectionString;
+        }
+
+        public DataContext(string connectionString, ILoggerFactory loggerFactory)
+        {
+            _connectionString = connectionString;
+            _loggerFactory = loggerFactory;
         }
 
         internal DbSet<CashOperationsFeeData> CashOperationsFees { get; set; }
@@ -34,6 +39,11 @@ namespace Fees.Repositories.Context
                 System.Console.Write("Enter connection string: ");
                 _connectionString = System.Console.ReadLine();
             }
+
+            optionsBuilder.EnableDetailedErrors();
+
+            if (_loggerFactory != null)
+                optionsBuilder.UseLoggerFactory(_loggerFactory);
 
             optionsBuilder.UseNpgsql(_connectionString,
                 o => o.MigrationsHistoryTable(HistoryRepository.DefaultTableName, Schema));
