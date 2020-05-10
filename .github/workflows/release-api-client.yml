@@ -2,7 +2,7 @@ name: Release API client nuget
 
 on:
   push:
-    tags: "api-client-*"
+    tags: "client-*"
 
 jobs:
   build:
