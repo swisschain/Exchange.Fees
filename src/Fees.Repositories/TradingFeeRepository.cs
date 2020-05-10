@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -32,6 +33,24 @@ namespace Fees.Repositories
 
                 query = query.Where(x => brokerIds.Contains(x.BrokerId));
 
+                query.Include(x => x.Levels);
+
+                var data = await query.ToListAsync();
+
+                return _mapper.Map<List<TradingFee>>(data);
+            }
+        }
+
+        public async Task<IReadOnlyList<TradingFee>> GetAllAsync(string brokerId)
+        {
+            using (var context = _connectionFactory.CreateDataContext())
+            {
+                IQueryable<TradingFeeData> query = context.TradingFees;
+
+                query = query.Where(x => x.BrokerId == brokerId);
+
+                query.Include(x => x.Levels);
+
                 var data = await query.ToListAsync();
 
                 return _mapper.Map<List<TradingFee>>(data);
@@ -49,6 +68,8 @@ namespace Fees.Repositories
 
                 if (!string.IsNullOrWhiteSpace(assetPair))
                     query = query.Where(x => x.AssetPair == assetPair);
+
+                query.Include(x => x.Levels);
 
                 if (sortOrder == ListSortDirection.Ascending)
                 {
@@ -82,6 +103,7 @@ namespace Fees.Repositories
                 var data = await query
                     .Where(x => x.Id == id)
                     .Where(x => x.BrokerId == brokerId)
+                    .Include(x => x.Levels)
                     .SingleOrDefaultAsync();
 
                 return _mapper.Map<TradingFee>(data);
@@ -126,14 +148,15 @@ namespace Fees.Repositories
 
                 // save fields that has not be updated
                 var assetPair = data.AssetPair;
+                var levels = data.Levels;
                 var created = data.Created;
 
                 _mapper.Map(tradingFee, data);
 
                 // restore fields that has not be updated
                 data.AssetPair = assetPair;
+                data.Levels = levels;
                 data.Created = created;
-                
                 data.Modified = DateTime.UtcNow;
 
                 await context.SaveChangesAsync();
@@ -164,6 +187,7 @@ namespace Fees.Repositories
             var existed = await query
                 .Where(x => x.Id == id)
                 .Where(x => x.BrokerId == brokerId)
+                .Include(x => x.Levels)
                 .SingleOrDefaultAsync();
 
             return existed;
@@ -179,6 +203,8 @@ namespace Fees.Repositories
                 query = query.Where(x => x.AssetPair == assetPair);
             else
                 query = query.Where(x => EF.Functions.ILike(x.AssetPair, $"{assetPair}"));
+
+            query.Include(x => x.Levels);
 
             var existed = await query.SingleOrDefaultAsync();
 

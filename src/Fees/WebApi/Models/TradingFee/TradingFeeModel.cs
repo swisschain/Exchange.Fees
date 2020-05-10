@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Fees.WebApi.Models.TradingFee
 {
@@ -9,6 +10,8 @@ namespace Fees.WebApi.Models.TradingFee
         public string AssetPair { get; set; }
 
         public string Asset { get; set; }
+
+        public IReadOnlyList<TradingFeeLevelModel> Levels { get; set; }
 
         public DateTime Created { get; set; }
 

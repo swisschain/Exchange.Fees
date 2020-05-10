@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -20,6 +21,8 @@ namespace Fees.Repositories.DTOs
 
         [Column("asset", TypeName = "varchar(8)")]
         public string Asset { get; set; }
+
+        public IReadOnlyList<TradingFeeLevelData> Levels { get; set; }
 
         [Required]
         [Column("created", TypeName = "timestamp with time zone")]

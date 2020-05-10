@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-    <AssemblyName>Swisschain.Exchange.Fees.Common</AssemblyName>
+    <AssemblyName>Swisschain.Exchange.Fees.Domain</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>

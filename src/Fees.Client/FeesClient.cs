@@ -1,15 +1,19 @@
-﻿using Swisschain.Exchange.Fees.Client.Common;
-using Swisschain.Exchange.Fees.Contract;
+﻿using Swisschain.Exchange.Fees.Client.Api;
+using Swisschain.Exchange.Fees.Client.Common;
+using Swisschain.Exchange.Fees.Client.Grpc;
 
 namespace Swisschain.Exchange.Fees.Client
 {
     public class FeesClient : BaseGrpcClient, IFeesClient
     {
-        public FeesClient(string serverGrpcUrl) : base(serverGrpcUrl)
+        public FeesClient(FeesClientSettings settings) : base(settings.ServiceAddress)
         {
-            Monitoring = new Monitoring.MonitoringClient(Channel);
+            CashOperationsFees = new CashOperationsFeesApi(settings.ServiceAddress);
+            TradingFees = new TradingFeesApi(settings.ServiceAddress);
         }
 
-        public Monitoring.MonitoringClient Monitoring { get; }
+        public ICashOperationsFeesApi CashOperationsFees { get; }
+
+        public ITradingFeesApi TradingFees { get; }
     }
 }

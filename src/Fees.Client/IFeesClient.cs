@@ -1,9 +1,11 @@
-﻿using Swisschain.Exchange.Fees.Contract;
+﻿using Swisschain.Exchange.Fees.Client.Api;
 
 namespace Swisschain.Exchange.Fees.Client
 {
     public interface IFeesClient
     {
-        Monitoring.MonitoringClient Monitoring { get; }
+        ICashOperationsFeesApi CashOperationsFees { get; }
+
+        ITradingFeesApi TradingFees { get; }
     }
 }

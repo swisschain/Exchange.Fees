@@ -70,7 +70,7 @@ namespace Fees.Repositories.Context
 
             modelBuilder.Entity<TradingFeeLevelData>()
                 .HasOne<TradingFeeData>()
-                .WithMany()
+                .WithMany(o => o.Levels)
                 .HasForeignKey(o => o.TradingFeeId)
                 .OnDelete(DeleteBehavior.Cascade);
 

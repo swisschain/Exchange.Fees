@@ -16,16 +16,20 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Autofac" Version="5.1.4" />
     <PackageReference Include="Google.Protobuf" Version="3.11.4" />
     <PackageReference Include="Grpc.Net.Client" Version="2.28.0" />
     <PackageReference Include="Grpc.Tools" Version="2.28.1">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Fees.Contract\Fees.Contract.csproj" />
+    <Protobuf Include="..\..\.protos\cash-operations-fees.proto" Link="Protos\cash-operations-fees.proto" />
+    <Protobuf Include="..\..\.protos\trading-fees.proto" Link="Protos\trading-fees.proto" />
+    <Protobuf Include="..\..\.protos\isalive.proto" Link="Protos\isalive.proto" />
   </ItemGroup>
 
   <!--

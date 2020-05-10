@@ -23,9 +23,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\Fees.Client\Fees.Client.csproj" />
-    <ProjectReference Include="..\..\src\Fees.Contract\Fees.Contract.csproj" />
     <ProjectReference Include="..\..\src\Fees.Domain\Fees.Domain.csproj" />
-    <ProjectReference Include="..\..\src\Fees.Worker\Fees.Worker.csproj" />
   </ItemGroup>
 
 </Project>

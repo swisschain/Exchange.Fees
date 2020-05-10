@@ -1,0 +1,40 @@
+syntax = "proto3";
+
+option csharp_namespace = "Swisschain.Exchange.Fees.Contract";
+
+package com.swisschain.dictionaries.grpc;
+
+import "google/protobuf/empty.proto";
+import "google/protobuf/timestamp.proto";
+
+service CashOperationsFees {
+    rpc GetAllByBrokerId (GetAllCashOperationsFeesByBrokerIdRequest) returns (GetAllCashOperationsFeesResponse);
+}
+
+message GetAllCashOperationsFeesByBrokerIdRequest {
+    string brokerId = 1;
+}
+
+message GetAllCashOperationsFeesResponse {
+    repeated CashOperationsFee cashOperationsFees = 1;
+}
+
+enum CashOperationsFeeType {
+    NONE = 0;
+    ABSOLUTE = 1;
+    PERCENTAGE = 2;
+}
+
+message CashOperationsFee {
+    string id = 1;
+    string brokerId = 2;
+    string asset = 3;
+    string cashInValue = 4;
+    CashOperationsFeeType cashInFeeType = 5;
+    string cashOutValue = 6;
+    CashOperationsFeeType cashOutFeeType = 7;
+    string cashTransferValue = 8;
+    CashOperationsFeeType cashTransferFeeType = 9;
+    google.protobuf.Timestamp created = 10;
+    google.protobuf.Timestamp modified = 11;
+}

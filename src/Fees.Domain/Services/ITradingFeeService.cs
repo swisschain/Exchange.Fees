@@ -10,6 +10,8 @@ namespace Fees.Domain.Services
     {
         Task<IReadOnlyList<TradingFee>> GetAllAsync(IEnumerable<string> brokerIds);
 
+        Task<IReadOnlyList<TradingFee>> GetAllAsync(string brokerId);
+
         Task<IReadOnlyList<TradingFee>> GetAllAsync(string brokerId, string assetPair,
             ListSortDirection sortOrder = ListSortDirection.Ascending, Guid? cursor = null, int limit = 50);
 

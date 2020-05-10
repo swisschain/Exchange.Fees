@@ -3,7 +3,7 @@ using Grpc.Core;
 using Swisschain.Exchange.Fees.Contract;
 using Swisschain.Sdk.Server.Common;
 
-namespace Fees.GrpcServices
+namespace Fees.Grpc
 {
     public class MonitoringService : Monitoring.MonitoringBase
     {

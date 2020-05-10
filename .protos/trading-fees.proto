@@ -1,0 +1,41 @@
+syntax = "proto3";
+
+option csharp_namespace = "Swisschain.Exchange.Fees.Contract";
+
+package com.swisschain.dictionaries.grpc;
+
+import "google/protobuf/wrappers.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/timestamp.proto";
+
+service TradingFees {
+    rpc GetAllByBrokerId (GetAllTradingFeesByBrokerIdRequest) returns (GetAllTradingFeesResponse);
+}
+
+message GetAllTradingFeesByBrokerIdRequest {
+    string brokerId = 1;
+}
+
+message GetAllTradingFeesResponse {
+    repeated TradingFee tradingFees = 1;
+}
+
+message TradingFee {
+    string id = 1;
+    string brokerId = 2;
+    google.protobuf.StringValue assetPair = 3;
+    google.protobuf.StringValue asset = 4;
+    repeated TradingFeeLevel levels = 5;
+    google.protobuf.Timestamp created = 6;
+    google.protobuf.Timestamp modified = 7;
+}
+
+message TradingFeeLevel {
+    string id = 1;
+    string tradingFeeId = 2;
+    string volume = 3;
+    string makerFee = 4;
+    string takerFee = 5;
+    google.protobuf.Timestamp created = 6;
+    google.protobuf.Timestamp modified = 7;
+}

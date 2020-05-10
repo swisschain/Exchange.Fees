@@ -5,7 +5,7 @@ using Fees.Exceptions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Configuration;
-using Fees.GrpcServices;
+using Fees.Grpc;
 using Fees.Repositories.Context;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
@@ -50,6 +50,8 @@ namespace Fees
             base.RegisterEndpoints(endpoints);
 
             endpoints.MapGrpcService<MonitoringService>();
+            endpoints.MapGrpcService<CashOperationsFeesService>();
+            endpoints.MapGrpcService<TradingFeesService>();
         }
     }
 }

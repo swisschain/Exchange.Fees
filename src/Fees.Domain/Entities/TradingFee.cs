@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Fees.Domain.Entities
 {
@@ -11,6 +12,8 @@ namespace Fees.Domain.Entities
         public string AssetPair { get; set; }
 
         public string Asset { get; set; }
+
+        public IReadOnlyList<TradingFeeLevel> Levels { get; set; }
 
         public DateTime Created { get; set; }
 

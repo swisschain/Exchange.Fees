@@ -5,7 +5,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Assets.Client;
 using AutoMapper;
-using Fees.Domain;
 using Fees.Domain.Entities;
 using Fees.Domain.Exceptions;
 using Fees.Domain.Repositories;
@@ -35,6 +34,11 @@ namespace Fees.Services
         public Task<IReadOnlyList<TradingFee>> GetAllAsync(IEnumerable<string> brokerIds)
         {
             return _tradingFeeRepository.GetAllAsync(brokerIds);
+        }
+
+        public Task<IReadOnlyList<TradingFee>> GetAllAsync(string brokerId)
+        {
+            return _tradingFeeRepository.GetAllAsync(brokerId);
         }
 
         public Task<IReadOnlyList<TradingFee>> GetAllAsync(string brokerId, string assetPair,
