@@ -2,11 +2,29 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+    <Version>1.0.0</Version>
+    <Authors>Swisschain</Authors>
+    <Company>Swisschain</Company>
+    <Description>Client for Swisschain.Exchange.Fees API</Description>
     <AssemblyName>Swisschain.Exchange.Fees.Client</AssemblyName>
     <PackageId>Swisschain.Exchange.Fees.Client</PackageId>
     <RootNamespace>Swisschain.Exchange.Fees.Client</RootNamespace>
     <Authors>Swisschain</Authors>
     <Product>Exchange</Product>
+    <PackageLicenseUrl>https://github.com/Swisschain/Exchange.Fees/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/Swisschain/Exchange.Fees</PackageProjectUrl>
+    <PackageIconUrl>https://avatars3.githubusercontent.com/u/14153330?v=3&amp;amp;s=200</PackageIconUrl>
+    <RepositoryUrl>https://github.com/Swisschain/Exchange.Fees.git</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>Swisschain</PackageTags>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>$(OutputPath)$(AssemblyName).xml</DocumentationFile>
+  </PropertyGroup>
+  
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DocumentationFile>$(OutputPath)$(AssemblyName).xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
