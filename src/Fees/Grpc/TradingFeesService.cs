@@ -39,9 +39,6 @@ namespace Fees.Grpc
                 model.Asset = tradingFee.Asset;
                 model.Levels.AddRange(levels.Select(x =>
                 {
-                    x.Created = DateTime.SpecifyKind(x.Created, DateTimeKind.Utc);
-                    x.Modified = DateTime.SpecifyKind(x.Modified, DateTimeKind.Utc);
-
                     var newLevel = new TradingFeeLevel
                     {
                         Id = x.Id.ToString(),
@@ -55,9 +52,7 @@ namespace Fees.Grpc
 
                     return newLevel;
                 }));
-                tradingFee.Created = DateTime.SpecifyKind(tradingFee.Created, DateTimeKind.Utc);
                 model.Created = Timestamp.FromDateTime(tradingFee.Created);
-                tradingFee.Modified = DateTime.SpecifyKind(tradingFee.Modified, DateTimeKind.Utc);
                 model.Modified = Timestamp.FromDateTime(tradingFee.Modified);
 
                 result.TradingFees.Add(model);

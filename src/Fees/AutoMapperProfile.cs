@@ -1,10 +1,8 @@
-﻿using System;
-using AutoMapper;
+﻿using AutoMapper;
 using Fees.Domain.Entities;
 using Fees.WebApi.Models.Audit.CashOperationsFee;
 using Fees.WebApi.Models.CashOperationsFee;
 using Fees.WebApi.Models.TradingFee;
-using Google.Protobuf.WellKnownTypes;
 using CashOperationsFeeModel = Fees.WebApi.Models.CashOperationsFee.CashOperationsFeeModel;
 
 namespace Fees
@@ -14,8 +12,6 @@ namespace Fees
         public AutoMapperProfile()
         {
             WebApi();
-
-            Client();
         }
 
         private void WebApi()
@@ -33,18 +29,6 @@ namespace Fees
             CreateMap<TradingFeeLevelEditModel, TradingFeeLevel>(MemberList.Source);
 
             CreateMap<CashOperationsFeeHistory, CashOperationsFeeHistoryModel>(MemberList.Source);
-        }
-
-        private void Client()
-        {
-            CreateMap<CashOperationsFee,
-                Swisschain.Exchange.Fees.Client.Models.CashOperationsFees.CashOperationsFeeModel>(MemberList.Destination);
-
-            CreateMap<TradingFee,
-                Swisschain.Exchange.Fees.Client.Models.TradingFees.TradingFeeModel>(MemberList.Destination);
-
-            CreateMap<TradingFeeLevel,
-                Swisschain.Exchange.Fees.Client.Models.TradingFees.TradingFeeLevelModel>(MemberList.Destination);
         }
     }
 }

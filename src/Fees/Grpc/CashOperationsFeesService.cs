@@ -1,5 +1,4 @@
-﻿using System;
-using System.Globalization;
+﻿using System.Globalization;
 using System.Threading.Tasks;
 using Fees.Domain.Services;
 using Google.Protobuf.WellKnownTypes;
@@ -36,11 +35,7 @@ namespace Fees.Grpc
                 model.CashOutFeeType = (CashOperationsFeeType)cashOperationsFee.CashOutFeeType;
                 model.CashTransferValue = cashOperationsFee.CashTransferValue.ToString(CultureInfo.InvariantCulture);
                 model.CashTransferFeeType = (CashOperationsFeeType)cashOperationsFee.CashTransferFeeType;
-                
-                cashOperationsFee.Created = DateTime.SpecifyKind(cashOperationsFee.Created, DateTimeKind.Utc);
                 model.Created = Timestamp.FromDateTime(cashOperationsFee.Created);
-
-                cashOperationsFee.Modified = DateTime.SpecifyKind(cashOperationsFee.Modified, DateTimeKind.Utc);
                 model.Modified = Timestamp.FromDateTime(cashOperationsFee.Modified);
 
                 result.CashOperationsFees.Add(model);
