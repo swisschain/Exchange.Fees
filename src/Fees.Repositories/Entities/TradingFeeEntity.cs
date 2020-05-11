@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Fees.Repositories.DTOs
+namespace Fees.Repositories.Entities
 {
     [Table("trading_fee")]
-    public class TradingFeeData
+    public class TradingFeeEntity
     {
         [Key]
         [Column("id", TypeName = "uuid")]
@@ -22,7 +22,7 @@ namespace Fees.Repositories.DTOs
         [Column("asset", TypeName = "varchar(8)")]
         public string Asset { get; set; }
 
-        public ICollection<TradingFeeLevelData> Levels { get; set; }
+        public ICollection<TradingFeeLevelEntity> Levels { get; set; }
 
         [Required]
         [Column("created", TypeName = "timestamp with time zone")]

@@ -1,6 +1,6 @@
-﻿namespace Fees.Repositories.DTOs.Enums
+﻿namespace Fees.Repositories.Entities.Enums
 {
-    public enum HistoryOperationTypeData
+    public enum HistoryOperationTypeEntity
     {
         None = 0,
 

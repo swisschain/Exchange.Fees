@@ -8,7 +8,7 @@ using Fees.Domain.Entities;
 using Fees.Domain.Exceptions;
 using Fees.Domain.Repositories;
 using Fees.Repositories.Context;
-using Fees.Repositories.DTOs;
+using Fees.Repositories.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace Fees.Repositories
@@ -39,7 +39,7 @@ namespace Fees.Repositories
         {
             using (var context = _connectionFactory.CreateDataContext())
             {
-                IQueryable<CashOperationsFeeData> query = context.CashOperationsFees;
+                IQueryable<CashOperationsFeeEntity> query = context.CashOperationsFees;
 
                 query = query.Where(x => brokerIds.Contains(x.BrokerId));
 
@@ -53,7 +53,7 @@ namespace Fees.Repositories
         {
             using (var context = _connectionFactory.CreateDataContext())
             {
-                IQueryable<CashOperationsFeeData> query = context.CashOperationsFees;
+                IQueryable<CashOperationsFeeEntity> query = context.CashOperationsFees;
 
                 query = query.Where(x => x.BrokerId == brokerId);
 
@@ -69,7 +69,7 @@ namespace Fees.Repositories
         {
             using (var context = _connectionFactory.CreateDataContext())
             {
-                IQueryable<CashOperationsFeeData> query = context.CashOperationsFees;
+                IQueryable<CashOperationsFeeEntity> query = context.CashOperationsFees;
 
                 query = query.Where(x => x.BrokerId == brokerId);
 
@@ -103,7 +103,7 @@ namespace Fees.Repositories
         {
             using (var context = _connectionFactory.CreateDataContext())
             {
-                IQueryable<CashOperationsFeeData> query = context.CashOperationsFees;
+                IQueryable<CashOperationsFeeEntity> query = context.CashOperationsFees;
 
                 var data = await query
                     .Where(x => x.Id == id)
@@ -123,7 +123,7 @@ namespace Fees.Repositories
                 if (existedAsset != null)
                     throw new DuplicatedEntityException(ErrorCode.DuplicateItem, $"CashOperationsFee with id '{cashOperationsFee.Id}' already exists.");
 
-                var data = _mapper.Map<CashOperationsFeeData>(cashOperationsFee);
+                var data = _mapper.Map<CashOperationsFeeEntity>(cashOperationsFee);
 
                 data.Created = DateTime.UtcNow;
                 data.Modified = data.Created;
@@ -178,9 +178,9 @@ namespace Fees.Repositories
             }
         }
 
-        private async Task<CashOperationsFeeData> GetAsync(Guid id, string brokerId, DataContext context)
+        private async Task<CashOperationsFeeEntity> GetAsync(Guid id, string brokerId, DataContext context)
         {
-            IQueryable<CashOperationsFeeData> query = context.CashOperationsFees;
+            IQueryable<CashOperationsFeeEntity> query = context.CashOperationsFees;
 
             var existed = await query
                 .Where(x => x.Id == id)
@@ -190,9 +190,9 @@ namespace Fees.Repositories
             return existed;
         }
 
-        private async Task<CashOperationsFeeData> GetAsync(string brokerId, string asset, DataContext context)
+        private async Task<CashOperationsFeeEntity> GetAsync(string brokerId, string asset, DataContext context)
         {
-            IQueryable<CashOperationsFeeData> query = context.CashOperationsFees;
+            IQueryable<CashOperationsFeeEntity> query = context.CashOperationsFees;
 
             var existed = await query
                 .Where(x => x.BrokerId == brokerId)

@@ -7,7 +7,7 @@ using AutoMapper;
 using Fees.Domain.Entities;
 using Fees.Domain.Repositories;
 using Fees.Repositories.Context;
-using Fees.Repositories.DTOs;
+using Fees.Repositories.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace Fees.Repositories
@@ -28,7 +28,7 @@ namespace Fees.Repositories
         {
             using (var context = _connectionFactory.CreateDataContext())
             {
-                IQueryable<CashOperationsFeeHistoryData> query = context.CashOperationsFeeHistories;
+                IQueryable<CashOperationsFeeHistoryEntity> query = context.CashOperationsFeeHistories;
 
                 if (cashOperationFeeId.HasValue)
                     query = query.Where(x => x.CashOperationsFeeId == cashOperationFeeId);
@@ -68,7 +68,7 @@ namespace Fees.Repositories
         {
             using (var context = _connectionFactory.CreateDataContext())
             {
-                var data = _mapper.Map<CashOperationsFeeHistoryData>(cashOperationsFeeHistory);
+                var data = _mapper.Map<CashOperationsFeeHistoryEntity>(cashOperationsFeeHistory);
 
                 data.Id = Guid.NewGuid();
                 data.Timestamp = DateTime.UtcNow;

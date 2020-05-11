@@ -9,7 +9,7 @@ using Fees.Domain.Entities;
 using Fees.Domain.Exceptions;
 using Fees.Domain.Repositories;
 using Fees.Repositories.Context;
-using Fees.Repositories.DTOs;
+using Fees.Repositories.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace Fees.Repositories
@@ -29,7 +29,7 @@ namespace Fees.Repositories
         {
             using (var context = _connectionFactory.CreateDataContext())
             {
-                IQueryable<TradingFeeData> query = context.TradingFees;
+                IQueryable<TradingFeeEntity> query = context.TradingFees;
 
                 query = query.Where(x => brokerIds.Contains(x.BrokerId));
 
@@ -45,7 +45,7 @@ namespace Fees.Repositories
         {
             using (var context = _connectionFactory.CreateDataContext())
             {
-                IQueryable<TradingFeeData> query = context.TradingFees;
+                IQueryable<TradingFeeEntity> query = context.TradingFees;
 
                 query = query.Where(x => x.BrokerId == brokerId);
 
@@ -62,7 +62,7 @@ namespace Fees.Repositories
         {
             using (var context = _connectionFactory.CreateDataContext())
             {
-                IQueryable<TradingFeeData> query = context.TradingFees;
+                IQueryable<TradingFeeEntity> query = context.TradingFees;
 
                 query = query.Where(x => x.BrokerId == brokerId);
 
@@ -98,7 +98,7 @@ namespace Fees.Repositories
         {
             using (var context = _connectionFactory.CreateDataContext())
             {
-                IQueryable<TradingFeeData> query = context.TradingFees;
+                IQueryable<TradingFeeEntity> query = context.TradingFees;
 
                 var data = await query
                     .Where(x => x.Id == id)
@@ -124,7 +124,7 @@ namespace Fees.Repositories
                 if (existedTradingFee != null)
                     throw new DuplicatedEntityException(ErrorCode.DuplicateItem, $"TradingFee with the asset pair '{tradingFee.AssetPair ?? "null"}' already exists.");
 
-                var data = _mapper.Map<TradingFeeData>(tradingFee);
+                var data = _mapper.Map<TradingFeeEntity>(tradingFee);
 
                 data.Created = DateTime.UtcNow;
                 data.Modified = data.Created;
@@ -180,9 +180,9 @@ namespace Fees.Repositories
             }
         }
 
-        private async Task<TradingFeeData> GetAsync(Guid id, string brokerId, DataContext context)
+        private async Task<TradingFeeEntity> GetAsync(Guid id, string brokerId, DataContext context)
         {
-            IQueryable<TradingFeeData> query = context.TradingFees;
+            IQueryable<TradingFeeEntity> query = context.TradingFees;
 
             var existed = await query
                 .Where(x => x.Id == id)
@@ -193,9 +193,9 @@ namespace Fees.Repositories
             return existed;
         }
 
-        private async Task<TradingFeeData> GetAsync(string brokerId, string assetPair, DataContext context)
+        private async Task<TradingFeeEntity> GetAsync(string brokerId, string assetPair, DataContext context)
         {
-            IQueryable<TradingFeeData> query = context.TradingFees;
+            IQueryable<TradingFeeEntity> query = context.TradingFees;
 
             query = query.Where(x => x.BrokerId == brokerId);
 

@@ -2,10 +2,10 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Fees.Repositories.DTOs
+namespace Fees.Repositories.Entities
 {
     [Table("trading_fee_level")]
-    public class TradingFeeLevelData
+    public class TradingFeeLevelEntity
     {
         [Key]
         [Column("id", TypeName = "uuid")]

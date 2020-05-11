@@ -1,4 +1,4 @@
-﻿using Fees.Repositories.DTOs;
+﻿using Fees.Repositories.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.Extensions.Logging;
@@ -24,13 +24,13 @@ namespace Fees.Repositories.Context
             _loggerFactory = loggerFactory;
         }
 
-        internal DbSet<CashOperationsFeeData> CashOperationsFees { get; set; }
+        internal DbSet<CashOperationsFeeEntity> CashOperationsFees { get; set; }
 
-        internal DbSet<TradingFeeData> TradingFees { get; set; }
+        internal DbSet<TradingFeeEntity> TradingFees { get; set; }
 
-        internal DbSet<TradingFeeLevelData> TradingFeeLevels { get; set; }
+        internal DbSet<TradingFeeLevelEntity> TradingFeeLevels { get; set; }
 
-        internal DbSet<CashOperationsFeeHistoryData> CashOperationsFeeHistories { get; set; }
+        internal DbSet<CashOperationsFeeHistoryEntity> CashOperationsFeeHistories { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -53,37 +53,37 @@ namespace Fees.Repositories.Context
         {
             modelBuilder.HasDefaultSchema(Schema);
 
-            modelBuilder.Entity<CashOperationsFeeData>()
+            modelBuilder.Entity<CashOperationsFeeEntity>()
                 .HasIndex(x => new { x.BrokerId, x.Asset }).IsUnique();
 
-            modelBuilder.Entity<CashOperationsFeeData>()
+            modelBuilder.Entity<CashOperationsFeeEntity>()
                 .HasIndex(x => x.Asset);
 
-            modelBuilder.Entity<TradingFeeData>()
+            modelBuilder.Entity<TradingFeeEntity>()
                 .HasIndex(x => new { x.BrokerId, x.AssetPair }).IsUnique();
 
-            modelBuilder.Entity<TradingFeeData>()
+            modelBuilder.Entity<TradingFeeEntity>()
                 .HasIndex(x => x.BrokerId);
 
-            modelBuilder.Entity<TradingFeeLevelData>()
+            modelBuilder.Entity<TradingFeeLevelEntity>()
                 .HasIndex(x => x.Volume);
 
-            modelBuilder.Entity<TradingFeeLevelData>()
-                .HasOne<TradingFeeData>()
+            modelBuilder.Entity<TradingFeeLevelEntity>()
+                .HasOne<TradingFeeEntity>()
                 .WithMany(x => x.Levels)
                 .HasForeignKey(x => x.TradingFeeId)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            modelBuilder.Entity<CashOperationsFeeHistoryData>()
+            modelBuilder.Entity<CashOperationsFeeHistoryEntity>()
                 .HasIndex(x => x.CashOperationsFeeId);
 
-            modelBuilder.Entity<CashOperationsFeeHistoryData>()
+            modelBuilder.Entity<CashOperationsFeeHistoryEntity>()
                 .HasIndex(x => x.BrokerId);
 
-            modelBuilder.Entity<CashOperationsFeeHistoryData>()
+            modelBuilder.Entity<CashOperationsFeeHistoryEntity>()
                 .HasIndex(x => x.UserId);
 
-            modelBuilder.Entity<CashOperationsFeeHistoryData>()
+            modelBuilder.Entity<CashOperationsFeeHistoryEntity>()
                 .HasIndex(x => x.Asset);
         }
     }

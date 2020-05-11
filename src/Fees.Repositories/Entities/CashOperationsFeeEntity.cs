@@ -1,12 +1,12 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using Fees.Repositories.DTOs.Enums;
+using Fees.Repositories.Entities.Enums;
 
-namespace Fees.Repositories.DTOs
+namespace Fees.Repositories.Entities
 {
     [Table("cash_operations_fee")]
-    public class CashOperationsFeeData
+    public class CashOperationsFeeEntity
     {
         [Key]
         [Column("id", TypeName = "uuid")]
@@ -25,21 +25,21 @@ namespace Fees.Repositories.DTOs
         public decimal CashInValue { get; set; }
         [Required]
         [Column("cash_in_type", TypeName = "varchar(16)")]
-        public CashOperationsFeeTypeData CashInFeeType { get; set; }
+        public CashOperationsFeeTypeEntity CashInFeeType { get; set; }
         
         [Required]
         [Column("cash_out_value", TypeName = "decimal(48,16)")]
         public decimal CashOutValue { get; set; }
         [Required]
         [Column("cash_out_type", TypeName = "varchar(16)")]
-        public CashOperationsFeeTypeData CashOutFeeType { get; set; }
+        public CashOperationsFeeTypeEntity CashOutFeeType { get; set; }
 
         [Required]
         [Column("cash_transfer_value", TypeName = "decimal(48,16)")]
         public decimal CashTransferValue { get; set; }
         [Required]
         [Column("cash_transfer_type", TypeName = "varchar(16)")]
-        public CashOperationsFeeTypeData CashTransferFeeType { get; set; }
+        public CashOperationsFeeTypeEntity CashTransferFeeType { get; set; }
 
         [Required]
         [Column("created", TypeName = "timestamp with time zone")]

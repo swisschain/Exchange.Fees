@@ -7,7 +7,7 @@ using Fees.Domain.Entities;
 using Fees.Domain.Exceptions;
 using Fees.Domain.Repositories;
 using Fees.Repositories.Context;
-using Fees.Repositories.DTOs;
+using Fees.Repositories.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace Fees.Repositories
@@ -32,7 +32,7 @@ namespace Fees.Repositories
                 if (tradingFee == null)
                     throw new EntityNotFoundException(ErrorCode.ItemNotFound, $"TradingFee with id '{tradingFeeId}' does not exist.");
 
-                IQueryable<TradingFeeLevelData> query = context.TradingFeeLevels;
+                IQueryable<TradingFeeLevelEntity> query = context.TradingFeeLevels;
 
                 query = query.Where(x => x.TradingFeeId == tradingFeeId);
 
@@ -79,7 +79,7 @@ namespace Fees.Repositories
                 if (tradingFee == null)
                     throw new EntityNotFoundException(ErrorCode.ItemNotFound, $"TradingFee with id '{tradingFeeLevel.TradingFeeId}' does not exist.");
 
-                var data = _mapper.Map<TradingFeeLevelData>(tradingFeeLevel);
+                var data = _mapper.Map<TradingFeeLevelEntity>(tradingFeeLevel);
 
                 data.Created = DateTime.UtcNow;
                 data.Modified = data.Created;
@@ -144,9 +144,9 @@ namespace Fees.Repositories
             }
         }
 
-        private async Task<TradingFeeLevelData> GetAsync(Guid id, DataContext context)
+        private async Task<TradingFeeLevelEntity> GetAsync(Guid id, DataContext context)
         {
-            IQueryable<TradingFeeLevelData> query = context.TradingFeeLevels;
+            IQueryable<TradingFeeLevelEntity> query = context.TradingFeeLevels;
 
             var existed = await query
                 .Where(x => x.Id == id)
@@ -155,9 +155,9 @@ namespace Fees.Repositories
             return existed;
         }
 
-        private async Task<TradingFeeLevelData> GetAsync(Guid tradingFeeId, decimal volume, DataContext context)
+        private async Task<TradingFeeLevelEntity> GetAsync(Guid tradingFeeId, decimal volume, DataContext context)
         {
-            IQueryable<TradingFeeLevelData> query = context.TradingFeeLevels;
+            IQueryable<TradingFeeLevelEntity> query = context.TradingFeeLevels;
 
             var existed = await query
                 .Where(x => x.Id == tradingFeeId)
@@ -167,9 +167,9 @@ namespace Fees.Repositories
             return existed;
         }
 
-        private async Task<TradingFeeData> GetTradingFeeAsync(Guid tradingFeeId, string brokerId, DataContext context)
+        private async Task<TradingFeeEntity> GetTradingFeeAsync(Guid tradingFeeId, string brokerId, DataContext context)
         {
-            IQueryable<TradingFeeData> query = context.TradingFees;
+            IQueryable<TradingFeeEntity> query = context.TradingFees;
 
             var existed = await query
                 .Where(x => x.Id == tradingFeeId)
