@@ -28,6 +28,10 @@ namespace Fees.Services
                 .As<ITradingFeeLevelService>()
                 .SingleInstance();
 
+            builder.RegisterType<SettingsService>()
+                .As<ISettingsService>()
+                .SingleInstance();
+
             builder.RegisterAssetsClient(new AssetsClientSettings {ServiceAddress = _assetsServiceAddress });
         }
     }

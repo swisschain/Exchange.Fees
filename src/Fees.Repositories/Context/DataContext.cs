@@ -32,6 +32,8 @@ namespace Fees.Repositories.Context
 
         internal DbSet<CashOperationsFeeHistoryEntity> CashOperationsFeeHistories { get; set; }
 
+        internal DbSet<SettingsEntity> Settings { get; set; }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (_connectionString == null)

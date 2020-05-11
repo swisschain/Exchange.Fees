@@ -18,16 +18,13 @@ namespace Fees.Services
         private readonly ITradingFeeRepository _tradingFeeRepository;
         private readonly IAssetsClient _assetsClient;
         private readonly ILogger<TradingFeeService> _logger;
-        private readonly IMapper _mapper;
 
         public TradingFeeService(ITradingFeeRepository tradingFeeRepository,
             IAssetsClient assetsClient,
-            ILogger<TradingFeeService> logger,
-            IMapper mapper)
+            ILogger<TradingFeeService> logger)
         {
             _tradingFeeRepository = tradingFeeRepository;
             _logger = logger;
-            _mapper = mapper;
             _assetsClient = assetsClient;
         }
 

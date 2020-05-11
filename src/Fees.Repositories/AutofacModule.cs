@@ -35,6 +35,10 @@ namespace Fees.Repositories
             builder.RegisterType<CashOperationsFeeHistoryRepository>()
                 .As<ICashOperationsFeeHistoryRepository>()
                 .SingleInstance();
+
+            builder.RegisterType<SettingsRepository>()
+                .As<ISettingsRepository>()
+                .SingleInstance();
         }
     }
 }

@@ -55,6 +55,6 @@ namespace Fees.Repositories.Entities
 
         [Required]
         [Column("timestamp", TypeName = "timestamp with time zone")]
-        public DateTime Timestamp { get; set; }
+        public DateTimeOffset Timestamp { get; set; }
     }
 }

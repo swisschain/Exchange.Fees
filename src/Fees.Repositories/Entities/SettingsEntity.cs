@@ -4,28 +4,19 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Fees.Repositories.Entities
 {
-    [Table("trading_fee_level")]
-    public class TradingFeeLevelEntity
+    public class SettingsEntity
     {
         [Key]
         [Column("id", TypeName = "uuid")]
         public Guid Id { get; set; }
 
         [Required]
-        [Column("trading_fee_id", TypeName = "uuid")]
-        public Guid TradingFeeId { get; set; }
+        [Column("broker_id", TypeName = "varchar(36)")]
+        public string BrokerId { get; set; }
 
         [Required]
-        [Column("volume", TypeName = "decimal")]
-        public decimal Volume { get; set; }
-
-        [Required]
-        [Column("maker_fee", TypeName = "decimal")]
-        public decimal MakerFee { get; set; }
-
-        [Required]
-        [Column("taker_fee", TypeName = "decimal")]
-        public decimal TakerFee { get; set; }
+        [Column("fee_wallet_id", TypeName = "varchar(64)")]
+        public string FeeWalletId { get; set; }
 
         [Required]
         [Column("created", TypeName = "timestamp with time zone")]

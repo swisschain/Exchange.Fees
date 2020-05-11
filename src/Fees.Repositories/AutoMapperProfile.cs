@@ -11,8 +11,8 @@ namespace Fees.Repositories
         {
             CreateMap<CashOperationsFee, CashOperationsFeeEntity>(MemberList.Destination);
             CreateMap<CashOperationsFeeEntity, CashOperationsFee>(MemberList.Destination)
-                .ForMember(dest => dest.Created, opt => opt.MapFrom(src => Convert(src.Created)))
-                .ForMember(dest => dest.Modified, opt => opt.MapFrom(src => Convert(src.Modified)));
+                .ForMember(dest => dest.Created, opt => opt.MapFrom(src => Convert(src.Created.UtcDateTime)))
+                .ForMember(dest => dest.Modified, opt => opt.MapFrom(src => Convert(src.Modified.UtcDateTime)));
 
             CreateMap<TradingFee, TradingFeeEntity>(MemberList.Destination);
             CreateMap<TradingFeeEntity, TradingFee>(MemberList.Destination)
@@ -29,15 +29,9 @@ namespace Fees.Repositories
                 .ForMember(dest => dest.Timestamp, opt => opt.MapFrom(src => Convert(src.Timestamp)));
         }
 
-        private static DateTime Convert(DateTime dateTime)
+        private static DateTime Convert(DateTimeOffset dateTimeOffset)
         {
-            if (dateTime.Kind == DateTimeKind.Unspecified)
-                dateTime = DateTime.SpecifyKind(dateTime, DateTimeKind.Utc);
-
-            if (dateTime.Kind == DateTimeKind.Local)
-                dateTime = dateTime.ToUniversalTime();
-
-            return dateTime;
+            return dateTimeOffset.UtcDateTime;
         }
     }
 }

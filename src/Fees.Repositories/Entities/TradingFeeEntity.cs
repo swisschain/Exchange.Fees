@@ -26,10 +26,10 @@ namespace Fees.Repositories.Entities
 
         [Required]
         [Column("created", TypeName = "timestamp with time zone")]
-        public DateTime Created { get; set; }
+        public DateTimeOffset Created { get; set; }
 
         [Required]
         [Column("modified", TypeName = "timestamp with time zone")]
-        public DateTime Modified { get; set; }
+        public DateTimeOffset Modified { get; set; }
     }
 }

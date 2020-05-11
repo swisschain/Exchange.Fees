@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using AutoMapper;
 using Fees.Domain.Entities;
 using Fees.Domain.Repositories;
 using Fees.Domain.Services;
@@ -13,15 +12,12 @@ namespace Fees.Services
     {
         private readonly ITradingFeeLevelRepository _tradingFeeLevelRepository;
         private readonly ILogger<TradingFeeLevelService> _logger;
-        private readonly IMapper _mapper;
 
         public TradingFeeLevelService(ITradingFeeLevelRepository tradingFeeLevelRepository,
-            ILogger<TradingFeeLevelService> logger,
-            IMapper mapper)
+            ILogger<TradingFeeLevelService> logger)
         {
             _tradingFeeLevelRepository = tradingFeeLevelRepository;
             _logger = logger;
-            _mapper = mapper;
         }
 
         public Task<IReadOnlyList<TradingFeeLevel>> GetAllAsync(Guid tradingFeeId, string brokerId)
