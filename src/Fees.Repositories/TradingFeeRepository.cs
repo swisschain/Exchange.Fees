@@ -69,8 +69,6 @@ namespace Fees.Repositories
                 if (!string.IsNullOrWhiteSpace(assetPair))
                     query = query.Where(x => x.AssetPair == assetPair);
 
-                query.Include(x => x.Levels);
-
                 if (sortOrder == ListSortDirection.Ascending)
                 {
                     if (cursor != null)
@@ -87,6 +85,8 @@ namespace Fees.Repositories
                 }
 
                 query = query.Take(limit);
+
+                query.Include(x => x.Levels);
 
                 var data = await query.ToListAsync();
 

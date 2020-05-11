@@ -22,7 +22,7 @@ namespace Fees.Repositories.DTOs
         [Column("asset", TypeName = "varchar(8)")]
         public string Asset { get; set; }
 
-        public IReadOnlyList<TradingFeeLevelData> Levels { get; set; }
+        public ICollection<TradingFeeLevelData> Levels { get; set; }
 
         [Required]
         [Column("created", TypeName = "timestamp with time zone")]
