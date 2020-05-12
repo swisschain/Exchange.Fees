@@ -17,6 +17,8 @@ namespace Fees.Domain.Repositories
 
         Task<TradingFee> GetAsync(Guid id, string brokerId);
 
+        Task<TradingFee> GetAsync(string brokerId, string assetPair);
+
         Task<TradingFee> InsertAsync(TradingFee tradingFee);
 
         Task<TradingFee> UpdateAsync(TradingFee tradingFee);

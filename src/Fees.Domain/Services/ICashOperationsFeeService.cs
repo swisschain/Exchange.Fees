@@ -20,6 +20,8 @@ namespace Fees.Domain.Services
         Task<IReadOnlyList<CashOperationsFeeHistory>> GetAllHistoriesAsync(Guid? cashOperationFeeId, string brokerId, string userId,
             string asset, ListSortDirection sortOrder = ListSortDirection.Ascending, Guid? cursor = null, int limit = 50);
 
+        Task<CashOperationsFee> GetAsync(string brokerId, string asset);
+
         Task<CashOperationsFee> GetAsync(Guid id, string brokerId);
 
         Task<CashOperationsFee> AddAsync(string userId, CashOperationsFee cashOperationsFee);

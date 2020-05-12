@@ -2,6 +2,7 @@
 using Fees.Domain.Entities;
 using Fees.WebApi.Models.Audit.CashOperationsFee;
 using Fees.WebApi.Models.CashOperationsFee;
+using Fees.WebApi.Models.Settings;
 using Fees.WebApi.Models.TradingFee;
 using CashOperationsFeeModel = Fees.WebApi.Models.CashOperationsFee.CashOperationsFeeModel;
 
@@ -27,6 +28,8 @@ namespace Fees
             CreateMap<TradingFeeLevel, TradingFeeLevelModel>(MemberList.Destination);
             CreateMap<TradingFeeLevelAddModel, TradingFeeLevel>(MemberList.Source);
             CreateMap<TradingFeeLevelEditModel, TradingFeeLevel>(MemberList.Source);
+
+            CreateMap<Settings, SettingsModel>(MemberList.Destination);
 
             CreateMap<CashOperationsFeeHistory, CashOperationsFeeHistoryModel>(MemberList.Source);
         }

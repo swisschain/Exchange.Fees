@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
@@ -31,34 +31,67 @@ namespace Fees.Grpc
             {
                 var levels = await _tradingFeeLevelService.GetAllAsync(tradingFee.Id, tradingFee.BrokerId);
 
-                var model = new TradingFee();
-                
-                model.Id = tradingFee.Id.ToString();
-                model.BrokerId = tradingFee.BrokerId;
-                model.AssetPair = tradingFee.AssetPair;
-                model.Asset = tradingFee.Asset;
-                model.Levels.AddRange(levels.Select(x =>
-                {
-                    var newLevel = new TradingFeeLevel
-                    {
-                        Id = x.Id.ToString(),
-                        TradingFeeId = x.TradingFeeId.ToString(),
-                        Volume = x.Volume.ToString(CultureInfo.InvariantCulture),
-                        MakerFee = x.MakerFee.ToString(CultureInfo.InvariantCulture),
-                        TakerFee = x.TakerFee.ToString(CultureInfo.InvariantCulture),
-                        Created = x.Created.ToTimestamp(),
-                        Modified = x.Modified.ToTimestamp()
-                    };
-
-                    return newLevel;
-                }));
-                model.Created = Timestamp.FromDateTime(tradingFee.Created);
-                model.Modified = Timestamp.FromDateTime(tradingFee.Modified);
+                var model = Map(tradingFee, levels);
 
                 result.TradingFees.Add(model);
             }
 
             return result;
+        }
+
+        public override async Task<GetTradingFeeByBrokerIdAndAssetPairResponse> GetByBrokerIdAndAssetPair(GetTradingFeeByBrokerIdAndAssetPairRequest request, ServerCallContext context)
+        {
+            var tradingFee = await _tradingFeeService.GetAsync(request.BrokerId, request.AssetPair);
+
+            var result = new GetTradingFeeByBrokerIdAndAssetPairResponse();
+
+            if (tradingFee == null)
+            {
+                tradingFee = await _tradingFeeService.GetAsync(request.BrokerId, null);
+
+                if (tradingFee == null)
+                    return null;
+            }
+
+            var levels = await _tradingFeeLevelService.GetAllAsync(tradingFee.Id, tradingFee.BrokerId);
+
+            var contract = Map(tradingFee, levels);
+
+            result.TradingFee = contract;
+
+            return result;
+        }
+
+        private TradingFee Map(Domain.Entities.TradingFee domain, IReadOnlyList<Domain.Entities.TradingFeeLevel> levels)
+        {
+            if (domain == null)
+                return null;
+
+            var model = new TradingFee();
+
+            model.Id = domain.Id.ToString();
+            model.BrokerId = domain.BrokerId;
+            model.AssetPair = domain.AssetPair;
+            model.Asset = domain.Asset;
+            model.Levels.AddRange(levels.Select(x =>
+            {
+                var newLevel = new TradingFeeLevel
+                {
+                    Id = x.Id.ToString(),
+                    TradingFeeId = x.TradingFeeId.ToString(),
+                    Volume = x.Volume.ToString(CultureInfo.InvariantCulture),
+                    MakerFee = x.MakerFee.ToString(CultureInfo.InvariantCulture),
+                    TakerFee = x.TakerFee.ToString(CultureInfo.InvariantCulture),
+                    Created = x.Created.ToTimestamp(),
+                    Modified = x.Modified.ToTimestamp()
+                };
+
+                return newLevel;
+            }));
+            model.Created = Timestamp.FromDateTime(domain.Created);
+            model.Modified = Timestamp.FromDateTime(domain.Modified);
+
+            return model;
         }
     }
 }

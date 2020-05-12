@@ -10,6 +10,7 @@ import "google/protobuf/timestamp.proto";
 
 service TradingFees {
     rpc GetAllByBrokerId (GetAllTradingFeesByBrokerIdRequest) returns (GetAllTradingFeesResponse);
+    rpc GetByBrokerIdAndAssetPair (GetTradingFeeByBrokerIdAndAssetPairRequest) returns (GetTradingFeeByBrokerIdAndAssetPairResponse);
 }
 
 message GetAllTradingFeesByBrokerIdRequest {
@@ -38,4 +39,13 @@ message TradingFeeLevel {
     string takerFee = 5;
     google.protobuf.Timestamp created = 6;
     google.protobuf.Timestamp modified = 7;
+}
+
+message GetTradingFeeByBrokerIdAndAssetPairRequest {
+    string brokerId = 1;
+    google.protobuf.StringValue assetPair = 2;
+}
+
+message GetTradingFeeByBrokerIdAndAssetPairResponse {
+    TradingFee tradingFee = 1;
 }

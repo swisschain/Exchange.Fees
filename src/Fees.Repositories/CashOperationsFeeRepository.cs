@@ -99,6 +99,21 @@ namespace Fees.Repositories
             }
         }
 
+        public async Task<CashOperationsFee> GetAsync(string brokerId, string asset)
+        {
+            using (var context = _connectionFactory.CreateDataContext())
+            {
+                IQueryable<CashOperationsFeeEntity> query = context.CashOperationsFees;
+
+                var data = await query
+                    .Where(x => x.Asset == asset)
+                    .Where(x => x.BrokerId == brokerId)
+                    .SingleOrDefaultAsync();
+
+                return _mapper.Map<CashOperationsFee>(data);
+            }
+        }
+
         public async Task<CashOperationsFee> GetAsync(Guid id, string brokerId)
         {
             using (var context = _connectionFactory.CreateDataContext())

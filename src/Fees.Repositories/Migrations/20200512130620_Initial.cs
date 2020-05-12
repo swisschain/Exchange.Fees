@@ -24,8 +24,8 @@ namespace Fees.Repositories.Migrations
                     cash_out_type = table.Column<string>(type: "varchar(16)", nullable: false),
                     cash_transfer_value = table.Column<decimal>(type: "decimal(48,16)", nullable: false),
                     cash_transfer_type = table.Column<string>(type: "varchar(16)", nullable: false),
-                    created = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    modified = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                    created = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
+                    modified = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -49,11 +49,27 @@ namespace Fees.Repositories.Migrations
                     cash_transfer_value = table.Column<decimal>(type: "decimal(48,16)", nullable: false),
                     cash_transfer_type = table.Column<string>(type: "varchar(16)", nullable: false),
                     history_operation_type = table.Column<string>(type: "varchar(16)", nullable: false),
-                    timestamp = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                    timestamp = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_cash_operations_fee_history", x => x.id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "settings",
+                schema: "fees",
+                columns: table => new
+                {
+                    id = table.Column<Guid>(type: "uuid", nullable: false),
+                    broker_id = table.Column<string>(type: "varchar(36)", nullable: false),
+                    fee_wallet_id = table.Column<string>(type: "varchar(64)", nullable: false),
+                    created = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
+                    modified = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_settings", x => x.id);
                 });
 
             migrationBuilder.CreateTable(
@@ -65,8 +81,8 @@ namespace Fees.Repositories.Migrations
                     broker_id = table.Column<string>(type: "varchar(36)", nullable: false),
                     assetPair = table.Column<string>(type: "varchar(16)", nullable: true),
                     asset = table.Column<string>(type: "varchar(8)", nullable: true),
-                    created = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    modified = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                    created = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
+                    modified = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -83,8 +99,8 @@ namespace Fees.Repositories.Migrations
                     volume = table.Column<decimal>(type: "decimal", nullable: false),
                     maker_fee = table.Column<decimal>(type: "decimal", nullable: false),
                     taker_fee = table.Column<decimal>(type: "decimal", nullable: false),
-                    created = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    modified = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                    created = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
+                    modified = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -136,6 +152,13 @@ namespace Fees.Repositories.Migrations
                 column: "user_id");
 
             migrationBuilder.CreateIndex(
+                name: "IX_settings_broker_id",
+                schema: "fees",
+                table: "settings",
+                column: "broker_id",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_trading_fee_broker_id",
                 schema: "fees",
                 table: "trading_fee",
@@ -169,6 +192,10 @@ namespace Fees.Repositories.Migrations
 
             migrationBuilder.DropTable(
                 name: "cash_operations_fee_history",
+                schema: "fees");
+
+            migrationBuilder.DropTable(
+                name: "settings",
                 schema: "fees");
 
             migrationBuilder.DropTable(

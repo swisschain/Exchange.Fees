@@ -52,6 +52,7 @@ namespace Fees
             endpoints.MapGrpcService<MonitoringService>();
             endpoints.MapGrpcService<CashOperationsFeesService>();
             endpoints.MapGrpcService<TradingFeesService>();
+            endpoints.MapGrpcService<SettingsService>();
         }
     }
 }

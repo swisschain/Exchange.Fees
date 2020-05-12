@@ -110,6 +110,22 @@ namespace Fees.Repositories
             }
         }
 
+        public async Task<TradingFee> GetAsync(string brokerId, string assetPair)
+        {
+            using (var context = _connectionFactory.CreateDataContext())
+            {
+                IQueryable<TradingFeeEntity> query = context.TradingFees;
+
+                var data = await query
+                    .Where(x => x.BrokerId == brokerId)
+                    .Where(x => x.AssetPair == assetPair)
+                    .Include(x => x.Levels)
+                    .SingleOrDefaultAsync();
+
+                return _mapper.Map<TradingFee>(data);
+            }
+        }
+
         public async Task<TradingFee> InsertAsync(TradingFee tradingFee)
         {
             using (var context = _connectionFactory.CreateDataContext())

@@ -48,9 +48,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Protobuf Include="..\..\.protos\cash-operations-fees.proto" Link="Protos\cash-operations-fees.proto" />
-    <Protobuf Include="..\..\.protos\trading-fees.proto" Link="Protos\trading-fees.proto" />
-    <Protobuf Include="..\..\.protos\isalive.proto" Link="Protos\isalive.proto" />
+    <Protobuf Include="..\..\.protos\cash-operations-fees.proto" Link="Grpc\Protos\cash-operations-fees.proto" />
+    <Protobuf Include="..\..\.protos\trading-fees.proto" Link="Grpc\Protos\trading-fees.proto" />
+    <Protobuf Include="..\..\.protos\settings.proto" Link="Grpc\Protos\settings.proto" />
+    <Protobuf Include="..\..\.protos\isalive.proto" Link="Grpc\Protos\isalive.proto" />
   </ItemGroup>
 
 </Project>

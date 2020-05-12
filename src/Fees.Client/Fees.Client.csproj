@@ -47,6 +47,7 @@
   <ItemGroup>
     <Protobuf Include="..\..\.protos\cash-operations-fees.proto" Link="Protos\cash-operations-fees.proto" />
     <Protobuf Include="..\..\.protos\trading-fees.proto" Link="Protos\trading-fees.proto" />
+    <Protobuf Include="..\..\.protos\settings.proto" Link="Protos\settings.proto" />
     <Protobuf Include="..\..\.protos\isalive.proto" Link="Protos\isalive.proto" />
   </ItemGroup>
 

@@ -68,6 +68,11 @@ namespace Fees.Services
             return _cashOperationsFeeRepository.GetAsync(id, brokerId);
         }
 
+        public Task<CashOperationsFee> GetAsync(string brokerId, string asset)
+        {
+            return _cashOperationsFeeRepository.GetAsync(brokerId, asset);
+        }
+
         public async Task<CashOperationsFee> AddAsync(string userId, CashOperationsFee cashOperationsFee)
         {
             var assets = await _assetsClient.Assets.GetAllByBrokerId(cashOperationsFee.BrokerId);

@@ -9,6 +9,8 @@ namespace Swisschain.Exchange.Fees.Client.Models.TradingFees
     {
         public Guid Id { get; set; }
 
+        public string BrokerId { get; set; }
+
         public string AssetPair { get; set; }
 
         public string Asset { get; set; }
@@ -26,6 +28,7 @@ namespace Swisschain.Exchange.Fees.Client.Models.TradingFees
         public TradingFeeModel(TradingFee tradingFee, IEnumerable<TradingFeeLevel> levels)
         {
             Id = Guid.Parse(tradingFee.Id);
+            BrokerId = tradingFee.BrokerId;
             AssetPair = tradingFee.AssetPair;
             Asset = tradingFee.Asset;
             Levels = levels.Select(x => new TradingFeeLevelModel(x)).ToList();

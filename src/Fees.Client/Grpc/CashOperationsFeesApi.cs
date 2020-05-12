@@ -21,9 +21,23 @@ namespace Swisschain.Exchange.Fees.Client.Grpc
         {
             var response = await _client.GetAllByBrokerIdAsync(new GetAllCashOperationsFeesByBrokerIdRequest { BrokerId = brokerId });
 
-            return response.CashOperationsFees
+            var result = response.CashOperationsFees
                 .Select(cashOperationsFee => new CashOperationsFeeModel(cashOperationsFee))
                 .ToList();
+
+            return result;
+        }
+
+        public async Task<CashOperationsFeeModel> GetByBrokerIdAndAsset(string brokerId, string asset)
+        {
+            var response = await _client.GetByBrokerIdAndAssetAsync(new GetCashOperationsFeeByBrokerIdAndAssetRequest { BrokerId = brokerId, Asset = asset });
+
+            if (response.CashOperationsFee == null)
+                return null;
+
+            var result = new CashOperationsFeeModel(response.CashOperationsFee);
+
+            return result;
         }
     }
 }

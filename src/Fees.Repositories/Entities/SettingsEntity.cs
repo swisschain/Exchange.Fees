@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Fees.Repositories.Entities
 {
+    [Table("settings")]
     public class SettingsEntity
     {
         [Key]

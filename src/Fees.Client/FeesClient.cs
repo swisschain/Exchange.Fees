@@ -10,10 +10,13 @@ namespace Swisschain.Exchange.Fees.Client
         {
             CashOperationsFees = new CashOperationsFeesApi(settings.ServiceAddress);
             TradingFees = new TradingFeesApi(settings.ServiceAddress);
+            Settings = new SettingsApi(settings.ServiceAddress);
         }
 
         public ICashOperationsFeesApi CashOperationsFees { get; }
 
         public ITradingFeesApi TradingFees { get; }
+
+        public ISettingsApi Settings { get; }
     }
 }

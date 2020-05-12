@@ -73,6 +73,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".protos", ".protos", "{3108
 	ProjectSection(SolutionItems) = preProject
 		.protos\cash-operations-fees.proto = .protos\cash-operations-fees.proto
 		.protos\isalive.proto = .protos\isalive.proto
+		.protos\settings.proto = .protos\settings.proto
 		.protos\trading-fees.proto = .protos\trading-fees.proto
 	EndProjectSection
 EndProject

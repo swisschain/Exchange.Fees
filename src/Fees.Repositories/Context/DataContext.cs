@@ -13,6 +13,10 @@ namespace Fees.Repositories.Context
 
         private readonly ILoggerFactory _loggerFactory;
 
+        public DataContext()
+        {
+        }
+
         public DataContext(string connectionString)
         {
             _connectionString = connectionString;
@@ -87,6 +91,9 @@ namespace Fees.Repositories.Context
 
             modelBuilder.Entity<CashOperationsFeeHistoryEntity>()
                 .HasIndex(x => x.Asset);
+
+            modelBuilder.Entity<SettingsEntity>()
+                .HasIndex(x => new { x.BrokerId }).IsUnique();
         }
     }
 }

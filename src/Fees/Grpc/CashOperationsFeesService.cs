@@ -24,24 +24,50 @@ namespace Fees.Grpc
 
             foreach (var cashOperationsFee in cashOperationsFees)
             {
-                var model = new CashOperationsFee();
-                
-                model.Id = cashOperationsFee.Id.ToString();
-                model.BrokerId = cashOperationsFee.BrokerId;
-                model.Asset = cashOperationsFee.Asset;
-                model.CashInValue = cashOperationsFee.CashInValue.ToString(CultureInfo.InvariantCulture);
-                model.CashInFeeType = (CashOperationsFeeType) cashOperationsFee.CashInFeeType;
-                model.CashOutValue = cashOperationsFee.CashOutValue.ToString(CultureInfo.InvariantCulture);
-                model.CashOutFeeType = (CashOperationsFeeType)cashOperationsFee.CashOutFeeType;
-                model.CashTransferValue = cashOperationsFee.CashTransferValue.ToString(CultureInfo.InvariantCulture);
-                model.CashTransferFeeType = (CashOperationsFeeType)cashOperationsFee.CashTransferFeeType;
-                model.Created = Timestamp.FromDateTime(cashOperationsFee.Created);
-                model.Modified = Timestamp.FromDateTime(cashOperationsFee.Modified);
+                var contract = Map(cashOperationsFee);
 
-                result.CashOperationsFees.Add(model);
+                result.CashOperationsFees.Add(contract);
             }
 
             return result;
+        }
+
+        public override async Task<GetCashOperationsFeeByBrokerIdAndAssetResponse> GetByBrokerIdAndAsset(GetCashOperationsFeeByBrokerIdAndAssetRequest request, ServerCallContext context)
+        {
+            var cashOperationsFee = await _cashOperationsFeeService.GetAsync(request.BrokerId, request.Asset);
+
+            var result = new GetCashOperationsFeeByBrokerIdAndAssetResponse();
+
+            if (cashOperationsFee == null)
+                return result;
+
+            var contract = Map(cashOperationsFee);
+
+            result.CashOperationsFee = contract;
+
+            return result;
+        }
+
+        private CashOperationsFee Map(Domain.Entities.CashOperationsFee domain)
+        {
+            if (domain == null)
+                return null;
+
+            var model = new CashOperationsFee();
+
+            model.Id = domain.Id.ToString();
+            model.BrokerId = domain.BrokerId;
+            model.Asset = domain.Asset;
+            model.CashInValue = domain.CashInValue.ToString(CultureInfo.InvariantCulture);
+            model.CashInFeeType = (CashOperationsFeeType)domain.CashInFeeType;
+            model.CashOutValue = domain.CashOutValue.ToString(CultureInfo.InvariantCulture);
+            model.CashOutFeeType = (CashOperationsFeeType)domain.CashOutFeeType;
+            model.CashTransferValue = domain.CashTransferValue.ToString(CultureInfo.InvariantCulture);
+            model.CashTransferFeeType = (CashOperationsFeeType)domain.CashTransferFeeType;
+            model.Created = Timestamp.FromDateTime(domain.Created);
+            model.Modified = Timestamp.FromDateTime(domain.Modified);
+
+            return model;
         }
     }
 }

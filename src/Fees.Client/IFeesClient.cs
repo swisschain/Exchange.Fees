@@ -7,5 +7,7 @@ namespace Swisschain.Exchange.Fees.Client
         ICashOperationsFeesApi CashOperationsFees { get; }
 
         ITradingFeesApi TradingFees { get; }
+
+        ISettingsApi Settings { get; }
     }
 }

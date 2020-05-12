@@ -7,5 +7,7 @@ namespace Swisschain.Exchange.Fees.Client.Api
     public interface ITradingFeesApi
     {
         Task<IReadOnlyList<TradingFeeModel>> GetAllByBrokerId(string brokerId);
+
+        Task<TradingFeeModel> GetByBrokerIdAndAssetPair(string brokerId, string assetPair);
     }
 }

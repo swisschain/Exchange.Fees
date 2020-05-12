@@ -20,7 +20,7 @@ namespace Fees.Repositories.Migrations
                 .HasAnnotation("ProductVersion", "3.1.3")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
-            modelBuilder.Entity("Fees.Repositories.DTOs.CashOperationsFeeData", b =>
+            modelBuilder.Entity("Fees.Repositories.Entities.CashOperationsFeeEntity", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -64,11 +64,11 @@ namespace Fees.Repositories.Migrations
                         .HasColumnName("cash_transfer_value")
                         .HasColumnType("decimal(48,16)");
 
-                    b.Property<DateTime>("Created")
+                    b.Property<DateTimeOffset>("Created")
                         .HasColumnName("created")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<DateTime>("Modified")
+                    b.Property<DateTimeOffset>("Modified")
                         .HasColumnName("modified")
                         .HasColumnType("timestamp with time zone");
 
@@ -82,7 +82,7 @@ namespace Fees.Repositories.Migrations
                     b.ToTable("cash_operations_fee");
                 });
 
-            modelBuilder.Entity("Fees.Repositories.DTOs.CashOperationsFeeHistoryData", b =>
+            modelBuilder.Entity("Fees.Repositories.Entities.CashOperationsFeeHistoryEntity", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -135,7 +135,7 @@ namespace Fees.Repositories.Migrations
                         .HasColumnName("history_operation_type")
                         .HasColumnType("varchar(16)");
 
-                    b.Property<DateTime>("Timestamp")
+                    b.Property<DateTimeOffset>("Timestamp")
                         .HasColumnName("timestamp")
                         .HasColumnType("timestamp with time zone");
 
@@ -157,7 +157,40 @@ namespace Fees.Repositories.Migrations
                     b.ToTable("cash_operations_fee_history");
                 });
 
-            modelBuilder.Entity("Fees.Repositories.DTOs.TradingFeeData", b =>
+            modelBuilder.Entity("Fees.Repositories.Entities.SettingsEntity", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("id")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("BrokerId")
+                        .IsRequired()
+                        .HasColumnName("broker_id")
+                        .HasColumnType("varchar(36)");
+
+                    b.Property<DateTimeOffset>("Created")
+                        .HasColumnName("created")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("FeeWalletId")
+                        .IsRequired()
+                        .HasColumnName("fee_wallet_id")
+                        .HasColumnType("varchar(64)");
+
+                    b.Property<DateTimeOffset>("Modified")
+                        .HasColumnName("modified")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BrokerId")
+                        .IsUnique();
+
+                    b.ToTable("settings");
+                });
+
+            modelBuilder.Entity("Fees.Repositories.Entities.TradingFeeEntity", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -177,11 +210,11 @@ namespace Fees.Repositories.Migrations
                         .HasColumnName("broker_id")
                         .HasColumnType("varchar(36)");
 
-                    b.Property<DateTime>("Created")
+                    b.Property<DateTimeOffset>("Created")
                         .HasColumnName("created")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<DateTime>("Modified")
+                    b.Property<DateTimeOffset>("Modified")
                         .HasColumnName("modified")
                         .HasColumnType("timestamp with time zone");
 
@@ -195,14 +228,14 @@ namespace Fees.Repositories.Migrations
                     b.ToTable("trading_fee");
                 });
 
-            modelBuilder.Entity("Fees.Repositories.DTOs.TradingFeeLevelData", b =>
+            modelBuilder.Entity("Fees.Repositories.Entities.TradingFeeLevelEntity", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnName("id")
                         .HasColumnType("uuid");
 
-                    b.Property<DateTime>("Created")
+                    b.Property<DateTimeOffset>("Created")
                         .HasColumnName("created")
                         .HasColumnType("timestamp with time zone");
 
@@ -210,7 +243,7 @@ namespace Fees.Repositories.Migrations
                         .HasColumnName("maker_fee")
                         .HasColumnType("decimal");
 
-                    b.Property<DateTime>("Modified")
+                    b.Property<DateTimeOffset>("Modified")
                         .HasColumnName("modified")
                         .HasColumnType("timestamp with time zone");
 
@@ -235,10 +268,10 @@ namespace Fees.Repositories.Migrations
                     b.ToTable("trading_fee_level");
                 });
 
-            modelBuilder.Entity("Fees.Repositories.DTOs.TradingFeeLevelData", b =>
+            modelBuilder.Entity("Fees.Repositories.Entities.TradingFeeLevelEntity", b =>
                 {
-                    b.HasOne("Fees.Repositories.DTOs.TradingFeeData", null)
-                        .WithMany()
+                    b.HasOne("Fees.Repositories.Entities.TradingFeeEntity", null)
+                        .WithMany("Levels")
                         .HasForeignKey("TradingFeeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();

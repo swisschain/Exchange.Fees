@@ -9,6 +9,7 @@ import "google/protobuf/timestamp.proto";
 
 service CashOperationsFees {
     rpc GetAllByBrokerId (GetAllCashOperationsFeesByBrokerIdRequest) returns (GetAllCashOperationsFeesResponse);
+    rpc GetByBrokerIdAndAsset (GetCashOperationsFeeByBrokerIdAndAssetRequest) returns (GetCashOperationsFeeByBrokerIdAndAssetResponse);
 }
 
 message GetAllCashOperationsFeesByBrokerIdRequest {
@@ -37,4 +38,13 @@ message CashOperationsFee {
     CashOperationsFeeType cashTransferFeeType = 9;
     google.protobuf.Timestamp created = 10;
     google.protobuf.Timestamp modified = 11;
+}
+
+message GetCashOperationsFeeByBrokerIdAndAssetRequest {
+    string brokerId = 1;
+    string asset = 2;
+}
+
+message GetCashOperationsFeeByBrokerIdAndAssetResponse {
+    CashOperationsFee cashOperationsFee = 1;
 }
