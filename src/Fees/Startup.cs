@@ -1,14 +1,20 @@
-﻿using Autofac;
+﻿using System;
+using Autofac;
 using AutoMapper;
 using Fees.Configuration;
+using Fees.Cunsumers;
 using Fees.Exceptions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Configuration;
 using Fees.Grpc;
+using Fees.HostedServices;
 using Fees.Repositories.Context;
+using GreenPipes;
+using MassTransit;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Swisschain.Sdk.Server.Common;
 
 namespace Fees
@@ -28,6 +34,35 @@ namespace Fees
             services
                 .AddAutoMapper(typeof(AutoMapperProfile), typeof(Repositories.AutoMapperProfile), typeof(Services.AutoMapperProfile))
                 .AddControllersWithViews();
+
+            services.AddTransient<SubscriptionAddedConsumer>();
+
+            services.AddMassTransit(x =>
+            {
+                x.AddBus(provider => Bus.Factory.CreateUsingRabbitMq(cfg =>
+                {
+                    cfg.Host(Config.FeesService.RabbitMq.HostUrl, host =>
+                    {
+                        host.Username(Config.FeesService.RabbitMq.Username);
+                        host.Password(Config.FeesService.RabbitMq.Password);
+                    });
+            
+                    cfg.UseMessageRetry(y =>
+                        y.Exponential(5, 
+                            TimeSpan.FromMilliseconds(100),
+                            TimeSpan.FromMilliseconds(10_000), 
+                            TimeSpan.FromMilliseconds(100)));
+            
+                    cfg.SetLoggerFactory(provider.GetRequiredService<ILoggerFactory>());
+                    
+                    cfg.ReceiveEndpoint("universe-tenants-subscription-added", e =>
+                    {
+                        e.Consumer(provider.GetRequiredService<SubscriptionAddedConsumer>);
+                    });
+                }));
+            
+                services.AddHostedService<BusHost>();
+            });
         }
 
         protected override void ConfigureExt(IApplicationBuilder app, IWebHostEnvironment env)
