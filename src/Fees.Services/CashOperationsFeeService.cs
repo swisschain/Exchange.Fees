@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using Assets.Client;
+using Assets.Client.Models.Assets;
 using AutoMapper;
 using Fees.Domain.Entities;
 using Fees.Domain.Entities.Enums;
@@ -24,9 +26,7 @@ namespace Fees.Services
 
         public CashOperationsFeeService(ICashOperationsFeeRepository cashOperationsFeeRepository,
             ICashOperationsFeeHistoryRepository cashOperationsFeeHistoryRepository,
-            IAssetsClient assetsClient,
-            ILogger<CashOperationsFeeService> logger,
-            IMapper mapper)
+            IAssetsClient assetsClient, ILogger<CashOperationsFeeService> logger, IMapper mapper)
         {
             _cashOperationsFeeRepository = cashOperationsFeeRepository;
             _cashOperationsFeeHistoryRepository = cashOperationsFeeHistoryRepository;
@@ -75,10 +75,9 @@ namespace Fees.Services
 
         public async Task<CashOperationsFee> AddAsync(string userId, CashOperationsFee cashOperationsFee)
         {
-            var assets = await _assetsClient.Assets.GetAllByBrokerId(cashOperationsFee.BrokerId);
+            var asset = await GetAsset(cashOperationsFee.BrokerId, cashOperationsFee.Asset);
 
-            if (!assets.Select(x => x.Symbol).Contains(cashOperationsFee.Asset))
-                throw new EntityNotFoundException(ErrorCode.ItemNotFound, "Asset does not exist.");
+            ValidateAccuracy(cashOperationsFee, asset);
 
             var result = await _cashOperationsFeeRepository.InsertAsync(cashOperationsFee);
 
@@ -95,6 +94,10 @@ namespace Fees.Services
 
         public async Task<CashOperationsFee> UpdateAsync(string userId, CashOperationsFee cashOperationsFee)
         {
+            var asset = await GetAsset(cashOperationsFee.BrokerId, cashOperationsFee.Asset);
+
+            ValidateAccuracy(cashOperationsFee, asset);
+
             var result = await _cashOperationsFeeRepository.UpdateAsync(cashOperationsFee);
 
             var history = _mapper.Map<CashOperationsFeeHistory>(result);
@@ -121,6 +124,36 @@ namespace Fees.Services
             await _cashOperationsFeeHistoryRepository.InsertAsync(history);
 
             _logger.LogInformation("CashOperationsFee has been deleted. {$CashOperationsFee}", domain);
+        }
+
+        private async Task<AssetModel> GetAsset(string brokerId, string asset)
+        {
+            var assets = await _assetsClient.Assets.GetAllByBrokerId(brokerId);
+
+            var assetModel = assets.FirstOrDefault(x => x.Symbol == asset);
+
+            if (assetModel == null)
+                throw new EntityNotFoundException(ErrorCode.ItemNotFound, "Asset does not exist.");
+
+            return assetModel;
+        }
+
+        private void ValidateAccuracy(CashOperationsFee cashOperationsFee, AssetModel asset)
+        {
+            var cashInStr = cashOperationsFee.CashInValue.ToString(CultureInfo.InvariantCulture);
+            var cashInFractionLength = cashInStr.Substring(cashInStr.IndexOf(".") + 1).Length;
+            if (cashInFractionLength > asset.Accuracy)
+                throw new IncorrectAccuracyException(ErrorCode.IncorrectAccuracy, "CashIn accuracy is bigger then asset accuracy.");
+
+            var cashOutStr = cashOperationsFee.CashOutValue.ToString(CultureInfo.InvariantCulture);
+            var cashOutFractionLength = cashOutStr.Substring(cashOutStr.IndexOf(".") + 1).Length;
+            if (cashOutFractionLength > asset.Accuracy)
+                throw new IncorrectAccuracyException(ErrorCode.IncorrectAccuracy, "CashOut accuracy is bigger then asset accuracy.");
+
+            var cashTransferStr = cashOperationsFee.CashTransferValue.ToString(CultureInfo.InvariantCulture);
+            var cashTransferFractionLength = cashTransferStr.Substring(cashTransferStr.IndexOf(".") + 1).Length;
+            if (cashTransferFractionLength > asset.Accuracy)
+                throw new IncorrectAccuracyException(ErrorCode.IncorrectAccuracy, "CashTransfer accuracy is bigger then asset accuracy.");
         }
     }
 }

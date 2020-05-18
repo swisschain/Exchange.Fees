@@ -8,6 +8,7 @@
         //2000 - logic errors, i.e. from ME
         RuntimeError = 1001,
         ItemNotFound = 1100,
-        DuplicateItem = 1101
+        DuplicateItem = 1101,
+        IncorrectAccuracy = 1102
     }
 }
