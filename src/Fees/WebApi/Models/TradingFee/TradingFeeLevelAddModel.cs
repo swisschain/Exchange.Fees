@@ -1,10 +1,8 @@
-﻿using System;
-
-namespace Fees.WebApi.Models.TradingFee
+﻿namespace Fees.WebApi.Models.TradingFee
 {
     public class TradingFeeLevelAddModel
     {
-        public Guid TradingFeeId { get; set; }
+        public long TradingFeeId { get; set; }
 
         public decimal Volume { get; set; }
 

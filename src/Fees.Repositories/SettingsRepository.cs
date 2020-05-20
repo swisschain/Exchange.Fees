@@ -52,7 +52,7 @@ namespace Fees.Repositories
             }
         }
 
-        public async Task<Settings> GetAsync(Guid id, string brokerId)
+        public async Task<Settings> GetAsync(long id, string brokerId)
         {
             using (var context = _connectionFactory.CreateDataContext())
             {
@@ -115,7 +115,7 @@ namespace Fees.Repositories
             }
         }
 
-        public async Task DeleteAsync(Guid id, string brokerId)
+        public async Task DeleteAsync(long id, string brokerId)
         {
             using (var context = _connectionFactory.CreateDataContext())
             {
@@ -130,7 +130,7 @@ namespace Fees.Repositories
             }
         }
 
-        private async Task<SettingsEntity> GetAsync(Guid id, string brokerId, DataContext context)
+        private async Task<SettingsEntity> GetAsync(long id, string brokerId, DataContext context)
         {
             IQueryable<SettingsEntity> query = context.Settings;
 

@@ -5,9 +5,9 @@ namespace Fees.WebApi.Models.Audit.CashOperationsFee
 {
     public class CashOperationsFeeHistoryModel
     {
-        public Guid Id { get; set; }
+        public long Id { get; set; }
 
-        public Guid CashOperationsFeeId { get; set; }
+        public long CashOperationsFeeId { get; set; }
 
         public string BrokerId { get; set; }
 

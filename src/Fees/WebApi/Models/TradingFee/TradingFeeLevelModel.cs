@@ -4,9 +4,9 @@ namespace Fees.WebApi.Models.TradingFee
 {
     public class TradingFeeLevelModel
     {
-        public Guid Id { get; set; }
+        public long Id { get; set; }
 
-        public Guid TradingFeeId { get; set; }
+        public long TradingFeeId { get; set; }
 
         public decimal Volume { get; set; }
 

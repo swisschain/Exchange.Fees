@@ -59,41 +59,251 @@ namespace Fees.Repositories.Context
         {
             modelBuilder.HasDefaultSchema(Schema);
 
+            CashOperationsFeeEntity(modelBuilder);
+
+            TradingFeeEntity(modelBuilder);
+
+            TradingFeeLevelEntity(modelBuilder);
+
+            SettingsEntity(modelBuilder);
+
+            CashOperationsFeeHistoryEntity(modelBuilder);
+        }
+
+        private static void CashOperationsFeeEntity(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<CashOperationsFeeEntity>()
+                .ToTable("cash_operations_fee")
+                .HasKey(c => new { c.Id });
+
+            modelBuilder.Entity<CashOperationsFeeEntity>()
+                .Property(x => x.BrokerId)
+                .HasMaxLength(36)
+                .IsRequired();
+
+            modelBuilder.Entity<CashOperationsFeeEntity>()
+                .Property(x => x.Asset)
+                .HasMaxLength(8)
+                .IsRequired();
+
+            modelBuilder.Entity<CashOperationsFeeEntity>()
+                .Property(x => x.CashInValue)
+                .IsRequired();
+
+            modelBuilder.Entity<CashOperationsFeeEntity>()
+                .Property(x => x.CashInFeeType)
+                .HasConversion<string>()
+                .HasMaxLength(16)
+                .IsRequired();
+
+            modelBuilder.Entity<CashOperationsFeeEntity>()
+                .Property(x => x.CashOutValue)
+                .IsRequired();
+
+            modelBuilder.Entity<CashOperationsFeeEntity>()
+                .Property(x => x.CashOutFeeType)
+                .HasConversion<string>()
+                .HasMaxLength(16)
+                .IsRequired();
+
+            modelBuilder.Entity<CashOperationsFeeEntity>()
+                .Property(x => x.CashTransferValue)
+                .IsRequired();
+
+            modelBuilder.Entity<CashOperationsFeeEntity>()
+                .Property(x => x.CashTransferFeeType)
+                .HasConversion<string>()
+                .HasMaxLength(16)
+                .IsRequired();
+
+            modelBuilder.Entity<TradingFeeEntity>()
+                .Property(x => x.Created)
+                .IsRequired();
+
+            modelBuilder.Entity<TradingFeeEntity>()
+                .Property(x => x.Modified)
+                .IsRequired();
+
+
             modelBuilder.Entity<CashOperationsFeeEntity>()
                 .HasIndex(x => new { x.BrokerId, x.Asset }).IsUnique();
 
             modelBuilder.Entity<CashOperationsFeeEntity>()
                 .HasIndex(x => x.Asset);
+        }
+
+        private static void TradingFeeEntity(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<TradingFeeEntity>()
+                .ToTable("trading_fee")
+                .HasKey(c => new { c.Id });
+
+            modelBuilder.Entity<TradingFeeEntity>()
+                .Property(x => x.BrokerId)
+                .HasMaxLength(36)
+                .IsRequired();
+
+            modelBuilder.Entity<TradingFeeEntity>()
+                .Property(x => x.AssetPair)
+                .HasMaxLength(16);
+
+            modelBuilder.Entity<TradingFeeEntity>()
+                .Property(x => x.Asset)
+                .HasMaxLength(8);
+
+            modelBuilder.Entity<TradingFeeEntity>()
+                .HasMany(x => x.Levels)
+                .WithOne()
+                .HasForeignKey(x => x.TradingFeeId)
+                .OnDelete(DeleteBehavior.Cascade)
+                .IsRequired();
+
+            modelBuilder.Entity<TradingFeeEntity>()
+                .Property(x => x.Created)
+                .IsRequired();
+
+            modelBuilder.Entity<TradingFeeEntity>()
+                .Property(x => x.Modified)
+                .IsRequired();
+
+
+            modelBuilder.Entity<TradingFeeEntity>()
+                .HasIndex(x => x.BrokerId);
 
             modelBuilder.Entity<TradingFeeEntity>()
                 .HasIndex(x => new { x.BrokerId, x.AssetPair }).IsUnique();
+        }
 
-            modelBuilder.Entity<TradingFeeEntity>()
-                .HasIndex(x => x.BrokerId);
+        private static void TradingFeeLevelEntity(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<TradingFeeLevelEntity>()
+                .ToTable("trading_fee_level")
+                .HasKey(c => new { c.Id });
 
             modelBuilder.Entity<TradingFeeLevelEntity>()
-                .HasIndex(x => x.Volume);
+                .HasIndex(x => x.Volume)
+                .IsUnique();
 
             modelBuilder.Entity<TradingFeeLevelEntity>()
-                .HasOne<TradingFeeEntity>()
-                .WithMany(x => x.Levels)
-                .HasForeignKey(x => x.TradingFeeId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .Property(x => x.TradingFeeId)
+                .IsRequired();
 
-            modelBuilder.Entity<CashOperationsFeeHistoryEntity>()
-                .HasIndex(x => x.CashOperationsFeeId);
+            modelBuilder.Entity<TradingFeeLevelEntity>()
+                .Property(x => x.Volume);
 
-            modelBuilder.Entity<CashOperationsFeeHistoryEntity>()
-                .HasIndex(x => x.BrokerId);
+            modelBuilder.Entity<TradingFeeLevelEntity>()
+                .Property(x => x.MakerFee)
+                .IsRequired();
 
-            modelBuilder.Entity<CashOperationsFeeHistoryEntity>()
-                .HasIndex(x => x.UserId);
+            modelBuilder.Entity<TradingFeeLevelEntity>()
+                .Property(x => x.TakerFee)
+                .IsRequired();
 
-            modelBuilder.Entity<CashOperationsFeeHistoryEntity>()
-                .HasIndex(x => x.Asset);
+            modelBuilder.Entity<TradingFeeLevelEntity>()
+                .Property(x => x.Created)
+                .IsRequired();
+
+            modelBuilder.Entity<TradingFeeLevelEntity>()
+                .Property(x => x.Modified)
+                .IsRequired();
+
+            modelBuilder.Entity<TradingFeeLevelEntity>()
+                .HasIndex(x => new { x.Volume }).IsUnique();
+        }
+
+        private static void SettingsEntity(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<SettingsEntity>()
+                .ToTable("settings")
+                .HasKey(c => new { c.Id });
 
             modelBuilder.Entity<SettingsEntity>()
-                .HasIndex(x => new { x.BrokerId }).IsUnique();
+                .Property(x => x.BrokerId)
+                .HasMaxLength(36)
+                .IsRequired();
+
+            modelBuilder.Entity<SettingsEntity>()
+                .Property(x => x.FeeWalletId)
+                .IsRequired();
+
+            modelBuilder.Entity<TradingFeeEntity>()
+                .Property(x => x.Created)
+                .IsRequired();
+
+            modelBuilder.Entity<TradingFeeEntity>()
+                .Property(x => x.Modified)
+                .IsRequired();
+
+
+            modelBuilder.Entity<SettingsEntity>()
+                .HasIndex(x => new { x.BrokerId })
+                .IsUnique();
+        }
+
+        private static void CashOperationsFeeHistoryEntity(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<CashOperationsFeeHistoryEntity>()
+                .ToTable("cash_operations_fee_history")
+                .HasKey(c => new { c.Id });
+
+            modelBuilder.Entity<CashOperationsFeeHistoryEntity>()
+                .Property(x => x.CashOperationsFeeId)
+                .IsRequired();
+
+            modelBuilder.Entity<CashOperationsFeeHistoryEntity>()
+                .Property(x => x.BrokerId)
+                .HasMaxLength(36)
+                .IsRequired();
+
+            modelBuilder.Entity<CashOperationsFeeHistoryEntity>()
+                .Property(x => x.UserId)
+                .HasMaxLength(36)
+                .IsRequired();
+
+            modelBuilder.Entity<CashOperationsFeeHistoryEntity>()
+                .Property(x => x.Asset)
+                .HasMaxLength(8)
+                .IsRequired();
+
+            modelBuilder.Entity<CashOperationsFeeHistoryEntity>()
+                .Property(x => x.CashInValue)
+                .IsRequired();
+
+            modelBuilder.Entity<CashOperationsFeeHistoryEntity>()
+                .Property(x => x.CashInFeeType)
+                .HasConversion<string>()
+                .HasMaxLength(16)
+                .IsRequired();
+
+            modelBuilder.Entity<CashOperationsFeeHistoryEntity>()
+                .Property(x => x.CashOutValue)
+                .IsRequired();
+
+            modelBuilder.Entity<CashOperationsFeeHistoryEntity>()
+                .Property(x => x.CashOutFeeType)
+                .HasConversion<string>()
+                .HasMaxLength(16)
+                .IsRequired();
+
+            modelBuilder.Entity<CashOperationsFeeHistoryEntity>()
+                .Property(x => x.CashTransferValue)
+                .IsRequired();
+
+            modelBuilder.Entity<CashOperationsFeeHistoryEntity>()
+                .Property(x => x.CashTransferFeeType)
+                .HasConversion<string>()
+                .HasMaxLength(16)
+                .IsRequired();
+
+            modelBuilder.Entity<CashOperationsFeeHistoryEntity>()
+                .Property(x => x.OperationType)
+                .HasConversion<string>()
+                .HasMaxLength(16)
+                .IsRequired();
+
+            modelBuilder.Entity<CashOperationsFeeHistoryEntity>()
+                .Property(x => x.Timestamp)
+                .IsRequired();
         }
     }
 }

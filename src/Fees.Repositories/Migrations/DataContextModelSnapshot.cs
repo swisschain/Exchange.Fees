@@ -22,54 +22,49 @@ namespace Fees.Repositories.Migrations
 
             modelBuilder.Entity("Fees.Repositories.Entities.CashOperationsFeeEntity", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnName("id")
-                        .HasColumnType("uuid");
+                        .HasColumnType("bigint")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
                     b.Property<string>("Asset")
                         .IsRequired()
-                        .HasColumnName("asset")
-                        .HasColumnType("varchar(8)");
+                        .HasColumnType("character varying(8)")
+                        .HasMaxLength(8);
 
                     b.Property<string>("BrokerId")
                         .IsRequired()
-                        .HasColumnName("broker_id")
-                        .HasColumnType("varchar(36)");
+                        .HasColumnType("character varying(36)")
+                        .HasMaxLength(36);
 
                     b.Property<string>("CashInFeeType")
                         .IsRequired()
-                        .HasColumnName("cash_in_type")
-                        .HasColumnType("varchar(16)");
+                        .HasColumnType("character varying(16)")
+                        .HasMaxLength(16);
 
                     b.Property<decimal>("CashInValue")
-                        .HasColumnName("cash_in_value")
-                        .HasColumnType("decimal(48,16)");
+                        .HasColumnType("numeric");
 
                     b.Property<string>("CashOutFeeType")
                         .IsRequired()
-                        .HasColumnName("cash_out_type")
-                        .HasColumnType("varchar(16)");
+                        .HasColumnType("character varying(16)")
+                        .HasMaxLength(16);
 
                     b.Property<decimal>("CashOutValue")
-                        .HasColumnName("cash_out_value")
-                        .HasColumnType("decimal(48,16)");
+                        .HasColumnType("numeric");
 
                     b.Property<string>("CashTransferFeeType")
                         .IsRequired()
-                        .HasColumnName("cash_transfer_type")
-                        .HasColumnType("varchar(16)");
+                        .HasColumnType("character varying(16)")
+                        .HasMaxLength(16);
 
                     b.Property<decimal>("CashTransferValue")
-                        .HasColumnName("cash_transfer_value")
-                        .HasColumnType("decimal(48,16)");
+                        .HasColumnType("numeric");
 
                     b.Property<DateTimeOffset>("Created")
-                        .HasColumnName("created")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<DateTimeOffset>("Modified")
-                        .HasColumnName("modified")
                         .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
@@ -84,102 +79,85 @@ namespace Fees.Repositories.Migrations
 
             modelBuilder.Entity("Fees.Repositories.Entities.CashOperationsFeeHistoryEntity", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnName("id")
-                        .HasColumnType("uuid");
+                        .HasColumnType("bigint")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
                     b.Property<string>("Asset")
                         .IsRequired()
-                        .HasColumnName("asset")
-                        .HasColumnType("varchar(8)");
+                        .HasColumnType("character varying(8)")
+                        .HasMaxLength(8);
 
                     b.Property<string>("BrokerId")
                         .IsRequired()
-                        .HasColumnName("broker_id")
-                        .HasColumnType("varchar(36)");
+                        .HasColumnType("character varying(36)")
+                        .HasMaxLength(36);
 
                     b.Property<string>("CashInFeeType")
                         .IsRequired()
-                        .HasColumnName("cash_in_type")
-                        .HasColumnType("varchar(16)");
+                        .HasColumnType("character varying(16)")
+                        .HasMaxLength(16);
 
                     b.Property<decimal>("CashInValue")
-                        .HasColumnName("cash_in_value")
-                        .HasColumnType("decimal(48,16)");
+                        .HasColumnType("numeric");
 
-                    b.Property<Guid>("CashOperationsFeeId")
-                        .HasColumnName("cash_operations_fee_id")
-                        .HasColumnType("uuid");
+                    b.Property<long>("CashOperationsFeeId")
+                        .HasColumnType("bigint");
 
                     b.Property<string>("CashOutFeeType")
                         .IsRequired()
-                        .HasColumnName("cash_out_type")
-                        .HasColumnType("varchar(16)");
+                        .HasColumnType("character varying(16)")
+                        .HasMaxLength(16);
 
                     b.Property<decimal>("CashOutValue")
-                        .HasColumnName("cash_out_value")
-                        .HasColumnType("decimal(48,16)");
+                        .HasColumnType("numeric");
 
                     b.Property<string>("CashTransferFeeType")
                         .IsRequired()
-                        .HasColumnName("cash_transfer_type")
-                        .HasColumnType("varchar(16)");
+                        .HasColumnType("character varying(16)")
+                        .HasMaxLength(16);
 
                     b.Property<decimal>("CashTransferValue")
-                        .HasColumnName("cash_transfer_value")
-                        .HasColumnType("decimal(48,16)");
+                        .HasColumnType("numeric");
 
                     b.Property<string>("OperationType")
                         .IsRequired()
-                        .HasColumnName("history_operation_type")
-                        .HasColumnType("varchar(16)");
+                        .HasColumnType("character varying(16)")
+                        .HasMaxLength(16);
 
                     b.Property<DateTimeOffset>("Timestamp")
-                        .HasColumnName("timestamp")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("UserId")
                         .IsRequired()
-                        .HasColumnName("user_id")
-                        .HasColumnType("varchar(36)");
+                        .HasColumnType("character varying(36)")
+                        .HasMaxLength(36);
 
                     b.HasKey("Id");
-
-                    b.HasIndex("Asset");
-
-                    b.HasIndex("BrokerId");
-
-                    b.HasIndex("CashOperationsFeeId");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("cash_operations_fee_history");
                 });
 
             modelBuilder.Entity("Fees.Repositories.Entities.SettingsEntity", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnName("id")
-                        .HasColumnType("uuid");
+                        .HasColumnType("bigint")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
                     b.Property<string>("BrokerId")
                         .IsRequired()
-                        .HasColumnName("broker_id")
-                        .HasColumnType("varchar(36)");
+                        .HasColumnType("character varying(36)")
+                        .HasMaxLength(36);
 
                     b.Property<DateTimeOffset>("Created")
-                        .HasColumnName("created")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<string>("FeeWalletId")
-                        .IsRequired()
-                        .HasColumnName("fee_wallet_id")
-                        .HasColumnType("varchar(64)");
+                    b.Property<long>("FeeWalletId")
+                        .HasColumnType("bigint");
 
                     b.Property<DateTimeOffset>("Modified")
-                        .HasColumnName("modified")
                         .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
@@ -192,30 +170,28 @@ namespace Fees.Repositories.Migrations
 
             modelBuilder.Entity("Fees.Repositories.Entities.TradingFeeEntity", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnName("id")
-                        .HasColumnType("uuid");
+                        .HasColumnType("bigint")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
                     b.Property<string>("Asset")
-                        .HasColumnName("asset")
-                        .HasColumnType("varchar(8)");
+                        .HasColumnType("character varying(8)")
+                        .HasMaxLength(8);
 
                     b.Property<string>("AssetPair")
-                        .HasColumnName("assetPair")
-                        .HasColumnType("varchar(16)");
+                        .HasColumnType("character varying(16)")
+                        .HasMaxLength(16);
 
                     b.Property<string>("BrokerId")
                         .IsRequired()
-                        .HasColumnName("broker_id")
-                        .HasColumnType("varchar(36)");
+                        .HasColumnType("character varying(36)")
+                        .HasMaxLength(36);
 
                     b.Property<DateTimeOffset>("Created")
-                        .HasColumnName("created")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<DateTimeOffset>("Modified")
-                        .HasColumnName("modified")
                         .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
@@ -230,40 +206,35 @@ namespace Fees.Repositories.Migrations
 
             modelBuilder.Entity("Fees.Repositories.Entities.TradingFeeLevelEntity", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnName("id")
-                        .HasColumnType("uuid");
+                        .HasColumnType("bigint")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
                     b.Property<DateTimeOffset>("Created")
-                        .HasColumnName("created")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<decimal>("MakerFee")
-                        .HasColumnName("maker_fee")
-                        .HasColumnType("decimal");
+                        .HasColumnType("numeric");
 
                     b.Property<DateTimeOffset>("Modified")
-                        .HasColumnName("modified")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<decimal>("TakerFee")
-                        .HasColumnName("taker_fee")
-                        .HasColumnType("decimal");
+                        .HasColumnType("numeric");
 
-                    b.Property<Guid>("TradingFeeId")
-                        .HasColumnName("trading_fee_id")
-                        .HasColumnType("uuid");
+                    b.Property<long>("TradingFeeId")
+                        .HasColumnType("bigint");
 
                     b.Property<decimal>("Volume")
-                        .HasColumnName("volume")
-                        .HasColumnType("decimal");
+                        .HasColumnType("numeric");
 
                     b.HasKey("Id");
 
                     b.HasIndex("TradingFeeId");
 
-                    b.HasIndex("Volume");
+                    b.HasIndex("Volume")
+                        .IsUnique();
 
                     b.ToTable("trading_fee_level");
                 });

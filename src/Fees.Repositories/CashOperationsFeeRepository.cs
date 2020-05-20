@@ -65,7 +65,7 @@ namespace Fees.Repositories
 
         public async Task<IReadOnlyList<CashOperationsFee>> GetAllAsync(
             string brokerId, string asset,
-            ListSortDirection sortOrder = ListSortDirection.Ascending, Guid? cursor = null, int limit = 50)
+            ListSortDirection sortOrder = ListSortDirection.Ascending, long cursor = 0, int limit = 50)
         {
             using (var context = _connectionFactory.CreateDataContext())
             {
@@ -78,15 +78,15 @@ namespace Fees.Repositories
 
                 if (sortOrder == ListSortDirection.Ascending)
                 {
-                    if (cursor != null)
-                        query = query.Where(x => x.Id.ToString().CompareTo(cursor.Value.ToString()) >= 0);
+                    if (cursor > 0)
+                        query = query.Where(x => x.Id >= cursor);
 
                     query = query.OrderBy(x => x.Id);
                 }
                 else
                 {
-                    if (cursor != null)
-                        query = query.Where(x => x.Id.ToString().CompareTo(cursor.Value.ToString()) < 0);
+                    if (cursor > 0)
+                        query = query.Where(x => x.Id < cursor);
 
                     query = query.OrderByDescending(x => x.Id);
                 }
@@ -114,7 +114,7 @@ namespace Fees.Repositories
             }
         }
 
-        public async Task<CashOperationsFee> GetAsync(Guid id, string brokerId)
+        public async Task<CashOperationsFee> GetAsync(long id, string brokerId)
         {
             using (var context = _connectionFactory.CreateDataContext())
             {
@@ -178,7 +178,7 @@ namespace Fees.Repositories
             }
         }
 
-        public async Task DeleteAsync(Guid id, string brokerId)
+        public async Task DeleteAsync(long id, string brokerId)
         {
             using (var context = _connectionFactory.CreateDataContext())
             {
@@ -193,7 +193,7 @@ namespace Fees.Repositories
             }
         }
 
-        private async Task<CashOperationsFeeEntity> GetAsync(Guid id, string brokerId, DataContext context)
+        private async Task<CashOperationsFeeEntity> GetAsync(long id, string brokerId, DataContext context)
         {
             IQueryable<CashOperationsFeeEntity> query = context.CashOperationsFees;
 

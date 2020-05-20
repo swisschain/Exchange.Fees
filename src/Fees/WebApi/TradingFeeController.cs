@@ -29,7 +29,7 @@ namespace Fees.WebApi
         }
 
         [HttpGet]
-        [ProducesResponseType(typeof(ResponseModel<Paginated<TradingFeeModel, Guid>>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ResponseModel<Paginated<TradingFeeModel, long>>), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetManyAsync([FromQuery] TradingFeeRequestManyModel request)
         {
             var sortOrder = request.Order == PaginationOrder.Asc
@@ -44,13 +44,13 @@ namespace Fees.WebApi
 
             var payload = result.Paginate(request, Url, x => x.Id);
 
-            return Ok(ResponseModel<Paginated<TradingFeeModel, Guid>>.Ok(payload));
+            return Ok(ResponseModel<Paginated<TradingFeeModel, long>>.Ok(payload));
         }
 
         [HttpGet("{id}")]
         [ProducesResponseType(typeof(ResponseModel<TradingFeeModel>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetAsync(Guid id)
+        public async Task<IActionResult> GetAsync(long id)
         {
             var brokerId = User.GetTenantId();
 
@@ -100,7 +100,7 @@ namespace Fees.WebApi
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> DeleteAsync(Guid id)
+        public async Task<IActionResult> DeleteAsync(long id)
         {
             var brokerId = User.GetTenantId();
 

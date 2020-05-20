@@ -22,7 +22,7 @@ message GetAllTradingFeesResponse {
 }
 
 message TradingFee {
-    string id = 1;
+    int64 id = 1;
     string brokerId = 2;
     google.protobuf.StringValue assetPair = 3;
     google.protobuf.StringValue asset = 4;
@@ -32,8 +32,8 @@ message TradingFee {
 }
 
 message TradingFeeLevel {
-    string id = 1;
-    string tradingFeeId = 2;
+    int64 id = 1;
+    int64 tradingFeeId = 2;
     string volume = 3;
     string makerFee = 4;
     string takerFee = 5;

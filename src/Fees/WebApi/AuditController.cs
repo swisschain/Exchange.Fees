@@ -29,7 +29,7 @@ namespace Fees.WebApi
         }
 
         [HttpGet("cash-operations")]
-        [ProducesResponseType(typeof(ResponseModel<Paginated<CashOperationsFeeHistoryModel, Guid>>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ResponseModel<Paginated<CashOperationsFeeHistoryModel, long>>), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetCashOperationsFeeHistoryManyAsync([FromQuery] CashOperationsFeeHistoryRequestManyModel request)
         {
             var sortOrder = request.Order == PaginationOrder.Asc
@@ -44,7 +44,7 @@ namespace Fees.WebApi
 
             var payload = result.Paginate(request, Url, x => x.Id);
 
-            return Ok(ResponseModel<Paginated<CashOperationsFeeHistoryModel, Guid>>.Ok(payload));
+            return Ok(ResponseModel<Paginated<CashOperationsFeeHistoryModel, long>>.Ok(payload));
         }
     }
 }

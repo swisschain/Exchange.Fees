@@ -1,11 +1,10 @@
-﻿using System;
-using Swisschain.Sdk.Server.WebApi.Pagination;
+﻿using Swisschain.Sdk.Server.WebApi.Pagination;
 
 namespace Fees.WebApi.Models.Audit.CashOperationsFee
 {
-    public class CashOperationsFeeHistoryRequestManyModel : PaginationRequest<Guid>
+    public class CashOperationsFeeHistoryRequestManyModel : PaginationRequest<long>
     {
-        public Guid? CashOperationFeeId { get; set; }
+        public long? CashOperationFeeId { get; set; }
 
         public string UserId { get; set; }
 

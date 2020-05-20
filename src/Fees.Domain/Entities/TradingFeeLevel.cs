@@ -4,9 +4,9 @@ namespace Fees.Domain.Entities
 {
     public class TradingFeeLevel
     {
-        public Guid Id { get; set; }
+        public long Id { get; set; }
 
-        public Guid TradingFeeId { get; set; }
+        public long TradingFeeId { get; set; }
 
         public decimal Volume { get; set; }
 

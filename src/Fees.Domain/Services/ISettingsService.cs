@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Fees.Domain.Entities;
 
@@ -11,12 +10,12 @@ namespace Fees.Domain.Services
 
         Task<Settings> GetAsync(string brokerId);
 
-        Task<Settings> GetAsync(Guid id, string brokerId);
+        Task<Settings> GetAsync(long id, string brokerId);
 
         Task<Settings> AddAsync(Settings settings);
 
         Task<Settings> UpdateAsync(Settings settings);
 
-        Task DeleteAsync(Guid id, string brokerId);
+        Task DeleteAsync(long id, string brokerId);
     }
 }

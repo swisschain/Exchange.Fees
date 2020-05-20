@@ -27,7 +27,7 @@ enum CashOperationsFeeType {
 }
 
 message CashOperationsFee {
-    string id = 1;
+    int64 id = 1;
     string brokerId = 2;
     string asset = 3;
     string cashInValue = 4;

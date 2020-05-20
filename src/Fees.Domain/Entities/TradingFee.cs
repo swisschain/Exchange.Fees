@@ -5,7 +5,7 @@ namespace Fees.Domain.Entities
 {
     public class TradingFee
     {
-        public Guid Id { get; set; }
+        public long Id { get; set; }
 
         public string BrokerId { get; set; }
 
@@ -13,7 +13,7 @@ namespace Fees.Domain.Entities
 
         public string Asset { get; set; }
 
-        public IReadOnlyList<TradingFeeLevel> Levels { get; set; }
+        public ICollection<TradingFeeLevel> Levels { get; set; }
 
         public DateTime Created { get; set; }
 

@@ -5,7 +5,7 @@ namespace Fees.Domain.Entities
 {
     public class CashOperationsFee
     {
-        public Guid Id { get; set; }
+        public long Id { get; set; }
 
         public string BrokerId { get; set; }
 

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Fees.Domain.Entities;
 using Fees.Domain.Repositories;
@@ -30,7 +29,7 @@ namespace Fees.Services
             return _settingsRepository.GetAsync(brokerId);
         }
 
-        public Task<Settings> GetAsync(Guid id, string brokerId)
+        public Task<Settings> GetAsync(long id, string brokerId)
         {
             return _settingsRepository.GetAsync(id, brokerId);
         }
@@ -53,7 +52,7 @@ namespace Fees.Services
             return result;
         }
 
-        public async Task DeleteAsync(Guid id, string brokerId)
+        public async Task DeleteAsync(long id, string brokerId)
         {
             var domain = await _settingsRepository.GetAsync(id, brokerId);
 

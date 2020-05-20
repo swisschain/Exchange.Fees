@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 using Assets.Client;
-using AutoMapper;
 using Fees.Domain.Entities;
 using Fees.Domain.Exceptions;
 using Fees.Domain.Repositories;
@@ -39,12 +37,12 @@ namespace Fees.Services
         }
 
         public Task<IReadOnlyList<TradingFee>> GetAllAsync(string brokerId, string assetPair,
-            ListSortDirection sortOrder = ListSortDirection.Ascending, Guid? cursor = null, int limit = 50)
+            ListSortDirection sortOrder = ListSortDirection.Ascending, long cursor = 0, int limit = 50)
         {
             return _tradingFeeRepository.GetAllAsync(brokerId, assetPair, sortOrder, cursor, limit);
         }
 
-        public Task<TradingFee> GetAsync(Guid id, string brokerId)
+        public Task<TradingFee> GetAsync(long id, string brokerId)
         {
             return _tradingFeeRepository.GetAsync(id, brokerId);
         }
@@ -88,7 +86,7 @@ namespace Fees.Services
             return result;
         }
 
-        public async Task DeleteAsync(Guid id, string brokerId)
+        public async Task DeleteAsync(long id, string brokerId)
         {
             var domain = await _tradingFeeRepository.GetAsync(id, brokerId);
 

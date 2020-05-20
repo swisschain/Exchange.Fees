@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel;
 using System.Threading.Tasks;
 using Fees.Domain.Entities;
@@ -15,16 +14,16 @@ namespace Fees.Domain.Repositories
         Task<IReadOnlyList<CashOperationsFee>> GetAllAsync(string brokerId);
 
         Task<IReadOnlyList<CashOperationsFee>> GetAllAsync(string brokerId, string asset,
-            ListSortDirection sortOrder = ListSortDirection.Ascending, Guid? cursor = null, int limit = 50);
+            ListSortDirection sortOrder = ListSortDirection.Ascending, long cursor = 0, int limit = 50);
 
         Task<CashOperationsFee> GetAsync(string brokerId, string asset);
 
-        Task<CashOperationsFee> GetAsync(Guid id, string brokerId);
+        Task<CashOperationsFee> GetAsync(long id, string brokerId);
 
         Task<CashOperationsFee> InsertAsync(CashOperationsFee cashOperationsFee);
 
         Task<CashOperationsFee> UpdateAsync(CashOperationsFee cashOperationsFee);
 
-        Task DeleteAsync(Guid id, string brokerId);
+        Task DeleteAsync(long id, string brokerId);
     }
 }

@@ -23,8 +23,8 @@ namespace Fees.Repositories
             _mapper = mapper;
         }
 
-        public async Task<IReadOnlyList<CashOperationsFeeHistory>> GetAllAsync(Guid? cashOperationFeeId, string brokerId, string userId, string asset,
-            ListSortDirection sortOrder = ListSortDirection.Ascending, Guid? cursor = null, int limit = 50)
+        public async Task<IReadOnlyList<CashOperationsFeeHistory>> GetAllAsync(long? cashOperationFeeId, string brokerId, string userId, string asset,
+            ListSortDirection sortOrder = ListSortDirection.Ascending, long cursor = 0, int limit = 50)
         {
             using (var context = _connectionFactory.CreateDataContext())
             {
@@ -43,15 +43,15 @@ namespace Fees.Repositories
 
                 if (sortOrder == ListSortDirection.Ascending)
                 {
-                    if (cursor != null)
-                        query = query.Where(x => x.Id.ToString().CompareTo(cursor.ToString()) >= 0);
+                    if (cursor > 0)
+                        query = query.Where(x => x.Id >= cursor);
 
                     query = query.OrderBy(x => x.Id);
                 }
                 else
                 {
-                    if (cursor != null)
-                        query = query.Where(x => x.Id.ToString().CompareTo(cursor.ToString()) < 0);
+                    if (cursor > 0)
+                        query = query.Where(x => x.Id < cursor);
 
                     query = query.OrderByDescending(x => x.Id);
                 }
@@ -70,7 +70,6 @@ namespace Fees.Repositories
             {
                 var data = _mapper.Map<CashOperationsFeeHistoryEntity>(cashOperationsFeeHistory);
 
-                data.Id = Guid.NewGuid();
                 data.Timestamp = DateTime.UtcNow;
 
                 context.CashOperationsFeeHistories.Add(data);

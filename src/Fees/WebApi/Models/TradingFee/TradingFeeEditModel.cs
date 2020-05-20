@@ -1,10 +1,8 @@
-﻿using System;
-
-namespace Fees.WebApi.Models.TradingFee
+﻿namespace Fees.WebApi.Models.TradingFee
 {
     public class TradingFeeEditModel
     {
-        public Guid Id { get; set; }
+        public long Id { get; set; }
 
         public string Asset { get; set; }
     }

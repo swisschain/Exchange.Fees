@@ -26,7 +26,7 @@ namespace Fees.Grpc
             
             var feesSettings = new FeesSettings();
 
-            feesSettings.Id = settings.Id.ToString();
+            feesSettings.Id = settings.Id;
             feesSettings.BrokerId = settings.BrokerId;
             feesSettings.FeeWalletId = settings.FeeWalletId;
             feesSettings.Created = settings.Created.ToTimestamp();

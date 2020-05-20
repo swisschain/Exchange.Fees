@@ -55,7 +55,7 @@ namespace Fees.Grpc
 
             var model = new CashOperationsFee();
 
-            model.Id = domain.Id.ToString();
+            model.Id = domain.Id;
             model.BrokerId = domain.BrokerId;
             model.Asset = domain.Asset;
             model.CashInValue = domain.CashInValue.ToString(CultureInfo.InvariantCulture);

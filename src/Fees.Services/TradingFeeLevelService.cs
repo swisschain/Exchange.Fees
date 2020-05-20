@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Fees.Domain.Entities;
 using Fees.Domain.Repositories;
@@ -20,12 +19,12 @@ namespace Fees.Services
             _logger = logger;
         }
 
-        public Task<IReadOnlyList<TradingFeeLevel>> GetAllAsync(Guid tradingFeeId, string brokerId)
+        public Task<IReadOnlyList<TradingFeeLevel>> GetAllAsync(long tradingFeeId, string brokerId)
         {
             return _tradingFeeLevelRepository.GetAllAsync(tradingFeeId, brokerId);
         }
 
-        public Task<TradingFeeLevel> GetAsync(Guid id, string brokerId)
+        public Task<TradingFeeLevel> GetAsync(long id, string brokerId)
         {
             return _tradingFeeLevelRepository.GetAsync(id, brokerId);
         }
@@ -48,7 +47,7 @@ namespace Fees.Services
             return result;
         }
 
-        public async Task DeleteAsync(Guid id, string brokerId)
+        public async Task DeleteAsync(long id, string brokerId)
         {
             var domain = await _tradingFeeLevelRepository.GetAsync(id, brokerId);
 

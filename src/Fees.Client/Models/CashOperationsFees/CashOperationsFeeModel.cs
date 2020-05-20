@@ -5,7 +5,7 @@ namespace Swisschain.Exchange.Fees.Client.Models.CashOperationsFees
 {
     public class CashOperationsFeeModel
     {
-        public Guid Id { get; set; }
+        public long Id { get; set; }
 
         public string BrokerId { get; set; }
 
@@ -33,7 +33,7 @@ namespace Swisschain.Exchange.Fees.Client.Models.CashOperationsFees
 
         public CashOperationsFeeModel(CashOperationsFee cashOperationsFee)
         {
-            Id = Guid.Parse(cashOperationsFee.Id);
+            Id = cashOperationsFee.Id;
             BrokerId = cashOperationsFee.BrokerId;
             Asset = cashOperationsFee.Asset;
             CashInValue = decimal.Parse(cashOperationsFee.CashInValue);

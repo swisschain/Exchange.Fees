@@ -4,7 +4,7 @@ namespace Fees.WebApi.Models.CashOperationsFee
 {
     public class CashOperationsFeeEditModel
     {
-        public Guid Id { get; set; }
+        public long Id { get; set; }
 
         public decimal CashInValue { get; set; }
 

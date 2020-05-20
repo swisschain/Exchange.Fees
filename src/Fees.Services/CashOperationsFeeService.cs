@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
@@ -51,19 +50,19 @@ namespace Fees.Services
         }
 
         public Task<IReadOnlyList<CashOperationsFee>> GetAllAsync(string brokerId, string asset,
-            ListSortDirection sortOrder = ListSortDirection.Ascending, Guid? cursor = null, int limit = 50)
+            ListSortDirection sortOrder = ListSortDirection.Ascending, long cursor = 0, int limit = 50)
         {
             return _cashOperationsFeeRepository.GetAllAsync(brokerId, asset, sortOrder, cursor, limit);
         }
 
-        public Task<IReadOnlyList<CashOperationsFeeHistory>> GetAllHistoriesAsync(Guid? cashOperationFeeId, string brokerId, string userId,
-            string asset, ListSortDirection sortOrder = ListSortDirection.Ascending, Guid? cursor = null, int limit = 50)
+        public Task<IReadOnlyList<CashOperationsFeeHistory>> GetAllHistoriesAsync(long? cashOperationFeeId, string brokerId, string userId,
+            string asset, ListSortDirection sortOrder = ListSortDirection.Ascending, long cursor = 0, int limit = 50)
         {
             return _cashOperationsFeeHistoryRepository.GetAllAsync(cashOperationFeeId, brokerId, userId, asset,
                 sortOrder, cursor, limit);
         }
 
-        public Task<CashOperationsFee> GetAsync(Guid id, string brokerId)
+        public Task<CashOperationsFee> GetAsync(long id, string brokerId)
         {
             return _cashOperationsFeeRepository.GetAsync(id, brokerId);
         }
@@ -111,7 +110,7 @@ namespace Fees.Services
             return result;
         }
 
-        public async Task DeleteAsync(Guid id, string brokerId, string userId)
+        public async Task DeleteAsync(long id, string brokerId, string userId)
         {
             var domain = await _cashOperationsFeeRepository.GetAsync(id, brokerId);
 

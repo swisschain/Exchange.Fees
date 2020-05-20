@@ -5,7 +5,7 @@ namespace Fees.WebApi.Models.TradingFee
 {
     public class TradingFeeModel
     {
-        public Guid Id { get; set; }
+        public long Id { get; set; }
 
         public string AssetPair { get; set; }
 

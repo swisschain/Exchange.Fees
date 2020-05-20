@@ -4,7 +4,7 @@ namespace Fees.WebApi.Models.CashOperationsFee
 {
     public class CashOperationsFeeModel
     {
-        public Guid Id { get; set; }
+        public long Id { get; set; }
 
         public string Asset { get; set; }
 

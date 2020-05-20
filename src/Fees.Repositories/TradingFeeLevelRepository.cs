@@ -23,7 +23,7 @@ namespace Fees.Repositories
             _mapper = mapper;
         }
 
-        public async Task<IReadOnlyList<TradingFeeLevel>> GetAllAsync(Guid tradingFeeId, string brokerId)
+        public async Task<IReadOnlyList<TradingFeeLevel>> GetAllAsync(long tradingFeeId, string brokerId)
         {
             using (var context = _connectionFactory.CreateDataContext())
             {
@@ -42,7 +42,7 @@ namespace Fees.Repositories
             }
         }
 
-        public async Task<TradingFeeLevel> GetAsync(Guid id, string brokerId)
+        public async Task<TradingFeeLevel> GetAsync(long id, string brokerId)
         {
             using (var context = _connectionFactory.CreateDataContext())
             {
@@ -124,7 +124,7 @@ namespace Fees.Repositories
             }
         }
 
-        public async Task DeleteAsync(Guid id, string brokerId)
+        public async Task DeleteAsync(long id, string brokerId)
         {
             using (var context = _connectionFactory.CreateDataContext())
             {
@@ -144,7 +144,7 @@ namespace Fees.Repositories
             }
         }
 
-        private async Task<TradingFeeLevelEntity> GetAsync(Guid id, DataContext context)
+        private async Task<TradingFeeLevelEntity> GetAsync(long id, DataContext context)
         {
             IQueryable<TradingFeeLevelEntity> query = context.TradingFeeLevels;
 
@@ -155,7 +155,7 @@ namespace Fees.Repositories
             return existed;
         }
 
-        private async Task<TradingFeeLevelEntity> GetAsync(Guid tradingFeeId, decimal volume, DataContext context)
+        private async Task<TradingFeeLevelEntity> GetAsync(long tradingFeeId, decimal volume, DataContext context)
         {
             IQueryable<TradingFeeLevelEntity> query = context.TradingFeeLevels;
 
@@ -167,7 +167,7 @@ namespace Fees.Repositories
             return existed;
         }
 
-        private async Task<TradingFeeEntity> GetTradingFeeAsync(Guid tradingFeeId, string brokerId, DataContext context)
+        private async Task<TradingFeeEntity> GetTradingFeeAsync(long tradingFeeId, string brokerId, DataContext context)
         {
             IQueryable<TradingFeeEntity> query = context.TradingFees;
 

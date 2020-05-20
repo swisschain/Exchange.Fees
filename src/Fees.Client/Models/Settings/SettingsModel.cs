@@ -5,11 +5,11 @@ namespace Swisschain.Exchange.Fees.Client.Models.Settings
 {
     public class SettingsModel
     {
-        public Guid Id { get; set; }
+        public long Id { get; set; }
 
         public string BrokerId { get; set; }
 
-        public string FeeWalletId { get; set; }
+        public long FeeWalletId { get; set; }
 
         public DateTime Created { get; set; }
 
@@ -21,7 +21,7 @@ namespace Swisschain.Exchange.Fees.Client.Models.Settings
 
         public SettingsModel(FeesSettings settings)
         {
-            Id = Guid.Parse(settings.Id);
+            Id = settings.Id;
             BrokerId = settings.BrokerId;
             FeeWalletId = settings.FeeWalletId;
             Created = settings.Created.ToDateTime();

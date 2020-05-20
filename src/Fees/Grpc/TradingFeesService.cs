@@ -69,7 +69,7 @@ namespace Fees.Grpc
 
             var model = new TradingFee();
 
-            model.Id = domain.Id.ToString();
+            model.Id = domain.Id;
             model.BrokerId = domain.BrokerId;
             model.AssetPair = domain.AssetPair;
             model.Asset = domain.Asset;
@@ -77,8 +77,8 @@ namespace Fees.Grpc
             {
                 var newLevel = new TradingFeeLevel
                 {
-                    Id = x.Id.ToString(),
-                    TradingFeeId = x.TradingFeeId.ToString(),
+                    Id = x.Id,
+                    TradingFeeId = x.TradingFeeId,
                     Volume = x.Volume.ToString(CultureInfo.InvariantCulture),
                     MakerFee = x.MakerFee.ToString(CultureInfo.InvariantCulture),
                     TakerFee = x.TakerFee.ToString(CultureInfo.InvariantCulture),

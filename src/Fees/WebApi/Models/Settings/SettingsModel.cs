@@ -4,11 +4,11 @@ namespace Fees.WebApi.Models.Settings
 {
     public class SettingsModel
     {
-        public Guid Id { get; set; }
+        public long Id { get; set; }
 
         public string BrokerId { get; set; }
 
-        public string FeeWalletId { get; set; }
+        public long FeeWalletId { get; set; }
         
         public DateTime Created { get; set; }
 

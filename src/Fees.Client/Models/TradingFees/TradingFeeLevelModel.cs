@@ -5,9 +5,9 @@ namespace Swisschain.Exchange.Fees.Client.Models.TradingFees
 {
     public class TradingFeeLevelModel
     {
-        public Guid Id { get; set; }
+        public long Id { get; set; }
 
-        public Guid TradingFeeId { get; set; }
+        public long TradingFeeId { get; set; }
 
         public decimal Volume { get; set; }
 
@@ -25,8 +25,8 @@ namespace Swisschain.Exchange.Fees.Client.Models.TradingFees
 
         public TradingFeeLevelModel(TradingFeeLevel tradingFeeLevel)
         {
-            Id = Guid.Parse(tradingFeeLevel.Id);
-            TradingFeeId = Guid.Parse(tradingFeeLevel.TradingFeeId);
+            Id = tradingFeeLevel.Id;
+            TradingFeeId = tradingFeeLevel.TradingFeeId;
             Volume = decimal.Parse(tradingFeeLevel.Volume);
             MakerFee = decimal.Parse(tradingFeeLevel.MakerFee);
             TakerFee = decimal.Parse(tradingFeeLevel.TakerFee);

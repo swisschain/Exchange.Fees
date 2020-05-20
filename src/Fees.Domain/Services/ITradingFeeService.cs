@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel;
 using System.Threading.Tasks;
 using Fees.Domain.Entities;
@@ -13,9 +12,9 @@ namespace Fees.Domain.Services
         Task<IReadOnlyList<TradingFee>> GetAllAsync(string brokerId);
 
         Task<IReadOnlyList<TradingFee>> GetAllAsync(string brokerId, string assetPair,
-            ListSortDirection sortOrder = ListSortDirection.Ascending, Guid? cursor = null, int limit = 50);
+            ListSortDirection sortOrder = ListSortDirection.Ascending, long cursor = 0, int limit = 50);
 
-        Task<TradingFee> GetAsync(Guid id, string brokerId);
+        Task<TradingFee> GetAsync(long id, string brokerId);
 
         Task<TradingFee> GetAsync(string brokerId, string assetPair);
 
@@ -23,6 +22,6 @@ namespace Fees.Domain.Services
 
         Task<TradingFee> UpdateAsync(TradingFee tradingFee);
 
-        Task DeleteAsync(Guid id, string brokerId);
+        Task DeleteAsync(long id, string brokerId);
     }
 }

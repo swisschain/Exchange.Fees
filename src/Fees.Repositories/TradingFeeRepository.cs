@@ -33,7 +33,7 @@ namespace Fees.Repositories
 
                 query = query.Where(x => brokerIds.Contains(x.BrokerId));
 
-                query.Include(x => x.Levels);
+                query = query.Include(x => x.Levels);
 
                 var data = await query.ToListAsync();
 
@@ -49,7 +49,7 @@ namespace Fees.Repositories
 
                 query = query.Where(x => x.BrokerId == brokerId);
 
-                query.Include(x => x.Levels);
+                query = query.Include(x => x.Levels);
 
                 var data = await query.ToListAsync();
 
@@ -58,7 +58,7 @@ namespace Fees.Repositories
         }
 
         public async Task<IReadOnlyList<TradingFee>> GetAllAsync(string brokerId, string assetPair,
-            ListSortDirection sortOrder = ListSortDirection.Ascending, Guid? cursor = null, int limit = 50)
+            ListSortDirection sortOrder = ListSortDirection.Ascending, long cursor = 0, int limit = 50)
         {
             using (var context = _connectionFactory.CreateDataContext())
             {
@@ -72,21 +72,21 @@ namespace Fees.Repositories
                 if (sortOrder == ListSortDirection.Ascending)
                 {
                     if (cursor != null)
-                        query = query.Where(x => x.Id.ToString().CompareTo(cursor.Value.ToString()) >= 0);
+                        query = query.Where(x => x.Id >= cursor);
 
                     query = query.OrderBy(x => x.Id);
                 }
                 else
                 {
                     if (cursor != null)
-                        query = query.Where(x => x.Id.ToString().CompareTo(cursor.Value.ToString()) < 0);
+                        query = query.Where(x => x.Id < cursor);
 
                     query = query.OrderByDescending(x => x.Id);
                 }
 
                 query = query.Take(limit);
 
-                query.Include(x => x.Levels);
+                query = query.Include(x => x.Levels);
 
                 var data = await query.ToListAsync();
 
@@ -94,7 +94,7 @@ namespace Fees.Repositories
             }
         }
 
-        public async Task<TradingFee> GetAsync(Guid id, string brokerId)
+        public async Task<TradingFee> GetAsync(long id, string brokerId)
         {
             using (var context = _connectionFactory.CreateDataContext())
             {
@@ -181,7 +181,7 @@ namespace Fees.Repositories
             }
         }
 
-        public async Task DeleteAsync(Guid id, string brokerId)
+        public async Task DeleteAsync(long id, string brokerId)
         {
             using (var context = _connectionFactory.CreateDataContext())
             {
@@ -196,7 +196,7 @@ namespace Fees.Repositories
             }
         }
 
-        private async Task<TradingFeeEntity> GetAsync(Guid id, string brokerId, DataContext context)
+        private async Task<TradingFeeEntity> GetAsync(long id, string brokerId, DataContext context)
         {
             IQueryable<TradingFeeEntity> query = context.TradingFees;
 
@@ -220,7 +220,7 @@ namespace Fees.Repositories
             else
                 query = query.Where(x => EF.Functions.ILike(x.AssetPair, $"{assetPair}"));
 
-            query.Include(x => x.Levels);
+            query = query.Include(x => x.Levels);
 
             var existed = await query.SingleOrDefaultAsync();
 

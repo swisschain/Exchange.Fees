@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using AutoMapper;
 using Fees.Domain.Entities;
 using Fees.Domain.Services;
@@ -29,7 +28,7 @@ namespace Fees.WebApi
         [HttpGet("{tradingFeeId}/levels")]
         [ProducesResponseType(typeof(ResponseModel<TradingFeeLevelModel[]>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetLevelsAsync(Guid tradingFeeId)
+        public async Task<IActionResult> GetLevelsAsync(long tradingFeeId)
         {
             var brokerId = User.GetTenantId();
 
@@ -77,7 +76,7 @@ namespace Fees.WebApi
         [HttpDelete("levels/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> DeleteAsync(Guid id)
+        public async Task<IActionResult> DeleteAsync(long id)
         {
             var brokerId = User.GetTenantId();
 
