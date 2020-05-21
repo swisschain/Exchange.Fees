@@ -1,7 +1,7 @@
 ﻿namespace Fees.Configuration.Service.AssetsService
 {
-    public class AssetsServiceSettings
+    public class AccountsServiceSettings
     {
-        public string Url { get; set; }
+        public string GrpcUrl { get; set; }
     }
 }

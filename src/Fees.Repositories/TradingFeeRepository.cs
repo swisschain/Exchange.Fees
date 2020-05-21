@@ -71,14 +71,14 @@ namespace Fees.Repositories
 
                 if (sortOrder == ListSortDirection.Ascending)
                 {
-                    if (cursor != null)
+                    if (cursor > 0)
                         query = query.Where(x => x.Id >= cursor);
 
                     query = query.OrderBy(x => x.Id);
                 }
                 else
                 {
-                    if (cursor != null)
+                    if (cursor > 0)
                         query = query.Where(x => x.Id < cursor);
 
                     query = query.OrderByDescending(x => x.Id);

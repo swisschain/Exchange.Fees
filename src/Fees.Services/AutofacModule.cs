@@ -1,17 +1,17 @@
-﻿using Assets.Client;
-using Assets.Client.Extensions;
-using Autofac;
+﻿using Autofac;
 using Fees.Domain.Services;
+using Swisschain.Exchange.Accounts.Client;
+using Swisschain.Exchange.Accounts.Client.Extensions;
 
 namespace Fees.Services
 {
     public class AutofacModule : Module
     {
-        private readonly string _assetsServiceAddress;
+        private readonly string _accountsServiceAddress;
 
-        public AutofacModule(string assetsServiceAddress)
+        public AutofacModule(string accountsServiceAddress)
         {
-            _assetsServiceAddress = assetsServiceAddress;
+            _accountsServiceAddress = accountsServiceAddress;
         }
 
         protected override void Load(ContainerBuilder builder)
@@ -32,7 +32,7 @@ namespace Fees.Services
                 .As<ISettingsService>()
                 .SingleInstance();
 
-            builder.RegisterAssetsClient(new AssetsClientSettings {ServiceAddress = _assetsServiceAddress });
+            builder.RegisterAccountsClient(new AccountsClientSettings {ServiceAddress = _accountsServiceAddress });
         }
     }
 }

@@ -10,6 +10,6 @@ namespace Fees.Configuration.Service
 
         public RabbitMqSettings RabbitMq { get; set; }
 
-        public AssetsServiceSettings AssetsService { get; set; }
+        public AccountsServiceSettings AccountsService { get; set; }
     }
 }
