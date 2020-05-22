@@ -223,6 +223,10 @@ namespace Fees.Repositories.Context
                 .IsRequired();
 
             modelBuilder.Entity<SettingsEntity>()
+                .Property(x => x.FeeAccountId)
+                .IsRequired();
+
+            modelBuilder.Entity<SettingsEntity>()
                 .Property(x => x.FeeWalletId)
                 .IsRequired();
 

@@ -38,7 +38,7 @@ namespace Fees.Services
         {
             var result = await _settingsRepository.InsertAsync(settings);
 
-            _logger.LogInformation("Settings has been added. {$Settings}", result);
+            _logger.LogInformation("Settings has been added. {@Settings}", result);
 
             return result;
         }
@@ -47,7 +47,7 @@ namespace Fees.Services
         {
             var result = await _settingsRepository.UpdateAsync(settings);
 
-            _logger.LogInformation("Settings has been updated. {$Settings}", result);
+            _logger.LogInformation("Settings has been updated. {@Settings}", result);
 
             return result;
         }
@@ -58,7 +58,7 @@ namespace Fees.Services
 
             await _settingsRepository.DeleteAsync(id, brokerId);
 
-            _logger.LogInformation("Settings has been deleted. {$Settings}", domain);
+            _logger.LogInformation("Settings has been deleted. {@Settings}", domain);
         }
     }
 }

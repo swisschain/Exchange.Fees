@@ -154,6 +154,9 @@ namespace Fees.Repositories.Migrations
                     b.Property<DateTimeOffset>("Created")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<long>("FeeAccountId")
+                        .HasColumnType("bigint");
+
                     b.Property<long>("FeeWalletId")
                         .HasColumnType("bigint");
 

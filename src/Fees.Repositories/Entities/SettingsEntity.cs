@@ -8,6 +8,8 @@ namespace Fees.Repositories.Entities
 
         public string BrokerId { get; set; }
 
+        public long FeeAccountId { get; set; }
+
         public long FeeWalletId { get; set; }
 
         public DateTimeOffset Created { get; set; }

@@ -8,6 +8,8 @@ namespace Fees.WebApi.Models.Settings
 
         public string BrokerId { get; set; }
 
+        public long FeeAccountId { get; set; }
+
         public long FeeWalletId { get; set; }
         
         public DateTime Created { get; set; }

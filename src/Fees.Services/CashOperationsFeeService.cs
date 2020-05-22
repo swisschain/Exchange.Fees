@@ -86,7 +86,7 @@ namespace Fees.Services
 
             await _cashOperationsFeeHistoryRepository.InsertAsync(history);
 
-            _logger.LogInformation("CashOperationsFee has been added. {$CashOperationsFee}", result);
+            _logger.LogInformation("CashOperationsFee has been added. {@CashOperationsFee}", result);
 
             return result;
         }
@@ -105,7 +105,7 @@ namespace Fees.Services
 
             await _cashOperationsFeeHistoryRepository.InsertAsync(history);
 
-            _logger.LogInformation("CashOperationsFee has been updated. {$CashOperationsFee}", result);
+            _logger.LogInformation("CashOperationsFee has been updated. {@CashOperationsFee}", result);
 
             return result;
         }
@@ -122,7 +122,7 @@ namespace Fees.Services
 
             await _cashOperationsFeeHistoryRepository.InsertAsync(history);
 
-            _logger.LogInformation("CashOperationsFee has been deleted. {$CashOperationsFee}", domain);
+            _logger.LogInformation("CashOperationsFee has been deleted. {@CashOperationsFee}", domain);
         }
 
         //private async Task<AssetModel> GetAsset(string brokerId, string asset)

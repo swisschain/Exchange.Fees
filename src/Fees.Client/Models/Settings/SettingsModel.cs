@@ -9,6 +9,8 @@ namespace Swisschain.Exchange.Fees.Client.Models.Settings
 
         public string BrokerId { get; set; }
 
+        public long FeeAccountId { get; set; }
+
         public long FeeWalletId { get; set; }
 
         public DateTime Created { get; set; }
@@ -23,6 +25,7 @@ namespace Swisschain.Exchange.Fees.Client.Models.Settings
         {
             Id = settings.Id;
             BrokerId = settings.BrokerId;
+            FeeAccountId = settings.FeeAccountId;
             FeeWalletId = settings.FeeWalletId;
             Created = settings.Created.ToDateTime();
             Modified = settings.Modified.ToDateTime();

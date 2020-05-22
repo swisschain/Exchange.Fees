@@ -10,7 +10,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Fees.Repositories.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20200520233632_Initial")]
+    [Migration("20200522111809_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -155,6 +155,9 @@ namespace Fees.Repositories.Migrations
 
                     b.Property<DateTimeOffset>("Created")
                         .HasColumnType("timestamp with time zone");
+
+                    b.Property<long>("FeeAccountId")
+                        .HasColumnType("bigint");
 
                     b.Property<long>("FeeWalletId")
                         .HasColumnType("bigint");

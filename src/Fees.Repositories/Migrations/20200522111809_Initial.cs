@@ -67,6 +67,7 @@ namespace Fees.Repositories.Migrations
                     Id = table.Column<long>(nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     BrokerId = table.Column<string>(maxLength: 36, nullable: false),
+                    FeeAccountId = table.Column<long>(nullable: false),
                     FeeWalletId = table.Column<long>(nullable: false),
                     Created = table.Column<DateTimeOffset>(nullable: false),
                     Modified = table.Column<DateTimeOffset>(nullable: false)

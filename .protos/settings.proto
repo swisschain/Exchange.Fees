@@ -22,7 +22,8 @@ message GetSettingsResponse {
 message FeesSettings {
     int64 id = 1;
     string brokerId = 2;
-    int64 feeWalletId = 3;
-    google.protobuf.Timestamp created = 4;
-    google.protobuf.Timestamp modified = 5;
+    int64 feeAccountId = 3;
+    int64 feeWalletId = 4;
+    google.protobuf.Timestamp created = 5;
+    google.protobuf.Timestamp modified = 6;
 }

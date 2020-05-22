@@ -37,6 +37,7 @@ namespace Fees.Consumers
 
             var settings = new Settings();
             settings.BrokerId = message.SubscriptionId.ToString();
+            settings.FeeAccountId = newAccount.Id;
             settings.FeeWalletId = newAccount.Wallets.Single().Id;
 
             await _settingsService.AddAsync(settings);

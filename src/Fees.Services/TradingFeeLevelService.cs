@@ -33,7 +33,7 @@ namespace Fees.Services
         {
             var result = await _tradingFeeLevelRepository.InsertAsync(tradingFeeLevel, brokerId);
 
-            _logger.LogInformation("TradingFeeLevel has been added. {$TradingFeeLevel}", result);
+            _logger.LogInformation("TradingFeeLevel has been added. {@TradingFeeLevel}", result);
 
             return result;
         }
@@ -42,7 +42,7 @@ namespace Fees.Services
         {
             var result = await _tradingFeeLevelRepository.UpdateAsync(tradingFeeLevel, brokerId);
 
-            _logger.LogInformation("TradingFeeLevel has been updated. {$TradingFeeLevel}", result);
+            _logger.LogInformation("TradingFeeLevel has been updated. {@TradingFeeLevel}", result);
 
             return result;
         }
@@ -53,7 +53,7 @@ namespace Fees.Services
 
             await _tradingFeeLevelRepository.DeleteAsync(id, brokerId);
 
-            _logger.LogInformation("TradingFeeLevel has been deleted. {$TradingFeeLevel}", domain);
+            _logger.LogInformation("TradingFeeLevel has been deleted. {@TradingFeeLevel}", domain);
         }
     }
 }
