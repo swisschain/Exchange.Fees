@@ -19,19 +19,19 @@ namespace Fees.Services
     {
         private readonly ICashOperationsFeeRepository _cashOperationsFeeRepository;
         private readonly ICashOperationsFeeHistoryRepository _cashOperationsFeeHistoryRepository;
-        private readonly IAssetsClient _assetsClient;
+        //private readonly IAssetsClient _assetsClient;
         private readonly ILogger<CashOperationsFeeService> _logger;
         private readonly IMapper _mapper;
 
         public CashOperationsFeeService(ICashOperationsFeeRepository cashOperationsFeeRepository,
             ICashOperationsFeeHistoryRepository cashOperationsFeeHistoryRepository,
-            IAssetsClient assetsClient, ILogger<CashOperationsFeeService> logger, IMapper mapper)
+            /*IAssetsClient assetsClient,*/ ILogger<CashOperationsFeeService> logger, IMapper mapper)
         {
             _cashOperationsFeeRepository = cashOperationsFeeRepository;
             _cashOperationsFeeHistoryRepository = cashOperationsFeeHistoryRepository;
             _logger = logger;
             _mapper = mapper;
-            _assetsClient = assetsClient;
+            //_assetsClient = assetsClient;
         }
 
         public Task<IReadOnlyList<CashOperationsFee>> GetAllAsync()
@@ -74,9 +74,9 @@ namespace Fees.Services
 
         public async Task<CashOperationsFee> AddAsync(string userId, CashOperationsFee cashOperationsFee)
         {
-            var asset = await GetAsset(cashOperationsFee.BrokerId, cashOperationsFee.Asset);
+            //var asset = await GetAsset(cashOperationsFee.BrokerId, cashOperationsFee.Asset);
 
-            ValidateAccuracy(cashOperationsFee, asset);
+            //ValidateAccuracy(cashOperationsFee, asset);
 
             var result = await _cashOperationsFeeRepository.InsertAsync(cashOperationsFee);
 
@@ -93,9 +93,9 @@ namespace Fees.Services
 
         public async Task<CashOperationsFee> UpdateAsync(string userId, CashOperationsFee cashOperationsFee)
         {
-            var asset = await GetAsset(cashOperationsFee.BrokerId, cashOperationsFee.Asset);
+            //var asset = await GetAsset(cashOperationsFee.BrokerId, cashOperationsFee.Asset);
 
-            ValidateAccuracy(cashOperationsFee, asset);
+            //ValidateAccuracy(cashOperationsFee, asset);
 
             var result = await _cashOperationsFeeRepository.UpdateAsync(cashOperationsFee);
 
@@ -125,17 +125,17 @@ namespace Fees.Services
             _logger.LogInformation("CashOperationsFee has been deleted. {$CashOperationsFee}", domain);
         }
 
-        private async Task<AssetModel> GetAsset(string brokerId, string asset)
-        {
-            var assets = await _assetsClient.Assets.GetAllByBrokerId(brokerId);
+        //private async Task<AssetModel> GetAsset(string brokerId, string asset)
+        //{
+        //    var assets = await _assetsClient.Assets.GetAllByBrokerId(brokerId);
 
-            var assetModel = assets.FirstOrDefault(x => x.Symbol == asset);
+        //    var assetModel = assets.FirstOrDefault(x => x.Symbol == asset);
 
-            if (assetModel == null)
-                throw new EntityNotFoundException(ErrorCode.ItemNotFound, "Asset does not exist.");
+        //    if (assetModel == null)
+        //        throw new EntityNotFoundException(ErrorCode.ItemNotFound, "Asset does not exist.");
 
-            return assetModel;
-        }
+        //    return assetModel;
+        //}
 
         private void ValidateAccuracy(CashOperationsFee cashOperationsFee, AssetModel asset)
         {
