@@ -54,21 +54,21 @@ namespace Fees.Services
 
         public async Task<TradingFee> AddAsync(TradingFee tradingFee)
         {
-            var assets = await _assetsClient.Assets.GetAllByBrokerId(tradingFee.BrokerId);
+            //var assets = await _assetsClient.Assets.GetAllByBrokerId(tradingFee.BrokerId);
 
-            if (tradingFee.Asset != null &&
-                !assets.Select(x => x.Symbol).Contains(tradingFee.Asset))
-            {
-                throw new EntityNotFoundException(ErrorCode.ItemNotFound, "Asset does not exist.");
-            }
+            //if (tradingFee.Asset != null &&
+            //    !assets.Select(x => x.Symbol).Contains(tradingFee.Asset))
+            //{
+            //    throw new EntityNotFoundException(ErrorCode.ItemNotFound, "Asset does not exist.");
+            //}
 
-            var assetPairs = await _assetsClient.AssetPairs.GetAllByBrokerId(tradingFee.BrokerId);
+            //var assetPairs = await _assetsClient.AssetPairs.GetAllByBrokerId(tradingFee.BrokerId);
 
-            if (tradingFee.AssetPair != null &&
-                !assetPairs.Select(x => x.Symbol).Contains(tradingFee.AssetPair))
-            {
-                throw new EntityNotFoundException(ErrorCode.ItemNotFound, "Asset pair does not exist.");
-            }
+            //if (tradingFee.AssetPair != null &&
+            //    !assetPairs.Select(x => x.Symbol).Contains(tradingFee.AssetPair))
+            //{
+            //    throw new EntityNotFoundException(ErrorCode.ItemNotFound, "Asset pair does not exist.");
+            //}
 
             var result = await _tradingFeeRepository.InsertAsync(tradingFee);
 

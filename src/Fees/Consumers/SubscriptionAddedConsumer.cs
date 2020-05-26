@@ -30,6 +30,7 @@ namespace Fees.Consumers
 
             var brokerId = message.SubscriptionId.ToString();
 
+            // TODO: must be extracted to service layer
             var account = new AccountAddModel();
             account.BrokerId = brokerId;
             account.Name = "Fee Account";

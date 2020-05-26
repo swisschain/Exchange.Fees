@@ -74,9 +74,9 @@ namespace Fees.Services
 
         public async Task<CashOperationsFee> AddAsync(string userId, CashOperationsFee cashOperationsFee)
         {
-            var asset = await GetAsset(cashOperationsFee.BrokerId, cashOperationsFee.Asset);
+            //var asset = await GetAsset(cashOperationsFee.BrokerId, cashOperationsFee.Asset);
 
-            ValidateAccuracy(cashOperationsFee, asset);
+            //ValidateAccuracy(cashOperationsFee, asset);
 
             var result = await _cashOperationsFeeRepository.InsertAsync(cashOperationsFee);
 
@@ -93,9 +93,9 @@ namespace Fees.Services
 
         public async Task<CashOperationsFee> UpdateAsync(string userId, CashOperationsFee cashOperationsFee)
         {
-            var asset = await GetAsset(cashOperationsFee.BrokerId, cashOperationsFee.Asset);
+            //var asset = await GetAsset(cashOperationsFee.BrokerId, cashOperationsFee.Asset);
 
-            ValidateAccuracy(cashOperationsFee, asset);
+            //ValidateAccuracy(cashOperationsFee, asset);
 
             var result = await _cashOperationsFeeRepository.UpdateAsync(cashOperationsFee);
 
