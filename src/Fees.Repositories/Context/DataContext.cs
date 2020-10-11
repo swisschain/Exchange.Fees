@@ -116,11 +116,11 @@ namespace Fees.Repositories.Context
                 .HasMaxLength(16)
                 .IsRequired();
 
-            modelBuilder.Entity<TradingFeeEntity>()
+            modelBuilder.Entity<CashOperationsFeeEntity>()
                 .Property(x => x.Created)
                 .IsRequired();
 
-            modelBuilder.Entity<TradingFeeEntity>()
+            modelBuilder.Entity<CashOperationsFeeEntity>()
                 .Property(x => x.Modified)
                 .IsRequired();
 
@@ -230,11 +230,11 @@ namespace Fees.Repositories.Context
                 .Property(x => x.FeeWalletId)
                 .IsRequired();
 
-            modelBuilder.Entity<TradingFeeEntity>()
+            modelBuilder.Entity<SettingsEntity>()
                 .Property(x => x.Created)
                 .IsRequired();
 
-            modelBuilder.Entity<TradingFeeEntity>()
+            modelBuilder.Entity<SettingsEntity>()
                 .Property(x => x.Modified)
                 .IsRequired();
 
